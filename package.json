@@ -1,0 +1,18 @@
+{
+  "name": "grupo2",
+  "version": "1.0.0",
+  "description": "Proyecto final",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ToniEsteso/Grupo2.git"
+  },
+  "author": "Grupo 2",
+  "license": "ISC"
+}
