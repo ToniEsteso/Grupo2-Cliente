@@ -6,22 +6,26 @@
     grid-template-areas:
         "l-page__header l-page__header"
         "l-page__menu-lateral l-page__content"
-        "l-page__footer l-page__footer";
+        "l-page__menu-lateral l-page__footer";
     grid-auto-columns: 1fr 7fr;
 
     &__header {
         grid-area: l-page__header;
+        background-color: blue;
     }
 
     &__content {
         grid-area: l-page__content;
+        background-color: green;
     }
 
     &__menu-lateral {
         grid-area: l-page__menu-lateral;
+        background-color: yellow;
     }
 
     &__footer {
         grid-area: l-page__footer;
+        background-color: violet;
     }
 }
