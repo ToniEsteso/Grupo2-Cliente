@@ -1,0 +1,27 @@
+.l-page {
+    height: 100vh;
+    width: 100vw;
+
+    display: grid;
+    grid-template-areas:
+        "l-page__header l-page__header"
+        "l-page__menu-lateral l-page__content"
+        "l-page__footer l-page__footer";
+    grid-auto-columns: 1fr 7fr;
+
+    &__header {
+        grid-area: l-page__header;
+    }
+
+    &__content {
+        grid-area: l-page__content;
+    }
+
+    &__menu-lateral {
+        grid-area: l-page__menu-lateral;
+    }
+
+    &__footer {
+        grid-area: l-page__footer;
+    }
+}

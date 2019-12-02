@@ -1,0 +1,12 @@
+.menu {
+    display: flex;
+    flex-direction: row;
+
+    &--vertical {
+        flex-direction: column;
+    }
+
+    &__item {
+        width: 100%;
+    }
+}
