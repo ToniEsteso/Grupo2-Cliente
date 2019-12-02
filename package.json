@@ -7,12 +7,19 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test.sh",
+    "build": "sh ./scripts/build.sh",
+    "deploy": "npm run build && sh ./scripts/deploy.sh",
+    "serve": "onchange ./src/**/* -- npm run deploy"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ToniEsteso/Grupo2.git"
   },
   "author": "Grupo 2",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "onchange": "^6.1.0"
+  }
 }
