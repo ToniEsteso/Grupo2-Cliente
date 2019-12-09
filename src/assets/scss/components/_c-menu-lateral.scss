@@ -1,0 +1,38 @@
+.menu-lateral {
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+
+    &__item {
+        color: #232323;
+        padding: 10%;
+        background-color: #efefef;
+    }
+
+    &__item:hover {
+        background-color: #dedede;
+        color: #454545;
+    }
+
+    &__enlace {
+        text-decoration: none;
+    }
+
+    &__hamburguesa {
+        position: relative;
+        cursor: pointer;
+
+        background-color: white;
+        border: 1px black solid;
+        border-radius: 5px;
+
+        z-index: 1000;
+        top: 10px;
+        left: 105%;
+        height: 30px;
+        width: 30px;
+
+        text-align: center;
+        font-size: 25px;
+    }
+}

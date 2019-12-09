@@ -6,22 +6,51 @@
     grid-template-areas:
         "l-page__header l-page__header"
         "l-page__menu-lateral l-page__content"
-        "l-page__footer l-page__footer";
+        "l-page__menu-lateral l-page__footer";
     grid-auto-columns: 1fr 7fr;
+    grid-auto-rows: 10vh 90vh;
+
+    &--sin-sidebar {
+        grid-auto-columns: 0fr 7fr;
+    }
 
     &__header {
         grid-area: l-page__header;
+        background-color: blue;
     }
 
     &__content {
         grid-area: l-page__content;
+        background-color: green;
     }
 
     &__menu-lateral {
         grid-area: l-page__menu-lateral;
+        position: relative;
+
+        &__animacion-cerrar {
+            animation-name: animacion__menu-lateral;
+            animation-duration: 2s;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease;
+        }
+
+        @keyframes animacion__menu-lateral {
+            99% {
+                opacity: 0;
+                width: 0px;
+            }
+
+            100% {
+                display: none;
+            }
+        }
     }
 
     &__footer {
         grid-area: l-page__footer;
+        background-color: violet;
     }
+
+
 }
