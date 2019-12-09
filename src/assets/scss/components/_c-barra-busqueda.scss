@@ -1,0 +1,30 @@
+.barra-Busqueda{
+    float: right;     
+}
+ 
+.barra-Busqueda input[type=text] {
+    width: 500px;
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: 2px;
+    border-color: black;
+    border-radius: 5px;
+  }
+  
+.barra-Busqueda button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: lightgreen;
+    font-size: 17px;
+    border: 2px;
+    border-color: black;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+.barra-Busqueda button:hover {
+    background: #008000;
+  }
