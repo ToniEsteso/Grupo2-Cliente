@@ -11,19 +11,18 @@
 
     &__header {
         grid-area: l-page__header;
-        background-color: blue;
     }
 
     &__content {
         grid-area: l-page__content;
         position: relative;
-        background-color: green;
 
         //animacion cerrar hamburguesa
         &__animacion-sin-sidebar {
             animation-name: animacion__sin-sidebar;
-            animation-duration: 1.5s;
+            animation-duration: 1s;
             animation-fill-mode: forwards;
+            animation-timing-function: ease-in-out;
         }
 
         @keyframes animacion__sin-sidebar {
@@ -41,9 +40,10 @@
         //animacion abrir hamburguesa
         &__animacion-con-sidebar {
             animation-name: animacion__con-sidebar;
-            animation-duration: 1.5s;
+            animation-duration: 1s;
             animation-fill-mode: forwards;
             animation-direction: reverse;
+            animation-timing-function: ease-in-out;
         }
 
         @keyframes animacion__con-sidebar {
@@ -65,12 +65,13 @@
 
         //animacion cerrar hamburguesa
         &__animacion-cerrar {
-            animation-name: animacion__menu-lateral;
-            animation-duration: 1.5s;
+            animation-name: animacion__cerrar-menu-lateral;
+            animation-duration: 1s;
             animation-fill-mode: forwards;
+            animation-timing-function: ease-in-out;
         }
 
-        @keyframes animacion__menu-lateral {
+        @keyframes animacion__cerrar-menu-lateral {
             0% {
                 left: 0vw;
             }
@@ -82,13 +83,14 @@
 
         //animacion abrir hamburguesa
         &__animacion-abrir {
-            animation-name: animacion__menu-lateral;
-            animation-duration: 1.5s;
+            animation-name: animacion__abrir-menu-lateral;
+            animation-duration: 1s;
             animation-fill-mode: forwards;
             animation-direction: reverse;
+            animation-timing-function: ease-in-out;
         }
 
-        @keyframes animacion__menu-lateral {
+        @keyframes animacion__abrir-menu-lateral {
             0% {
                 left: 0vw;
             }
@@ -101,7 +103,6 @@
 
     &__footer {
         grid-area: l-page__footer;
-        background-color: violet;
     }
 
 
