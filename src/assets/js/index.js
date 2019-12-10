@@ -16,7 +16,7 @@ $(document).ready(function () {
             $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-abrir");
             $(".l-page__content").addClass("l-page__content__animacion-con-sidebar");
             
-            $(".menu-lateral__hamburguesa").html("<i class='fas fa-arrow-circle-left'></i>");
+            $(".menu-lateral__hamburguesa").html("<i class='fas fa-times'></i>");
         } else {
             //cerrar el menu lateral
             $(".l-page").removeClass("l-page--con-sidebar");
@@ -27,7 +27,7 @@ $(document).ready(function () {
             $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-cerrar");
             $(".l-page__content").addClass("l-page__content__animacion-sin-sidebar");
             
-            $(".menu-lateral__hamburguesa").html("<i class='fas fa-arrow-circle-right'></i>");
+            $(".menu-lateral__hamburguesa").html("<i class='fas fa-bars'></i>");
         }
     });
 });
