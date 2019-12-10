@@ -7,7 +7,7 @@
     grid-template-areas:
         "l-page__header l-page__header"
         "l-page__menu-lateral l-page__content"
-        "l-page__menu-lateral l-page__footer";
+        "l-page__footer l-page__footer";
     grid-auto-columns: 10vw 90vw;
     grid-auto-rows: 1fr 9fr auto;
 
