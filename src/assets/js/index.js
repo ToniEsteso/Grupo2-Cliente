@@ -37,9 +37,11 @@ function cargarCategorias() {
         url: "http://127.0.0.1:8000/api/categorias",
     }).done(function (response) {
         let html = "";
+        html += "<div class='menu-lateral__contenedor-items'>";
         response.forEach(element => {
             html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
         });
+        html += "<div>";
 
         $("#menu-lateral").append(html);
     });
