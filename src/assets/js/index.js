@@ -1,5 +1,6 @@
 $(document).ready(function () {
     cargarCategorias();
+    cargarImagenesCarousel();
 
     //event listeners
     $(".menu-lateral__hamburguesa").on("click", function () {
@@ -36,10 +37,30 @@ function cargarCategorias() {
         url: "http://127.0.0.1:8000/api/categorias",
     }).done(function (response) {
         let html = "";
+        html += "<div class='menu-lateral__contenedor-items'>";
         response.forEach(element => {
             html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
         });
+        html += "<div>";
 
         $("#menu-lateral").append(html);
+    });
+}
+
+function cargarImagenesCarousel() {
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:8000/api/carousel",
+    }).done(function (response) {
+        let html = "";
+        let contador = 0;
+        response.forEach(element => {
+            html += "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
+            html += "<img KKKK class='d-block w-100 imagen-carousel' src='assets/img/carousel" + element.id + "." + element.extension + "'>";
+            html += "</div>";
+            contador++;
+        });
+
+        $("#carousel").append(html);
     });
 }

@@ -3,6 +3,10 @@
     flex-direction: column;
     font-family: sans-serif;
 
+    &__contenedor-items{
+        position: relative;
+        top: -30px;
+    }
     &__item {
         color: #232323;
         padding: 10%;
