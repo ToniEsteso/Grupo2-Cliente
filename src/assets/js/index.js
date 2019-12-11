@@ -6,16 +6,16 @@ $(document).ready(function () {
     $(".menu-lateral__hamburguesa").on("click", function () {
         $(".menu-lateral__hamburguesa").html("");
 
-        if ($(".l-page").hasClass("l-page--sin-sidebar")) {
+        if (!$(".l-page").hasClass("l-page--con-sidebar")) {
             //abrir el menu lateral
             $(".l-page").removeClass("l-page--sin-sidebar");
             $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-cerrar");
             $(".l-page__content").removeClass("l-page__content__animacion-sin-sidebar");
-
+            
             $(".l-page").addClass("l-page--con-sidebar");
             $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-abrir");
             $(".l-page__content").addClass("l-page__content__animacion-con-sidebar");
-
+            
             $(".menu-lateral__hamburguesa").html("<i class='fas fa-times'></i>");
         } else {
             //cerrar el menu lateral
