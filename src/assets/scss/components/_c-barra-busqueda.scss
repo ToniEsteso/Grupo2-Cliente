@@ -1,35 +1,36 @@
 .barra-busqueda{
     float: right;
     padding: 10px;
+
+    &__input {
+        width: 450px;
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 17px;
+        border: 1px solid black;
+        border-right: 0;
+        border-radius: 5px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      
+    &__boton {
+        float: right;
+        padding: 6px 10px;
+        margin-top: 8px;
+        margin-right: 16px;
+        background: lightgreen;
+        font-size: 17px;
+        border: 1px solid black;
+        border-left: 0;
+        border-radius: 5px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        cursor: pointer;
+      }
+      
+    &__boton:hover {
+        background: #008000;
+      }
 }
  
-.barra-busqueda__input {
-    width: 450px;
-    padding: 6px;
-    margin-top: 8px;
-    font-size: 17px;
-    border: 1px solid black;
-    border-right: 0;
-    border-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-.barra-busqueda__boton {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
-    background: lightgreen;
-    font-size: 17px;
-    border: 1px solid black;
-    border-left: 0;
-    border-radius: 5px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    cursor: pointer;
-  }
-  
-.barra-busqueda__boton:hover {
-    background: #008000;
-  }
