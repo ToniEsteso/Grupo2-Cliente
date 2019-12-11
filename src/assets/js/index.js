@@ -39,9 +39,10 @@ function cargarCategorias() {
     }).done(function (response) {
         console.log(response.mensaje);
         let html = "";
-        html += "<div class='menu-lateral__contenedor-items'>";
+        html += "<div class='menu-lateral__contenedor-enlaces'>";
         response.data.forEach(element => {
-            html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
+            // html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
+            html += "<a href='#' class='menu-lateral__enlace'><i class='" + element.icono + " menu-lateral__icono'></i>" + element.nombre + "</a>"
         });
         html += "<div>";
 
