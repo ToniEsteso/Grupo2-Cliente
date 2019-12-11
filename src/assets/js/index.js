@@ -37,9 +37,10 @@ function cargarCategorias() {
         type: "GET",
         url: "http://127.0.0.1:8000/api/categorias",
     }).done(function (response) {
+        console.log(response.mensaje);
         let html = "";
         html += "<div class='menu-lateral__contenedor-items'>";
-        response.forEach(element => {
+        response.data.forEach(element => {
             html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
         });
         html += "<div>";
@@ -53,9 +54,10 @@ function cargarImagenesCarousel() {
         type: "GET",
         url: "http://127.0.0.1:8000/api/carousel",
     }).done(function (response) {
+        console.log(response.mensaje);
         let html = "";
         let contador = 0;
-        response.forEach(element => {
+        response.data.forEach(element => {
             html += "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
             html += "<img class='d-block w-100 imagen-carousel' src='assets/img/carousel" + element.id + "." + element.extension + "'>";
             html += "</div>";
