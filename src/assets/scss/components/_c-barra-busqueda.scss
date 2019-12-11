@@ -1,7 +1,42 @@
-.barra-busqueda{
-    float: right;
-    padding: 10px;
+.barra-busqueda {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  vertical-align: middle;
+  height: 60%;
 
+<<<<<<< HEAD
+  &__input {
+    padding: 6px;
+    font-size: 17px;
+
+    border: 1px solid #787878;
+    border-right: 0;
+    border-radius: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &__boton {
+    padding: 6px 10px;
+    margin-right: 16px;
+    background: #1e9624;
+    font-size: 17px;
+
+    border: 1px solid #787878;
+    border-radius: 5px;
+    
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    cursor: pointer;
+  }
+
+  &__boton:hover {
+    background: darken(#1e9624, 10);
+  }
+}
+=======
     &__input {
         width: 450px;
         padding: 6px;
@@ -19,7 +54,7 @@
         padding: 6px 10px;
         margin-top: 8px;
         margin-right: 16px;
-        background: lightgreen;
+        background: #BCD0E6;
         font-size: 17px;
         border: 1px solid black;
         border-left: 0;
@@ -30,7 +65,8 @@
       }
       
     &__boton:hover {
-        background: #008000;
+        background: #7696B9;
       }
 }
  
+>>>>>>> origin/develop

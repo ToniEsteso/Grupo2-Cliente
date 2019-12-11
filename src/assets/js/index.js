@@ -1,6 +1,7 @@
 $(document).ready(function () {
     cargarCategorias();
     cargarImagenesCarousel();
+    cargarRedesSociales();
 
     //event listeners
     $(".menu-lateral__hamburguesa").on("click", function () {
@@ -11,11 +12,11 @@ $(document).ready(function () {
             $(".l-page").removeClass("l-page--sin-sidebar");
             $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-cerrar");
             $(".l-page__content").removeClass("l-page__content__animacion-sin-sidebar");
-            
+
             $(".l-page").addClass("l-page--con-sidebar");
             $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-abrir");
             $(".l-page__content").addClass("l-page__content__animacion-con-sidebar");
-            
+
             $(".menu-lateral__hamburguesa").html("<i class='fas fa-times'></i>");
         } else {
             //cerrar el menu lateral
@@ -66,5 +67,23 @@ function cargarImagenesCarousel() {
         });
 
         $("#carousel").append(html);
+    });
+}
+
+function cargarRedesSociales() {
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:8000/api/redessociales",
+    }).done(function (response) {
+        console.log(response.mensaje);
+        let numRedes = response.data.length;
+        let html = "";
+
+        html += "<div class='l-columnas l-columnas" + ((numRedes <= 4) ? "--" + numRedes + "-columnas" : "--4-columnas") + "'>";
+        response.data.forEach(element => {
+            html += "<a href='" + element.enlace + "' class='red'><i class='red__icono " + element.icono + "'></i>" + element.nombre + "</a>";
+        });
+        html += "</div>";
+        $(".footer__enlaces").append(html);
     });
 }
