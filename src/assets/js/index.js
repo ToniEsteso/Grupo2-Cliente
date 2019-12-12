@@ -1,37 +1,40 @@
 $(document).ready(function () {
     cargarCategorias();
-    cargarImagenesCarousel();
+    // cargarImagenesCarousel();
     cargarRedesSociales();
+    ajaxCarousel();
 
     //event listeners
-    $(".menu-lateral__hamburguesa").on("click", function () {
-        $(".menu-lateral__hamburguesa").html("");
-
-        if (!$(".l-page").hasClass("l-page--con-sidebar")) {
-            //abrir el menu lateral
-            $(".l-page").removeClass("l-page--sin-sidebar");
-            $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-cerrar");
-            $(".l-page__content").removeClass("l-page__content__animacion-sin-sidebar");
-
-            $(".l-page").addClass("l-page--con-sidebar");
-            $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-abrir");
-            $(".l-page__content").addClass("l-page__content__animacion-con-sidebar");
-
-            $(".menu-lateral__hamburguesa").html("<i class='fas fa-times'></i>");
-        } else {
-            //cerrar el menu lateral
-            $(".l-page").removeClass("l-page--con-sidebar");
-            $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-abrir");
-            $(".l-page__content").removeClass("l-page__content__animacion-con-sidebar");
-
-            $(".l-page").addClass("l-page--sin-sidebar");
-            $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-cerrar");
-            $(".l-page__content").addClass("l-page__content__animacion-sin-sidebar");
-
-            $(".menu-lateral__hamburguesa").html("<i class='fas fa-bars'></i>");
-        }
-    });
+    $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
 });
+
+function toggleHamburguesa() {
+    $(".menu-lateral__hamburguesa").html("");
+
+    if (!$(".l-page").hasClass("l-page--con-sidebar")) {
+        //abrir el menu lateral
+        $(".l-page").removeClass("l-page--sin-sidebar");
+        $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-cerrar");
+        $(".l-page__content").removeClass("l-page__content__animacion-sin-sidebar");
+
+        $(".l-page").addClass("l-page--con-sidebar");
+        $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-abrir");
+        $(".l-page__content").addClass("l-page__content__animacion-con-sidebar");
+
+        $(".menu-lateral__hamburguesa").html("<i class='fas fa-times'></i>");
+    } else {
+        //cerrar el menu lateral
+        $(".l-page").removeClass("l-page--con-sidebar");
+        $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-abrir");
+        $(".l-page__content").removeClass("l-page__content__animacion-con-sidebar");
+
+        $(".l-page").addClass("l-page--sin-sidebar");
+        $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-cerrar");
+        $(".l-page__content").addClass("l-page__content__animacion-sin-sidebar");
+
+        $(".menu-lateral__hamburguesa").html("<i class='fas fa-bars'></i>");
+    }
+}
 
 function cargarCategorias() {
     $.ajax({
@@ -43,7 +46,7 @@ function cargarCategorias() {
         html += "<div class='menu-lateral__contenedor-enlaces'>";
         response.data.forEach(element => {
             // html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
-            html += "<a href='#' class='menu-lateral__enlace'><i class='" + element.icono + " menu-lateral__icono'></i>" + element.nombre + "</a>"
+            html += "<a href='#' class='menu-lateral__enlace' id='" + element.id + "'><i class='" + element.icono + " menu-lateral__icono'></i>" + element.nombre + "</a>"
         });
         html += "<div>";
 

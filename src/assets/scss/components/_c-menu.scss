@@ -8,6 +8,9 @@
         display: flex;
         justify-content: center;
         vertical-align: middle;
+
+        position:relative;
+        top: 20%;
     }
 
     &__item--derecho{
