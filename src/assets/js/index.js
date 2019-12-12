@@ -50,11 +50,12 @@ function cargarCategorias() {
 }
 
 function cargarImagenesCarousel() {
+    console.log("entrado");
     $.ajax({
         type: "GET",
         url: "http://127.0.0.1:8000/api/carousel",
     }).done(function (response) {
-        console.log(response.mensaje);
+        console.log(response);
         let html = "";
         let contador = 0;
         response.data.forEach(element => {
@@ -65,5 +66,8 @@ function cargarImagenesCarousel() {
         });
 
         $("#carousel").append(html);
-    });
+    })
+        .fail(function (response) {
+            console.log(response.responseText);
+        });
 }
