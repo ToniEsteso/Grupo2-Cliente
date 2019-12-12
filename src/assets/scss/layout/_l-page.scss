@@ -19,6 +19,9 @@
         grid-area: l-page__content;
         position: relative;
 
+        width: 100vw;
+        left: -10vw;
+
         //animacion cerrar hamburguesa
         &__animacion-sin-sidebar {
             animation-name: animacion__sin-sidebar;
@@ -64,6 +67,8 @@
     &__menu-lateral {
         grid-area: l-page__menu-lateral;
         position: relative;
+
+        left: -10vw;
 
         //animacion cerrar hamburguesa
         &__animacion-cerrar {
