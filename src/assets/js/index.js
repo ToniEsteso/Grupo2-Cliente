@@ -1,8 +1,7 @@
 $(document).ready(function () {
     cargarCategorias();
-    // cargarImagenesCarousel();
+    cargarImagenesCarousel();
     cargarRedesSociales();
-    ajaxCarousel();
 
     //event listeners
     $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
@@ -61,11 +60,12 @@ function cargarImagenesCarousel() {
         url: "http://127.0.0.1:8000/api/carousel",
     }).done(function (response) {
         console.log(response);
+        console.log(response.mensaje);
         let html = "";
         let contador = 0;
-        response.data.forEach(element => {
+        response.imagenes.forEach(element => {
             html += "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
-            html += "<img class='d-block w-100 imagen-carousel' src='assets/img/carousel" + element.id + "." + element.extension + "'>";
+            html += "<img class='d-block w-100 imagen-carousel' src='127.0.0.1:8000" + response.rutaServer + "/" + element + "'>";
             html += "</div>";
             contador++;
         });
