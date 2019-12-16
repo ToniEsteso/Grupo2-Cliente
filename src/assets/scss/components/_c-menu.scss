@@ -7,14 +7,11 @@
     &__item {
         display: flex;
         justify-content: center;
-        vertical-align: middle;
+        align-items: center;
 
-        position:relative;
-        top: 20%;
-    }
-
-    &__item--derecho{
-        float: right;
-        text-align: right;
+        &--derecho {
+            float: right;
+            text-align: right;
+        }
     }
 }
