@@ -7,6 +7,14 @@
         }
     }
 
+    $gap-sizes: ("xs": 5, "s": 15, "m": 30, "l": 60, "xl": 120);
+
+    @each $size, $number in $gap-sizes {
+        &--gap-#{$size} {
+            gap: #{$number}px;
+        }
+    }
+
     @for $i from 1 through 12 {
         @media (max-width: 700px) {
             &--movil-#{$i}-columnas {

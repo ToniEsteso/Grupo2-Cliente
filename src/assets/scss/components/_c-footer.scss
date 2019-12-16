@@ -3,6 +3,9 @@
     flex-direction: column;
     justify-content: space-evenly;
 
+    &__paneles {
+        padding: 2%;
+    }
     &__enlaces {}
 
     &__disclaimer {
