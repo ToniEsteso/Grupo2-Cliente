@@ -4,15 +4,29 @@
     border-radius: 5px;
     padding: 5%;
 
+    &__imagen{
+        width: 100%;
+    }
+
     &__titulo {
         font-size: 30px;
         font-weight: bolder;
         color: white;
         padding-left: 5%;
+        display: none;
     }
 
     &__texto {
         font-size: 20px;
         color: #ededed;
+    }
+}
+
+.panel:hover{
+    opacity: 0.5;
+    cursor: pointer;
+
+    &__titulo{
+        display: block;
     }
 }
