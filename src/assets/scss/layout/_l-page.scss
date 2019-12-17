@@ -33,7 +33,7 @@
         @keyframes animacion__sin-sidebar {
             0% {
                 width: 90vw;
-                left: 0vw;
+                left: 0;
             }
 
             100% {
@@ -54,7 +54,7 @@
         @keyframes animacion__con-sidebar {
             0% {
                 width: 90vw;
-                left: 0vw;
+                left: 0;
             }
 
             100% {

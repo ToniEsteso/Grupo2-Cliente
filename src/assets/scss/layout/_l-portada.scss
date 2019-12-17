@@ -3,8 +3,10 @@
     grid-template-areas: ". carousel ."
         "paneles paneles paneles";
     height: 90vh;
-    grid-template-columns: 10vw 80vw 10vw;
+    grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: 50vh 40vh;
+
+    padding: 4%;
 
     &__carousel {
         grid-area: carousel;
