@@ -1,0 +1,31 @@
+.boton {
+    background-color: #1e9624;
+    border: 1px solid #1e9624;
+    color: white;
+    padding: 2%;
+    border-radius: 5px;
+    font-weight: bold;
+
+    height: 40px;
+    width: 100px;
+    line-height: 28px;
+    text-align: center;
+    transition: 0.3s;
+
+    &:hover {
+        font-weight: bolder;
+        background-color: darken(#1e9624, 10);
+    }
+
+    &--outline {
+        background-color: white;
+        border: 1px solid #1e9624;
+        color: #1e9624;
+
+        &:hover {
+            box-shadow: none;
+            color: darken(#1e9624, 10);
+            border-color: darken(#1e9624, 10);
+        }
+    }
+}
