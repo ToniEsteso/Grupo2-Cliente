@@ -1,15 +1,14 @@
 .l-page {
     //ESTO HAY QUE DARLE UNA VUELTA
     //ES UNA CHAPUZA
-    overflow-x: hidden;
+    // overflow-x: hidden;
 
     display: grid;
     grid-template-areas:
         "l-page__header l-page__header"
         "l-page__menu-lateral l-page__content"
         "l-page__footer l-page__footer";
-    grid-auto-columns: 10vw 90vw;
-    grid-auto-rows: 10vh 90vh auto;
+    grid-auto-columns: 10% 90%;
 
     &__header {
         grid-area: l-page__header;
@@ -110,6 +109,7 @@
 
     &__footer {
         grid-area: l-page__footer;
+        padding-top: 2%;
     }
 
 

@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     font-family: sans-serif;
-    height: calc(100% + 30px);
+    height: 100%;
+    background-color: #efefef;
 
     &__contenedor-enlaces {
         position: relative;
@@ -11,7 +12,6 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        overflow-y: scroll;
     }
 
     &__enlace {
@@ -20,12 +20,12 @@
         color: #454545;
         height: 100%;
         width: 100%;
-        background-color: #BCD0E6;
+        background-color: #d8ffd1;
     }
     &__enlace:hover {
         text-decoration: none;
         color: #232323;
-        background-color: #7696B9;
+        background-color: #83de8e;
     }
     &__icono{
         width: 20px;

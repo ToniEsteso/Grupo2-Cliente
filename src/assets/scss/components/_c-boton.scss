@@ -14,7 +14,8 @@
 
     &:hover {
         font-weight: bolder;
-        background-color: darken(#1e9624, 10);
+        background-color: darken(#1e9624, 5);
+        color: white;
     }
 
     &--outline {
@@ -24,8 +25,9 @@
 
         &:hover {
             box-shadow: none;
-            color: darken(#1e9624, 10);
-            border-color: darken(#1e9624, 10);
+            color: darken(#1e9624, 5);
+            border-color: darken(#1e9624, 5);
+            background-color: white;
         }
     }
 }

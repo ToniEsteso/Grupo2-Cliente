@@ -2,17 +2,17 @@
     display: grid;
     grid-template-areas: ". carousel ."
         "paneles paneles paneles";
-    height: 90vh;
+    gap: 20px;
     grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: 50vh 40vh;
 
-    padding: 4%;
-
     &__carousel {
         grid-area: carousel;
+        padding: 0 20%;
+        background-color: rgb(227, 252, 209);
     }
     &__paneles{
         grid-area: paneles;
-        padding: 2%;
+        padding: 0 4%;
     }
 }

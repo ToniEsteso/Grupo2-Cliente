@@ -1,7 +1,9 @@
 @import "base/_reset.scss";
+
 @import "layout/_l-n-columnas.scss";
 @import "layout/_l-page.scss"; 
 @import "layout/_l-portada.scss"; 
+
 @import "components/_c-panel.scss";
 @import "components/_c-menu.scss";
 @import "components/_c-menu-lateral.scss"; 
@@ -11,3 +13,5 @@
 @import "components/_c-footer.scss"; 
 @import "components/_c-scrollbar.scss"; 
 @import "components/_c-boton.scss"; 
+
+@import "abstract/_bootstrap-carousel.scss"; 
