@@ -4,14 +4,15 @@
         "paneles paneles paneles";
     gap: 20px;
     grid-template-columns: 1fr 8fr 1fr;
-    grid-template-rows: 50vh 40vh;
+    grid-template-rows: 45vh 40vh;
 
     &__carousel {
         grid-area: carousel;
         padding: 0 20%;
-        background-color: rgb(227, 252, 209);
+        padding-top: 2%;
     }
-    &__paneles{
+
+    &__paneles {
         grid-area: paneles;
         padding: 0 4%;
     }

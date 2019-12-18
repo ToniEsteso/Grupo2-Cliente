@@ -1,5 +1,5 @@
 .panel {
-    font-family: sans-serif;
+    font-family: 'Merriweather Sans';
     background-color: #f7f7f7;
     border-radius: 15px;
     height: 100%;
@@ -8,15 +8,16 @@
     grid-template-areas: "imagen""titulo""texto";
     grid-template-rows: 2fr 1fr 2fr;
 
-    border: 3px solid #e3fcd1;
-    border-bottom: 10px solid #e3fcd1;
+    border: 3px solid $colorPrincipal;
+    border-bottom: 10px solid $colorPrincipal;
 
+    transition: 0.3s;
     &__imagen {
         grid-area: imagen;
         height: 100%;
         width: 100%;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
     }
 
 
@@ -42,7 +43,8 @@
 }
 
 .panel:hover {
-    opacity: 0.5;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    transform: translate(-10px);
     cursor: pointer;
 
     &__titulo {
