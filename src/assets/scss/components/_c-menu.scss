@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 100%;
+    height: 10vh;
+    background-color: #cdcdcd;
 
     &__item {
         display: flex;

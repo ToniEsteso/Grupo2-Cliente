@@ -10,13 +10,15 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Merriweather Sans' rel='stylesheet'>
     <script src="assets/js/index.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
 
+    <link rel="shortcut icon" type="image/png" href="assets/img/icono.ico" />
 </head>
 
-<body>
+<body class="body">
     <div class="l-page">
         <div class="l-page__header">
             <!-- Pensar otro nombre para cabecera -->
@@ -31,7 +33,7 @@
                     </div>
                 </div>
                 <div class="menu__item menu__item--derecho">
-                    <div class="boton boton--outline">Log in</div>
+                    <div class="boton boton--outline">Iniciar sesión</div>
                     <div class="boton">Registrarse</div>
                 </div>
             </div>
@@ -46,37 +48,54 @@
         <div class="l-page__content">
             <div class="portada">
                 <div class="portada__carousel">
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="3000"
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000"
                         data-pause="false">
                         <div id="carousel" class="carousel-inner">
                         </div>
                     </div>
                 </div>
                 <div class="portada__paneles">
-                    <div class="l-columnas l-columnas--3-columnas l-columnas--gap-m">
-                        <div class="panel">
-                            <img class="panel__imagen" src="assets/img/carousel1.jpg">
-                            <div class="panel__titulo">Todos los productos</div>
+                    <div class="l-columnas l-columnas--4-columnas l-columnas--gap-xl">
+                        <div class="l-columnas__item">
+                            <div class="panel">
+                                <img class="panel__imagen" src="assets/img/carousel1.jpg">
+                                <div class="panel__titulo">Categorias</div>
+                                <div class="panel__texto">Esta es una lista con todos los productos y bla bla bla</div>
+                            </div>
                         </div>
-                        <div class="panel">
-                            <img class="panel__imagen" src="assets/img/carousel1.jpg">
-                            <div class="panel__titulo">Todos los productos</div>
+                        <div class="l-columnas__item">
+                            <div class="panel">
+                                <img class="panel__imagen" src="assets/img/carousel2.jpg">
+                                <div class="panel__titulo">Productos</div>
+                                <div class="panel__texto">Esta es una lista con todos los productos y bla bla bla</div>
+                            </div>
                         </div>
-                        <div class="panel">
-                            <img class="panel__imagen" src="assets/img/carousel1.jpg">
-                            <div class="panel__titulo">Todos los productos</div>
+                        <div class="l-columnas__item">
+                            <div class="panel">
+                                <img class="panel__imagen" src="assets/img/carousel3.jpg">
+                                <div class="panel__titulo">Recetas</div>
+                                <div class="panel__texto">Esta es una lista con todos los productos y bla bla bla</div>
+                            </div>
+                        </div>
+                        <div class="l-columnas__item">
+                            <div class="panel">
+                                <div class="panel__contenedor-imagen">
+                                    <img class="panel__imagen" src="assets/img/carousel3.jpg">
+                                </div>
+                                <div class="panel__titulo">Contacto</div>
+                                <div class="panel__texto">Esta es una lista con todos los productos y bla bla bla</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="l-page__footer">
-        <div class="footer__enlaces"></div>
-        <div class="footer__disclaimer">
-            <span>© 2019,VeganFood. Todos los derechos reservados.</span>
+        <div class="l-page__footer">
+            <div class="footer__enlaces"></div>
+            <div class="footer__disclaimer">
+                <span>© 2019,VeganFood. Todos los derechos reservados.</span>
+            </div>
         </div>
-    </div>
     </div>
 </body>
 

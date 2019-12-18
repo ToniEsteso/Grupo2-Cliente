@@ -6,14 +6,17 @@
     &__paneles {
         padding: 2%;
     }
-    &__enlaces {}
+
+    &__enlaces {
+        background-color: #ebebeb;
+    }
 
     &__disclaimer {
         text-align: center;
         font-size: small;
         font-weight: lighter;
-        color: #eeeeee;
-        background-color: #898989;
+        color: #343434;
+        background-color: #d4d4d4;
         padding: 1%;
     }
 }
