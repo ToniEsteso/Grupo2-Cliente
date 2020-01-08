@@ -21,10 +21,10 @@
         width: 100vw;
         left: -10vw;
 
-        //animacion cerrar hamburguesa
+        //animacion cerrar content
         &__animacion-sin-sidebar {
             animation-name: animacion__sin-sidebar;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
             animation-fill-mode: forwards;
             animation-timing-function: ease-in-out;
         }
@@ -41,10 +41,10 @@
             }
         }
 
-        //animacion abrir hamburguesa
+        //animacion abrir content
         &__animacion-con-sidebar {
             animation-name: animacion__con-sidebar;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
             animation-fill-mode: forwards;
             animation-direction: reverse;
             animation-timing-function: ease-in-out;
@@ -69,10 +69,10 @@
 
         left: -10vw;
 
-        //animacion cerrar hamburguesa
+        //animacion cerrar hamburguesa lateral
         &__animacion-cerrar {
             animation-name: animacion__cerrar-menu-lateral;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
             animation-fill-mode: forwards;
             animation-timing-function: ease-in-out;
         }
@@ -87,10 +87,10 @@
             }
         }
 
-        //animacion abrir hamburguesa
+        //animacion abrir hamburguesa lateral
         &__animacion-abrir {
             animation-name: animacion__abrir-menu-lateral;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
             animation-fill-mode: forwards;
             animation-direction: reverse;
             animation-timing-function: ease-in-out;
