@@ -5,7 +5,18 @@ $(document).ready(function () {
 
     //event listeners
     $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
+    $("#botonLogIn").on("click", logIn);
+    $("#botonRegistrarse").on("click", registrarse);
 });
+
+function logIn() {
+    console.log("log in");
+    window.location.redir
+}
+
+function registrarse() {
+    console.log("registrarse");
+}
 
 function toggleHamburguesa() {
     $(".menu-lateral__hamburguesa").html("");

@@ -1,32 +1,38 @@
 .boton {
-    background-color: $colorPrincipal;
-    border: 1px solid $colorPrincipal;
+    background-color: $colorSecundario;
+    border: 1px solid $colorSecundario;
     color: white;
     padding: 15px;
     border-radius: 5px;
     font-weight: bold;
 
+    cursor: pointer;
+
     height: 40px;
     line-height: 10px;
     text-align: center;
     transition: 0.5s;
+    margin-right: 5%;
 
-    &:hover {
-        font-weight: bolder;
-        background-color: darken($colorPrincipal, 10);
+    &--principal {
+        background-color: $colorSecundario;
+        border: 1px solid $colorSecundario;
         color: white;
-    }
-
-    &--outline {
-        background-color: white;
-        border: 1px solid $colorPrincipal;
-        color: $colorPrincipal;
-        margin-right: 5%;
 
         &:hover {
-            box-shadow: none;
-            color: darken($colorPrincipal, 5);
-            border-color: darken($colorPrincipal, 5);
+            border-color: darken($colorSecundario, 5);
+            background-color: darken($colorSecundario, 10);
+        }
+    }
+
+    &--secundario {
+        background-color: white;
+        border: 1px solid $colorSecundario;
+        color: $colorSecundario;
+
+        &:hover {
+            color: darken($colorSecundario, 5);
+            border-color: darken($colorSecundario, 5);
             background-color: white;
         }
     }

@@ -2,7 +2,7 @@
     width: 100%;
     text-align: center;
     padding: 2% 5%;
-    color: $colorPrincipal;
+    color: $colorSecundario;
     font-weight: bolder;
     font-size: 20px;
 
@@ -10,9 +10,10 @@
         margin-right: 6px;
     }
 
+    transition: 0.2s;
 
     &:hover {
-        color: darken($colorPrincipal, 10);
+        color: darken($colorSecundario, 10);
         text-decoration: none;
     }
 }
