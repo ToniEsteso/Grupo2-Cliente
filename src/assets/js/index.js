@@ -23,13 +23,21 @@ function abrirLogIn(event) {
 }
 
 function logIn() {
-    let usuario = $("#inputUsuario").val();
-    let contrasenya = $("#inputContrasenya").val();
+    let email = $("#inputUsuario").val();
+    let password = $("#inputContrasenya").val();
     let objetoUsuario = {
-        "usuario": usuario,
-        "contrasenya": contrasenya
+        "email": email,
+        "password": password
     };
     console.log(objetoUsuario);
+
+    $.post("http://127.0.0.1:8000/api/auth/login", objetoUsuario)
+        .done(function () {
+            alert("Login correcto");
+        })
+        .fail(function () {
+            alert("Login fallido");
+        });
 }
 
 function registrarse() {
