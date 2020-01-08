@@ -1,1 +1,8 @@
 $debug: false;
+$colorPrincipal: #FFB061;
+$colorSecundario: #E77607;
+
+.body{
+    overflow-x: hidden;
+    background-color: $colorPrincipal;
+}

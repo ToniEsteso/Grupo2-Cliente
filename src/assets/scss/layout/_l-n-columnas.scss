@@ -1,5 +1,11 @@
 .l-columnas {
     display: grid;
+    height: 100%;
+
+    &__item {
+        height: 100%;
+        width: 100%;
+    }
 
     @for $i from 1 through 12 {
         &--#{$i}-columnas {
@@ -9,7 +15,8 @@
 
     $gap-sizes: ("xs": 5, "s": 15, "m": 30, "l": 60, "xl": 120);
 
-    @each $size, $number in $gap-sizes {
+    @each $size,
+    $number in $gap-sizes {
         &--gap-#{$size} {
             gap: #{$number}px;
         }

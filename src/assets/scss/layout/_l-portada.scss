@@ -1,0 +1,19 @@
+.portada {
+    display: grid;
+    grid-template-areas: ". carousel ."
+        "paneles paneles paneles";
+    gap: 20px;
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-rows: 45vh 40vh;
+
+    &__carousel {
+        grid-area: carousel;
+        padding: 0 20%;
+        padding-top: 2%;
+    }
+
+    &__paneles {
+        grid-area: paneles;
+        padding: 0 4%;
+    }
+}

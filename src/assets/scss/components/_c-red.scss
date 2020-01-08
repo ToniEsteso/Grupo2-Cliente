@@ -1,9 +1,18 @@
-.red{
+.red {
     width: 100%;
     text-align: center;
     padding: 2% 5%;
-    
-    &__icono{
+    color: $colorPrincipal;
+    font-weight: bolder;
+    font-size: 20px;
+
+    &__icono {
         margin-right: 6px;
+    }
+
+
+    &:hover {
+        color: darken($colorPrincipal, 10);
+        text-decoration: none;
     }
 }

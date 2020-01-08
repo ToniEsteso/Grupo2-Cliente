@@ -65,7 +65,7 @@ function cargarImagenesCarousel() {
         let contador = 0;
         response.imagenes.forEach(element => {
             html += "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
-            html += "<img class='d-block w-100 carousel__imagen' src='http://127.0.0.1:8000" + response.rutaServer + "/" + element + "'>";
+            html += "<img class='d-block c-carousel__imagen' src='http://127.0.0.1:8000" + response.rutaServer + "/" + element + "'>";
             html += "</div>";
             contador++;
         });
