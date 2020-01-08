@@ -5,17 +5,35 @@ $(document).ready(function () {
 
     //event listeners
     $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
-    $("#botonLogIn").on("click", logIn);
+    $("#botonAbrirLogIn").on("click", abrirLogIn);
     $("#botonRegistrarse").on("click", registrarse);
+    $("#botonLogin").on("click", logIn);
 });
 
+function abrirLogIn(event) {
+    $(".log-in").show();
+    $(".log-in").toggleClass("log-in--visible");
+    let altura = this.getBoundingClientRect().height;
+    let posY = this.getBoundingClientRect().y;
+
+    $(".log-in").css({
+        top: posY + altura + 20,
+        right: 20
+    });
+}
+
 function logIn() {
-    console.log("log in");
-    window.location.redir
+    let usuario = $("#inputUsuario").val();
+    let contrasenya = $("#inputContrasenya").val();
+    let objetoUsuario = {
+        "usuario": usuario,
+        "contrasenya": contrasenya
+    };
+    console.log(objetoUsuario);
 }
 
 function registrarse() {
-    console.log("registrarse");
+    window.location.replace("registro.html");
 }
 
 function toggleHamburguesa() {
