@@ -82,7 +82,7 @@ function cargarCategorias() {
         html += "<div class='menu-lateral__contenedor-enlaces'>";
         response.data.forEach(element => {
             // html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
-            html += "<a href='#' class='menu-lateral__enlace' id='" + element.id + "'><i class='" + element.icono + " menu-lateral__icono'></i>" + element.nombre + "</a>"
+            html += "<a href='#' class='menu-lateral__enlace' id='" + element.id + "' onclick='cargarProductosCategoria(this)'><i class='" + element.icono + " menu-lateral__icono'></i>" + element.nombre + "</a>"
         });
         html += "<div>";
 
@@ -126,5 +126,24 @@ function cargarRedesSociales() {
         });
         html += "</div>";
         $(".footer__enlaces").append(html);
+    });
+}
+
+function cargarProductosCategoria(categoria) {
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:8000/api/categorias/" + categoria.textContent + "/productos",
+    }).done(function (response) {
+        console.log("productos");
+        console.log(response);
+        console.log(response.mensaje);
+        let numRedes = response.data.length;
+        let html = "";
+        response.data.forEach(element => {
+            html += "<div>" + element + "</div>";
+        });
+        html += "</div>";
+        $(".l-page__content").html("");
+        $(".l-page__content").html(html);
     });
 }
