@@ -10,6 +10,15 @@ $(document).ready(function () {
     $("#botonLogin").on("click", logIn);
 });
 
+//cerrar el log in al hacer click en la pagina
+$(document).mouseup(function (e) {
+    var container = $(".log-in");
+
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+        container.hide();
+    }
+});
+
 function abrirLogIn(event) {
     $(".log-in").show();
     $(".log-in").toggleClass("log-in--visible");
@@ -33,10 +42,10 @@ function logIn() {
 
     $.post("http://127.0.0.1:8000/api/auth/login", objetoUsuario)
         .done(function () {
-            alert("Login correcto");
+            abrirNotificacion("Login correcto");
         })
         .fail(function () {
-            alert("Login fallido");
+            abrirNotificacion("Login fallido");
         });
 }
 
@@ -146,4 +155,14 @@ function cargarProductosCategoria(categoria) {
         $(".l-page__content").html("");
         $(".l-page__content").html(html);
     });
-}
+
+    function abrirNotificacion(mensaje) {
+        console.log(mensaje);
+        $("#notificacion").text(mensaje);
+        $("#notificacion").addClass("notificacion--show");
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () {
+            $("#notificacion").removeClass("notificacion--show");
+        }, 3000);
+    }
