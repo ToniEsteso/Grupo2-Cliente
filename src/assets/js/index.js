@@ -8,6 +8,11 @@ $(document).ready(function () {
     $("#botonAbrirLogIn").on("click", abrirLogIn);
     $("#botonRegistrarse").on("click", registrarse);
     $("#botonLogin").on("click", logIn);
+
+    window.addEventListener('popstate', function (event) {
+        console.log(event);
+        //$('.page-content').html(state);        
+    });
 });
 
 //cerrar el log in al hacer click en la pagina
@@ -91,7 +96,8 @@ function cargarCategorias() {
         html += "<div class='menu-lateral__contenedor-enlaces'>";
         response.data.forEach(element => {
             // html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
-            html += "<a href='#' class='menu-lateral__enlace' id='" + element.id + "' onclick='cargarProductosCategoria(this)'><i class='" + element.icono + " menu-lateral__icono'></i>" + element.nombre + "</a>"
+            html += "<a href='categorias/" + element.nombre + "'class='menu-lateral__enlace' id='" + element.id +
+                "' onclick='cargarProductosCategoria(event, \"" + element.nombre + "\")'><i class='" + element.icono + " menu-lateral__icono'></i>" + element.nombre + "</a>"
         });
         html += "<div>";
 
@@ -138,31 +144,44 @@ function cargarRedesSociales() {
     });
 }
 
-function cargarProductosCategoria(categoria) {
+function cargarProductosCategoria(event, nombreCategoria) {
+    event.stopPropagation();
+    event.preventDefault();
+    //nombreCategoria = $(elemento).attr('data-categoria');
+    //let nombreCategoria = elemento;
+    /*console.log('hola');
+    console.log(nombreCategoria);
+    console.log('adios');*/
+    //let nombreCategoria = this;
+    let url1 = "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos";
+    console.log('URL llamada: ' + url1);
     $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:8000/api/categorias/" + categoria.textContent + "/productos",
+        url: url1,
     }).done(function (response) {
+        window.history.pushState({ 'categoria': nombreCategoria }, nombreCategoria, nombreCategoria);
         console.log("productos");
         console.log(response);
         console.log(response.mensaje);
         let numRedes = response.data.length;
         let html = "";
         response.data.forEach(element => {
-            html += "<div>" + element + "</div>";
+            console.log(element.id);
+            html += "<div>" + element.id + "</div>";
         });
         html += "</div>";
         $(".l-page__content").html("");
         $(".l-page__content").html(html);
     });
+}
 
-    function abrirNotificacion(mensaje) {
-        console.log(mensaje);
-        $("#notificacion").text(mensaje);
-        $("#notificacion").addClass("notificacion--show");
+function abrirNotificacion(mensaje) {
+    console.log(mensaje);
+    $("#notificacion").text(mensaje);
+    $("#notificacion").addClass("notificacion--show");
 
-        // After 3 seconds, remove the show class from DIV
-        setTimeout(function () {
-            $("#notificacion").removeClass("notificacion--show");
-        }, 3000);
-    }
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () {
+        $("#notificacion").removeClass("notificacion--show");
+    }, 3000);
+}
