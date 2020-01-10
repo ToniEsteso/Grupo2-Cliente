@@ -5,30 +5,37 @@ $(document).ready(function () {
 
     //event listeners
     $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
-    $("#botonAbrirLogIn").on("click", abrirLogIn);
     $("#botonRegistrarse").on("click", registrarse);
     $("#botonLogin").on("click", logIn);
-});
-
-//cerrar el log in al hacer click en la pagina
-$(document).mouseup(function (e) {
-    var container = $(".log-in");
-
-    if (!container.is(e.target) && container.has(e.target).length === 0) {
-        container.hide();
-    }
-});
-
-function abrirLogIn(event) {
-    $(".log-in").show();
-    $(".log-in").toggleClass("log-in--visible");
-    let altura = this.getBoundingClientRect().height;
-    let posY = this.getBoundingClientRect().y;
-
-    $(".log-in").css({
-        top: posY + altura + 20,
-        right: 20
+    $("#botonAbrirLogIn").on({
+        click: toggleLogin
     });
+    $(".log-in").on({
+        mouseleave: toggleLogin
+    })
+});
+
+function toggleLogin() {
+    console.log(this);
+    let altura = document.getElementById("botonAbrirLogIn").getBoundingClientRect().height;
+    let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect().y;
+    
+    if ($(".log-in").hasClass("log-in__fade-in")) {
+        $(".log-in").removeClass("log-in__fade-in");
+        $(".log-in").addClass("log-in__fade-out");
+    } else {
+        $(".log-in").css({
+            top: posY + altura + 20,
+            right: 20
+        });
+        $(".log-in").removeClass("log-in__fade-out");
+        $(".log-in").addClass("log-in__fade-in");
+    }
+
+    console.log("altura: " + altura);
+    console.log("posY: " + posY);
+
+    
 }
 
 function logIn() {
@@ -38,13 +45,15 @@ function logIn() {
         "email": email,
         "password": password
     };
-    console.log(objetoUsuario);
 
     $.post("http://127.0.0.1:8000/api/auth/login", objetoUsuario)
-        .done(function () {
-            abrirNotificacion("Login correcto");
+        .done(function (response) {
+            console.log(response);
+            abrirNotificacion("Bienvenido " + response.user.nickName + "!");
+            $("#divPerfilLogin").html(response.user.nickName);
+            $(".log-in").hide();
         })
-        .fail(function () {
+        .fail(function (response) {
             abrirNotificacion("Login fallido");
         });
 }
@@ -86,7 +95,6 @@ function cargarCategorias() {
         type: "GET",
         url: "http://127.0.0.1:8000/api/categorias",
     }).done(function (response) {
-        console.log(response.mensaje);
         let html = "";
         html += "<div class='menu-lateral__contenedor-enlaces'>";
         response.data.forEach(element => {
@@ -100,13 +108,10 @@ function cargarCategorias() {
 }
 
 function cargarImagenesCarousel() {
-    console.log("entrado");
     $.ajax({
         type: "GET",
         url: "http://127.0.0.1:8000/api/carousel",
     }).done(function (response) {
-        console.log(response);
-        console.log(response.mensaje);
         let html = "";
         let contador = 0;
         response.imagenes.forEach(element => {
@@ -125,7 +130,6 @@ function cargarRedesSociales() {
         type: "GET",
         url: "http://127.0.0.1:8000/api/redessociales",
     }).done(function (response) {
-        console.log(response.mensaje);
         let numRedes = response.data.length;
         let html = "";
 
@@ -139,7 +143,6 @@ function cargarRedesSociales() {
 }
 
 function abrirNotificacion(mensaje) {
-    console.log(mensaje);
     $("#notificacion").text(mensaje);
     $("#notificacion").addClass("notificacion--show");
 

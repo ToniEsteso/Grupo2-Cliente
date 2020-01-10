@@ -1,15 +1,14 @@
 .log-in {
     z-index: 1000;
     position: absolute;
-    opacity: 0;
 
     border: $colorSecundario 2px solid;
     background-color: white;
     padding: 10px;
     border-radius: 5px;
-    transition: 0.3s;
 
-    display: none;
+    opacity: 0;
+
     flex-direction: column;
 
     &__label {
@@ -31,8 +30,43 @@
         width: 100%;
     }
 
-    &--visible {
-        display: flex;
-        opacity: 1;
+    &__fade-in {
+        animation-name: login-fade-in;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes login-fade-in {
+
+        0% {
+            display: flex;
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    &__fade-out {
+        animation-name: login-fade-out;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes login-fade-out {
+
+        0% {
+            display: flex;
+            opacity: 1;
+        }
+
+        99%{
+            display: none;
+        }
+        100% {
+            opacity: 0;
+        }
+
     }
 }
