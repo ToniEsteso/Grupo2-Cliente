@@ -104,7 +104,7 @@ function cargarCategorias() {
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
       // html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
-      /* html +=
+      html +=
         "<a href='categorias/" +
         element.nombre +
         "'class='menu-lateral__enlace' id='" +
@@ -115,18 +115,18 @@ function cargarCategorias() {
         element.icono +
         " menu-lateral__icono'></i>" +
         element.nombre +
-        "</a>"; */
-
-      html +=
-        "<a href='categorias/" +
-        element.nombre +
-        "'class='menu-lateral__enlace' id='" +
-        element.id +
-        "' onclick='openURL(this," + element.nombre + ")'><i class='" +
-        element.icono +
-        " menu-lateral__icono'></i>" +
-        element.nombre +
         "</a>";
+
+      // html +=
+      //   "<a href='categorias/" +
+      //   element.nombre +
+      //   "'class='menu-lateral__enlace' id='" +
+      //   element.id +
+      //   "' onclick='cargarProductosCategoria(this)' nombre=" + element.nombre + "><i class='" +
+      //   element.icono +
+      //   " menu-lateral__icono'></i>" +
+      //   element.nombre +
+      //   "</a>";
     });
     html += "<div>";
 
@@ -190,26 +190,19 @@ function cargarRedesSociales() {
 }
 
 function cargarProductosCategoria(event, nombreCategoria) {
+  console.log(nombreCategoria);
   event.stopPropagation();
   event.preventDefault();
-  //nombreCategoria = $(elemento).attr('data-categoria');
-  //let nombreCategoria = elemento;
-  /*console.log('hola');
-    console.log(nombreCategoria);
-    console.log('adios');*/
-  //let nombreCategoria = this;
-  let url1 =
-    "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos";
-  console.log("URL llamada: " + url1);
+
   $.ajax({
     type: "GET",
-    url: url1
+    url: "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos"
   }).done(function (response) {
     console.log("Consulta done");
+    // No hay forma de poner en la url categorias/Carnes ya que se va sumando todo el rato el categorias y va saliendo así categorias/categorias/categorias/ --> Un ejemplo
     window.history.pushState(
       { categoria: nombreCategoria },
-      nombreCategoria,
-      nombreCategoria
+      nombreCategoria, nombreCategoria
     );
     console.log("productos");
     console.log(response);
@@ -218,13 +211,11 @@ function cargarProductosCategoria(event, nombreCategoria) {
     let html =
       "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
     response.data.forEach(element => {
-      console.log(element.id);
       html += "<div class='producto'>";
-      html += "<img class='producto__imagen' src='http://127.0.0.1/api/'";
+      html += "<img class='producto__imagen' src='http://127.0.0.1:8000" + response.rutaServerImagenes + element.imagen + "'>";
       html += "<div class='producto__nombre'>" + element.nombre + "</div>";
-      html +=
-        "<div class='producto__informacion'>" + element.descripcion + "</div>";
-      html += "<div class='producto__precio'>" + element.precio + "€</div>";
+      html += "<div class='producto__informacion'>" + element.descripcion + "</div>";
+      html += "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
       html += "</div>";
     });
     html += "</div>";
@@ -247,45 +238,11 @@ function abrirNotificacion(mensaje) {
   }, 3000);
 }
 
-function openURL(href, nombreCategoria) {
-  let link =
-    "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos";
-  // var link = href;  //$(this).attr('href');                                    
-  $.ajax({
-    url: link,
-    type: "GET",
-  }).done(function (response) {
-    console.log("hola soy response" + response);
-    let html =
-      "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
-    response.data.forEach(element => {
-      console.log(element.id);
-      html += "<div class='producto'>";
-      html += "<img class='producto__imagen' src='http://127.0.0.1/api/" + response.rutaServerImagenes + "/" + element.imagen + "'";
-      html += "<div class='producto__nombre'>" + element.nombre + "</div>";
-      html +=
-        "<div class='producto__informacion'>" + element.descripcion + "</div>";
-      html += "<div class='producto__precio'>" + element.precio + "€</div>";
-      html += "</div>";
-    });
-    html += "</div>";
+// function cargarPagina() {
+//   window.onpopstate()
+// }
 
-    $(".l-page__content").html("");
-    $(".l-page__content").html(html);
-  });
-  window.history.pushState({ href: href }, '', href);
-}
-
-$(document).ready(function () {
-
-  $(document).on('click', 'a', function () {
-    openURL($(this).attr("href"));
-    return false; //intercept the link
-  });
-
-  window.addEventListener('popstate', function (e) {
-    if (e.state)
-      openURL(e.state.href);
-  });
-
-});
+window.onbeforeunload = function () {
+  // Aquí poner todo el código de leer la url, ver en que página está y cargar lo correspondiente
+  return "¿Desea recargar la página web?";
+};
