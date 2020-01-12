@@ -17,6 +17,7 @@
 
     <link rel="shortcut icon" type="image/png" href="assets/img/icono.ico" />
 </head>
+
 <body class="body">
     <div class="l-page">
         <div class="l-page__header">
@@ -25,63 +26,60 @@
                 <div class="menu__item menu__item--izquierdo">
                     <img class="logo" src="assets/img/logo.png">
                 </div>
-                <div class="menu__item">
-                    <div class="barra-busqueda">
-                        <input class="barra-busqueda__input" type="text" placeholder="Buscar..." name="barra-busqueda">
-                        <button class="barra-busqueda__boton" type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
                 <div class="menu__item menu__item--derecho">
                     <div id="botonAbrirLogIn" class="boton boton--secundario">Log in</div>
-                    <div id="botonRegistrarse" class="boton boton--principal">Registrarse</div>
-                </div>
-            </div>
-        </div>
-        <div class="l-page__menu-lateral">
-            <div class="menu-lateral" id="menu-lateral">
-                <div class="menu-lateral__hamburguesa">
-                    <i class="fas fa-bars"></i>
                 </div>
             </div>
         </div>
         <div class="l-page__content">
-            <div class="portada">
-                <div class="portada__carousel">
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000"
-                        data-pause="false">
-                        <div id="carousel" class="carousel-inner">
-                        </div>
-                    </div>
+            <div class="register">
+                <div class="register__item register__item--izquierda">
+                    <img class="register__logo" src="assets/img/logo.png">
+                    <h3 class="register__welcome">Bienvenido</h3>
+                    <p class="register__msg">Registrate para disfrutar de todos nuestros servicios</p>
                 </div>
-                <div class="portada__paneles">
-                    <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">
-                        <div class="l-columnas__item">
-                            <div class="panel">
-                                <div class="panel__texto">Categorias</div>
-                            </div>
+                <div class="register__item register__item--derecha">
+                    <form  class = "form" action="">
+                        <div class="register_header">
+                            <h1 class="register__tittle">REGISTRO</h1>
                         </div>
-                        <div class="l-columnas__item">
-                            <div class="panel">
-                                <div class="panel__texto">Productos</div>
-                            </div>
-                        </div>
-                        <div class="l-columnas__item">
-                            <div class="panel">
-                                <div class="panel__texto">Recetas</div>
-                            </div>
-                        </div>
-                    </div>
+
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-input" placeholder="Escriba su nombre">
+
+                        <label for="apellidos" class="form-label">Apellidos:</label>
+                        <input type="text" class="form-input" placeholder="Escriba sus apellidos">
+
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-input" placeholder="Escriba su nombre">
+
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="text" class="form-input" placeholder="Escriba su correo electrónico">
+
+                        <label for="nick" class="form-label">Nick:</label>
+                        <input type="text" class="form-input" placeholder="Escriba su nick">
+
+                        <label for="pass" class="form-label">Contraseña:</label>
+                        <input type="password" class="form-input" placeholder="Escriba su contraseña">
+
+                        <label for="avatar" class="form-label">Imagen de Pefil:</label>
+                        <input type="file" class="form-input" placeholder="Escoja su imagen de perfil">
+
+                        <input  type="submit" class = "form-submit" value = "Registrarse">
+                    </form>
                 </div>
+
             </div>
         </div>
-        <div class="l-page__footer">
-            <div class="footer__enlaces"></div>
-            <div class="footer__disclaimer">
-                <span>© 2019,VeganFood. Todos los derechos reservados.</span>
-            </div>
+
+    </div>
+    <div class="l-page__footer">
+        <div class="footer__enlaces"></div>
+        <div class="footer__disclaimer">
+            <span>© 2019,VeganFood. Todos los derechos reservados.</span>
         </div>
     </div>
-
+    </div>
     <div class="log-in">
         <div class="log-in__nombre">
             <div class="log-in__label"><i class="fas fa-user"></i></div>
