@@ -1,6 +1,5 @@
 .boton {
     background-color: $colorSecundario;
-    border: 1px solid $colorSecundario;
     color: white;
     padding: 15px;
     border-radius: 5px;
@@ -25,7 +24,7 @@
         width: 50%;
     }
 
-    &--principal {
+    &--primario {
         background-color: $colorSecundario;
         border: 1px solid $colorSecundario;
         color: white;
@@ -46,5 +45,10 @@
             border-color: darken($colorSecundario, 5);
             background-color: white;
         }
+    }
+
+    &--terciario{
+        background-color: white;
+        color: $colorSecundario;
     }
 }

@@ -39,33 +39,33 @@
                     <p class="register__msg">Registrate para disfrutar de todos nuestros servicios</p>
                 </div>
                 <div class="register__item register__item--derecha">
-                    <form  class = "form" action="">
+                    <form class="form" enctype="multipart/form-data" id="formularioRegistro" method="post">
                         <div class="register_header">
                             <h1 class="register__tittle">REGISTRO</h1>
                         </div>
 
                         <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" class="form-input" placeholder="Escriba su nombre">
+                        <input id="inputNombre" type="text" class="form-input" placeholder="Escriba su nombre">
 
                         <label for="apellidos" class="form-label">Apellidos:</label>
-                        <input type="text" class="form-input" placeholder="Escriba sus apellidos">
-
-                        <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" class="form-input" placeholder="Escriba su nombre">
+                        <input id="inputApellidos" type="text" class="form-input" placeholder="Escriba sus apellidos">
 
                         <label for="email" class="form-label">Email:</label>
-                        <input type="text" class="form-input" placeholder="Escriba su correo electrónico">
+                        <input id="inputEmail" type="text" class="form-input" placeholder="Escriba su correo electrónico">
 
                         <label for="nick" class="form-label">Nick:</label>
-                        <input type="text" class="form-input" placeholder="Escriba su nick">
+                        <input id="inputNick" type="text" class="form-input" placeholder="Escriba su nick">
 
                         <label for="pass" class="form-label">Contraseña:</label>
-                        <input type="password" class="form-input" placeholder="Escriba su contraseña">
+                        <input id="inputPassword1" type="password" class="form-input" placeholder="Escriba su contraseña">
+
+                        <label for="pass" class="form-label">Repite la contraseña:</label>
+                        <input id="inputPassword2" type="password" class="form-input" placeholder="Repite la contraseña">
 
                         <label for="avatar" class="form-label">Imagen de Pefil:</label>
-                        <input type="file" class="form-input" placeholder="Escoja su imagen de perfil">
+                        <input id="inputAvatar" type="file" class="form-input" placeholder="Escoja su imagen de perfil">
 
-                        <input  type="submit" class = "form-submit" value = "Registrarse">
+                        <input id="botonRegistrar" type="submit" class = "form-submit" value = "Registrarse">
                     </form>
                 </div>
 

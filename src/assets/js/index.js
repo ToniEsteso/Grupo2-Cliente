@@ -5,8 +5,10 @@ $(document).ready(function () {
 
   //event listeners
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
-  $("#botonRegistrarse").on("click", registrarse);
+  $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
+  $("#formularioRegistro").on("submit", registrar);
+
   $("#botonAbrirLogIn").on({
     click: toggleLogin
   });
@@ -63,7 +65,7 @@ function logIn() {
     });
 }
 
-function registrarse() {
+function abrirRegistro() {
   window.location.replace("registro.html");
 }
 
@@ -171,7 +173,6 @@ function cargarImagenesCarousel() {
 }
 
 function cargarRedesSociales() {
-
   $.ajax({
     type: "GET",
     url: "http://127.0.0.1:8000/api/redessociales",
@@ -191,6 +192,7 @@ function cargarRedesSociales() {
 
 function cargarProductosCategoria(event, nombreCategoria) {
   console.log(nombreCategoria);
+  toggleHamburguesa();
   event.stopPropagation();
   event.preventDefault();
 
@@ -246,3 +248,36 @@ window.onbeforeunload = function () {
   // Aquí poner todo el código de leer la url, ver en que página está y cargar lo correspondiente
   return "¿Desea recargar la página web?";
 };
+
+function registrar(e) {
+  console.log("registro");
+
+  e.preventDefault();
+
+  var formData = new FormData();
+  formData.append("nombre", $("#inputNombre").val());
+  formData.append("apellidos", $("#inputApellidos").val());
+  formData.append("email", $("#inputEmail").val());
+  formData.append("nickName", $("#inputNick").val());
+  formData.append("password1", $("#inputPassword1").val());
+  formData.append("password1", $("#inputPassword2").val());
+  formData.append("avatar", $("#inputAvatar").val());
+  console.log(formData);
+
+  $.ajax({
+      url: "http://127.0.0.1:8000/api/auth/register",
+      type: "post",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function (res) {
+      console.log("done");
+      // console.log(res);
+    })
+    .fail(function (res) {
+      console.log("fail");
+      // console.log(res);
+    });
+}

@@ -61,10 +61,8 @@
             opacity: 1;
         }
 
-        99%{
-            display: none;
-        }
         100% {
+            visibility: hidden;
             opacity: 0;
         }
 

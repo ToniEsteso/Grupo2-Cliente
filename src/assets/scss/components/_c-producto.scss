@@ -9,11 +9,12 @@
     "producto__informacion"
     "producto__precio";
   margin: 4%;
+  grid-auto-rows: 3fr 1fr 1fr 1fr;
 
-  &__imagen{
+  &__imagen {
     grid-area: producto__imagen;
     width: 100%;
-    height: 100px;
+    height: 100%;
   }
 
   &__nombre {
