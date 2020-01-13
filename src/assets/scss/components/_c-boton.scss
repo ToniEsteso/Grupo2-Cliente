@@ -47,8 +47,16 @@
         }
     }
 
-    &--terciario{
+    &--terciario {
         background-color: white;
         color: $colorSecundario;
     }
-}
+
+    &--back {
+
+        color: #f8991d;
+        font-size: 40px;
+        margin-left: 2%;
+        border: none;
+        background-color: white;
+    }
