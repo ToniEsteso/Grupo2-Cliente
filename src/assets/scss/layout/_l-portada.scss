@@ -5,7 +5,7 @@
     gap: 20px;
     grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: 60vh auto;
-
+background-color: $colorPrincipal;
     &__carousel {
         grid-area: carousel;
         padding: 2% 10%;
@@ -13,6 +13,6 @@
 
     &__paneles {
         grid-area: paneles;
-        padding: 0 4%;
+        padding: 2% 4%;
     }
 }

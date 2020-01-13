@@ -18,7 +18,9 @@
   },
   "author": "Grupo 2",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "node-sass": "^4.13.0"
+  },
   "devDependencies": {
     "onchange": "^6.1.0"
   }

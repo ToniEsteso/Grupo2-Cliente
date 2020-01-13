@@ -3,7 +3,8 @@
     flex-direction: column;
     font-family: 'Merriweather Sans';;
     height: 100%;
-    background-color: #efefef;
+    background-color: #ffffff;
+    z-index: 2;
 
     &__contenedor-enlaces {
         position: relative;
@@ -17,17 +18,18 @@
     &__enlace {
         padding: 12%;
         text-decoration: none;
-        color: #454545;
+        color: hsl(0°, 0%, 50%);
         height: 100%;
         width: 100%;
-        background-color: $colorPrincipal;
+        background-color: #ffffff;
     }
     &__enlace:hover {
         text-decoration: none;
-        color: #232323;
-        background-color: darken($colorPrincipal, 10);
+        color: hsl(0, 0, 20%);
+        background-color: darken(#ffffff, 10);
     }
     &__icono{
+        color: hsl(0, 0, 25%);
         width: 20px;
         margin-right: 8px;
     }
@@ -39,7 +41,7 @@
         z-index: 1000;
         top: 10px;
 
-        left: 102%;
+        left: 104%;
 
         height: 30px;
         width: 30px;
@@ -47,7 +49,7 @@
         text-align: center;
         font-size: 22px;
         font-weight: bolder;
-        line-height: 30px;
+        line-height: 28px;
         color: #454545;
 
         border: 2px #454545 solid;

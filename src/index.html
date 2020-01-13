@@ -17,7 +17,6 @@
 
     <link rel="shortcut icon" type="image/png" href="assets/img/icono.ico" />
 </head>
-
 <body class="body">
     <div class="l-page">
         <div class="l-page__header">
@@ -32,8 +31,8 @@
                         <button class="barra-busqueda__boton" type="submit"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
-                <div class="menu__item menu__item--derecho">
-                    <div id="botonLogIn" class="boton boton--secundario">Log in</div>
+                <div class="menu__item menu__item--derecho" id="divPerfilLogin">
+                    <div id="botonAbrirLogIn" class="boton boton--secundario">Log in</div>
                     <div id="botonRegistrarse" class="boton boton--principal">Registrarse</div>
                 </div>
             </div>
@@ -46,6 +45,7 @@
             </div>
         </div>
         <div class="l-page__content">
+
             <div class="portada">
                 <div class="portada__carousel">
                     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000"
@@ -82,6 +82,28 @@
                 <span>© 2019,VeganFood. Todos los derechos reservados.</span>
             </div>
         </div>
+    </div>
+
+    <div class="log-in">
+        <div class="log-in__nombre">
+            <div class="log-in__label"><i class="fas fa-user"></i></div>
+            <input id="inputUsuario" class="log-in__input" type="text" placeholder="Correo electrónico...">
+        </div>
+        <div class="log-in__contrasenya">
+            <div class="log-in__label"><i class="fas fa-key"></i></div>
+            <input id="inputContrasenya" class="log-in__input" type="password" placeholder="Contraseña...">
+        </div>
+        <div class="log-in__boton">
+            <div class="boton boton--principal" id="botonLogin">
+                <div class="boton__icono">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notificacion" class="notificacion">
+
     </div>
 </body>
 
