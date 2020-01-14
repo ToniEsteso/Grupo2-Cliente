@@ -197,34 +197,39 @@ function cargarProductosCategoria(event, nombreCategoria) {
   event.preventDefault();
 
   $.ajax({
-      type: "GET",
-      url: "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos"
-    }).done(function (response) {
-      console.log("Consulta done");
-      // No hay forma de poner en la url categorias/Carnes ya que se va sumando todo el rato el categorias y va saliendo así categorias/categorias/categorias/ --> Un ejemplo
-      window.history.pushState({
-          categoria: nombreCategoria
-        },
-        nombreCategoria, nombreCategoria
-      );
-      console.log("productos");
-      console.log(response);
-      console.log(response.mensaje);
-      let numRedes = response.data.length;
-      let html =
-        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
-      response.data.forEach(element => {
-        html += "<div class='producto'>";
-        html += "<img class='producto__imagen' src='http://127.0.0.1:8000" + response.rutaServerImagenes + element.imagen + "'>";
-        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
-        html += "<div class='producto__informacion'>" + element.descripcion + "</div>";
-        html += "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-        html += "</div>";
-      });
+    type: "GET",
+    url: "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos"
+  }).done(function (response) {
+    console.log("Consulta done");
+    // No hay forma de poner en la url categorias/Carnes ya que se va sumando todo el rato el categorias y va saliendo así categorias/categorias/categorias/ --> Un ejemplo
+    window.history.pushState({
+      categoria: nombreCategoria
+    },
+      nombreCategoria, nombreCategoria
+    );
+    console.log("productos");
+    console.log(response);
+    console.log(response.mensaje);
+    let numRedes = response.data.length;
+    let html =
+      "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
+    response.data.forEach(element => {
+      html += "<div class='producto'>";
+      html += "<img class='producto__imagen' src='http://127.0.0.1:8000" + response.rutaServerImagenes + element.imagen + "'>";
+      html += "<div class='producto__nombre'>" + element.nombre + "</div>";
+      html += "<div class='producto__informacion'>" + element.descripcion + "</div>";
+      html += "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+      html += "<button class ='producto__boton'><i class = 'fa fa-shopping-cart'></i>Añadir al carrito</button>";
+      html += "<div class='producto__overlay'>";
+      html += "<h2 class='overlay-text'>Añadido al carrito</h2>";
+      html += "<i class='fa fa-check'></i>";
       html += "</div>";
-      $(".l-page__content").html("");
-      $(".l-page__content").html(html);
-    })
+      html += "</div>";
+    });
+    html += "</div>";
+    $(".l-page__content").html("");
+    $(".l-page__content").html(html);
+  })
     .fail(function () {
       console.log("consulta fallida");
     });
@@ -265,13 +270,13 @@ function registrar(e) {
   console.log(formData);
 
   $.ajax({
-      url: "http://127.0.0.1:8000/api/auth/register",
-      type: "post",
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false
-    })
+    url: "http://127.0.0.1:8000/api/auth/register",
+    type: "post",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false
+  })
     .done(function (res) {
       console.log("done");
       // console.log(res);
