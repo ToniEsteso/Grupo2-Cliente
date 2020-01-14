@@ -289,6 +289,7 @@ function cargarProductosCategoria(url) {
           "</div>";
         html +=
           "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        html += "<button class ='producto__boton'><i class = 'fa fa-shopping-cart'></i>Añadir al carrito</button>";
         html += "</div>";
       });
       html += "</div>";
