@@ -1,106 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>VeganFood</title>
-    <script src="assets/js/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Merriweather Sans' rel='stylesheet'>
-    <script src="assets/js/index.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
+    <script src="http://localhost/Grupo2/assets/js/jquery-3.4.1.min.js"></script>
+    <script></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    />
+    <link rel="stylesheet" href="http://localhost/Grupo2/assets/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="http://localhost/Grupo2/assets/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Merriweather Sans"
+      rel="stylesheet"
+    />
+    <script src="http://localhost/Grupo2/assets/js/index.js"></script>
+    <script src="http://localhost/Grupo2/assets/js/bootstrap.min.js"></script>
+    <script src="http://localhost/Grupo2/assets/js/popper.min.js"></script>
 
-    <link rel="shortcut icon" type="image/png" href="assets/img/icono.ico" />
-</head>
-<body class="body">
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="http://localhost/Grupo2/assets/img/icono.ico"
+    />
+  </head>
+  <body class="body">
     <div class="l-page">
-        <div class="l-page__header">
-            <!-- Pensar otro nombre para cabecera -->
-            <div class="menu">
-                <div class="menu__item menu__item--izquierdo">
-                    <img class="logo" src="assets/img/logo.png">
-                </div>
-                <div class="menu__item">
-                    <div class="barra-busqueda">
-                        <input class="barra-busqueda__input" type="text" placeholder="Buscar..." name="barra-busqueda">
-                        <button class="barra-busqueda__boton" type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-                <div class="menu__item menu__item--derecho">
-                    <div id="botonAbrirLogIn" class="boton boton--secundario">Log in</div>
-                    <div id="botonRegistrarse" class="boton boton--principal">Registrarse</div>
-                </div>
+      <div class="l-page__header">
+        <!-- Pensar otro nombre para cabecera -->
+        <div class="menu">
+          <div class="menu__item menu__item--izquierdo">
+            <a href="/Grupo2"
+              ><img
+                class="logo"
+                src="http://localhost/Grupo2/assets/img/logo.png"
+              />
+            </a>
+          </div>
+          <div class="menu__item">
+            <div class="barra-busqueda">
+              <input
+                class="barra-busqueda__input"
+                type="text"
+                placeholder="Buscar..."
+                name="barra-busqueda"
+              />
+              <button class="barra-busqueda__boton" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
             </div>
-        </div>
-        <div class="l-page__menu-lateral">
-            <div class="menu-lateral" id="menu-lateral">
-                <div class="menu-lateral__hamburguesa">
-                    <i class="fas fa-bars"></i>
-                </div>
+          </div>
+          <div class="menu__item menu__item--derecho">
+            <div id="botonAbrirLogIn" class="boton boton--secundario">
+              Log in
             </div>
-        </div>
-        <div class="l-page__content">
-            <div class="portada">
-                <div class="portada__carousel">
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000"
-                        data-pause="false">
-                        <div id="carousel" class="carousel-inner">
-                        </div>
-                    </div>
-                </div>
-                <div class="portada__paneles">
-                    <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">
-                        <div class="l-columnas__item">
-                            <div class="panel">
-                                <div class="panel__texto">Categorias</div>
-                            </div>
-                        </div>
-                        <div class="l-columnas__item">
-                            <div class="panel">
-                                <div class="panel__texto">Productos</div>
-                            </div>
-                        </div>
-                        <div class="l-columnas__item">
-                            <div class="panel">
-                                <div class="panel__texto">Recetas</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="botonRegistrarse" class="boton boton--principal">
+              Registrarse
             </div>
+          </div>
         </div>
-        <div class="l-page__footer">
-            <div class="footer__enlaces"></div>
-            <div class="footer__disclaimer">
-                <span>© 2019,VeganFood. Todos los derechos reservados.</span>
+      </div>
+      <div class="l-page__menu-lateral">
+        <div class="menu-lateral" id="menu-lateral">
+          <div class="menu-lateral__hamburguesa">
+            <i class="fas fa-bars"></i>
+          </div>
+        </div>
+      </div>
+      <div class="l-page__content">
+        <div class="portada">
+          <div class="portada__carousel">
+            <div
+              id="carouselExampleSlidesOnly"
+              class="carousel slide"
+              data-ride="carousel"
+              data-interval="5000"
+              data-pause="false"
+            >
+              <div id="carousel" class="carousel-inner"></div>
             </div>
+          </div>
+          <div class="portada__paneles">
+            <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">
+              <div class="l-columnas__item">
+                <div class="panel">
+                  <div class="panel__texto">Categorias</div>
+                </div>
+              </div>
+              <div class="l-columnas__item">
+                <div class="panel">
+                  <div class="panel__texto">Productos</div>
+                </div>
+              </div>
+              <div class="l-columnas__item">
+                <div class="panel">
+                  <div class="panel__texto">Recetas</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="l-page__footer">
+        <div class="footer__enlaces"></div>
+        <div class="footer__disclaimer">
+          <span>© 2019,VeganFood. Todos los derechos reservados.</span>
+        </div>
+      </div>
     </div>
 
     <div class="log-in">
-        <div class="log-in__nombre">
-            <div class="log-in__label"><i class="fas fa-user"></i></div>
-            <input id="inputUsuario" class="log-in__input" type="text" placeholder="Correo electrónico...">
+      <div class="log-in__nombre">
+        <div class="log-in__label"><i class="fas fa-user"></i></div>
+        <input
+          id="inputUsuario"
+          class="log-in__input"
+          type="text"
+          placeholder="Correo electrónico..."
+        />
+      </div>
+      <div class="log-in__contrasenya">
+        <div class="log-in__label"><i class="fas fa-key"></i></div>
+        <input
+          id="inputContrasenya"
+          class="log-in__input"
+          type="password"
+          placeholder="Contraseña..."
+        />
+      </div>
+      <div class="log-in__boton">
+        <div class="boton" id="botonLogin">
+          Entrar
         </div>
-        <div class="log-in__contrasenya">
-            <div class="log-in__label"><i class="fas fa-key"></i></div>
-            <input id="inputContrasenya" class="log-in__input" type="password" placeholder="Contraseña...">
-        </div>
-        <div class="log-in__boton">
-            <div class="boton" id="botonLogin">
-                Entrar
-            </div>
-        </div>
+      </div>
     </div>
 
-    <div id="notificacion" class="notificacion">
-
-    </div>
-</body>
-
+    <div id="notificacion" class="notificacion"></div>
+  </body>
 </html>
