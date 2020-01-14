@@ -12,50 +12,30 @@ $(document).ready(function() {
 
   //event listeners
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
-  $("#botonRegistrarse").on("click", abrirRegistro);
+  $("#botonAbrirLogIn").on("click", abrirLogIn);
+  $("#botonRegistrarse").on("click", registrarse);
   $("#botonLogin").on("click", logIn);
 });
 
 //cerrar el log in al hacer click en la pagina
 $(document).mouseup(function(e) {
   var container = $(".log-in");
-  $("#formularioRegistro").on("submit", registrar);
 
-  $("#botonAbrirLogIn").on({
-    click: toggleLogin
-  });
-  $(".log-in").on({
-    mouseleave: toggleLogin
-  });
-
-  window.addEventListener("popstate", function(event) {
-    console.log(event);
-    //$('.page-content').html(state);
-  });
+  if (!container.is(e.target) && container.has(e.target).length === 0) {
+    container.hide();
+  }
 });
 
-function toggleLogin() {
-  console.log(this);
-  let altura = document
-    .getElementById("botonAbrirLogIn")
-    .getBoundingClientRect().height;
-  let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect()
-    .y;
+function abrirLogIn(event) {
+  $(".log-in").show();
+  $(".log-in").toggleClass("log-in--visible");
+  let altura = this.getBoundingClientRect().height;
+  let posY = this.getBoundingClientRect().y;
 
-  if ($(".log-in").hasClass("log-in__fade-in")) {
-    $(".log-in").removeClass("log-in__fade-in");
-    $(".log-in").addClass("log-in__fade-out");
-  } else {
-    $(".log-in").css({
-      top: posY + altura + 20,
-      right: 20
-    });
-    $(".log-in").removeClass("log-in__fade-out");
-    $(".log-in").addClass("log-in__fade-in");
-  }
-
-  console.log("altura: " + altura);
-  console.log("posY: " + posY);
+  $(".log-in").css({
+    top: posY + altura + 20,
+    right: 20
+  });
 }
 
 function logIn() {
@@ -65,19 +45,18 @@ function logIn() {
     email: email,
     password: password
   };
+  console.log(objetoUsuario);
 
   $.post(urlServidor + "/api/auth/login", objetoUsuario)
     .done(function() {
-      abrirNotificacion("Bienvenido " + response.user.nickName + "!");
-      $("#divPerfilLogin").html(response.user.nickName);
-      $(".log-in").hide();
+      abrirNotificacion("Login correcto");
     })
     .fail(function() {
       abrirNotificacion("Login fallido");
     });
 }
 
-function abrirRegistro() {
+function registrarse() {
   window.location.replace("registro.html");
 }
 
@@ -156,6 +135,7 @@ function cargarCategorias() {
 }
 
 function cargarImagenesCarousel() {
+  console.log("entrado");
   $.ajax({
     type: "GET",
     url: urlServidor + "/carousel"
@@ -186,6 +166,7 @@ function cargarRedesSociales() {
     type: "GET",
     url: urlServidor + "/redessociales"
   }).done(function(response) {
+    console.log(response.mensaje);
     let numRedes = response.data.length;
     let html = "";
 
@@ -210,7 +191,6 @@ function cargarRedesSociales() {
 
 function cargarProductosCategoria(url) {
   console.log(url);
-  toggleHamburguesa();
 
   $.ajax({
     type: "GET",
@@ -253,6 +233,7 @@ function cargarProductosCategoria(url) {
 }
 
 function abrirNotificacion(mensaje) {
+  console.log(mensaje);
   $("#notificacion").text(mensaje);
   $("#notificacion").addClass("notificacion--show");
 
@@ -292,36 +273,3 @@ function leerUrl() {
 
 window.addEventListener("hashchange", leerUrl);
 window.addEventListener("load", leerUrl);
-
-function registrar(e) {
-  console.log("registro");
-
-  e.preventDefault();
-
-  var formData = new FormData();
-  formData.append("nombre", $("#inputNombre").val());
-  formData.append("apellidos", $("#inputApellidos").val());
-  formData.append("email", $("#inputEmail").val());
-  formData.append("nickName", $("#inputNick").val());
-  formData.append("password1", $("#inputPassword1").val());
-  formData.append("password1", $("#inputPassword2").val());
-  formData.append("avatar", $("#inputAvatar").val());
-  console.log(formData);
-
-  $.ajax({
-    url: "http://127.0.0.1:8000/api/auth/register",
-    type: "post",
-    data: formData,
-    cache: false,
-    contentType: false,
-    processData: false
-  })
-    .done(function(res) {
-      console.log("done");
-      // console.log(res);
-    })
-    .fail(function(res) {
-      console.log("fail");
-      // console.log(res);
-    });
-}
