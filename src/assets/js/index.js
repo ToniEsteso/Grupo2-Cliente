@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  checkToken();
   cargarCategorias();
   cargarImagenesCarousel();
   cargarRedesSociales();
@@ -8,6 +9,7 @@ $(document).ready(function () {
   $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
   $("#formularioRegistro").on("submit", registrar);
+  $(document).on("click", "#botonLogout", logout);
 
   $("#botonAbrirLogIn").on({
     click: toggleLogin
@@ -23,7 +25,6 @@ $(document).ready(function () {
 });
 
 function toggleLogin() {
-  console.log(this);
   let altura = document.getElementById("botonAbrirLogIn").getBoundingClientRect().height;
   let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect().y;
 
@@ -38,29 +39,80 @@ function toggleLogin() {
     $(".log-in").removeClass("log-in__fade-out");
     $(".log-in").addClass("log-in__fade-in");
   }
+}
 
-  console.log("altura: " + altura);
-  console.log("posY: " + posY);
+function logout() {
+  window.localStorage.removeItem('Usuario');
+  window.location.reload();
+}
 
+function checkToken() {
+  let token = "Bearer " + window.localStorage.getItem('Usuario');
 
+  if (window.localStorage.getItem('Usuario') != null) {
+    $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:8000/api/auth/me",
+        headers: {
+          "Authorization": token
+        }
+      })
+      .done(function (response) {
+        abrirNotificacion("Bienvenido " + response.nickName + "!");
+        let html = "";
+        html = "<div class='usuario'>";
+
+        html += "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.avatar + "'></img>";
+        html += "<div class='usuario__nick'>";
+        html += response.nickName;
+        html += "</div>";
+        html += "<div id='botonLogout' class='boton boton--terciario'>";
+        html += "Logout";
+        html += "</div>";
+        html += "</div>";
+
+        $("#divPerfilLogin").html(html);
+        $(".log-in").hide();
+      });
+  }
 }
 
 function logIn() {
-  let email = $("#inputUsuario").val();
+  let usuario = $("#inputUsuario").val();
   let password = $("#inputContrasenya").val();
   let objetoUsuario = {
-    "email": email,
+    "email": usuario,
     "password": password
   };
 
+  enviarLoginServidor(objetoUsuario);
+}
+
+function enviarLoginServidor(objetoUsuario) {
   $.post("http://127.0.0.1:8000/api/auth/login", objetoUsuario)
     .done(function (response) {
-      console.log(response);
+      window.localStorage.setItem('Usuario', response.access_token);
+
       abrirNotificacion("Bienvenido " + response.user.nickName + "!");
-      $("#divPerfilLogin").html(response.user.nickName);
+      let html = "";
+      html = "<div class='usuario'>";
+
+      html += "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.user.avatar + "'></img>";
+      html += "<div class='usuario__nick'>";
+      html += response.user.nickName;
+      html += "</div>";
+      html += "<div id='botonLogout' class='boton boton--terciario'>";
+      html += "Logout";
+      html += "</div>";
+
+      html += "</div>";
+
+      $("#divPerfilLogin").html(html);
       $(".log-in").hide();
     })
     .fail(function (response) {
+      console.log(response.responseText);
+      
       abrirNotificacion("Login fallido");
     });
 }
@@ -111,7 +163,6 @@ function cargarCategorias() {
     type: "GET",
     url: "http://127.0.0.1:8000/api/categorias"
   }).done(function (response) {
-    console.log(response.mensaje);
     let html = "";
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
@@ -151,8 +202,6 @@ function cargarImagenesCarousel() {
     type: "GET",
     url: "http://127.0.0.1:8000/api/carousel"
   }).done(function (response) {
-    console.log(response);
-    console.log(response.mensaje);
     let html = "";
     let contador = 0;
     response.imagenes.forEach(element => {
@@ -191,7 +240,6 @@ function cargarRedesSociales() {
 }
 
 function cargarProductosCategoria(event, nombreCategoria) {
-  console.log(nombreCategoria);
   toggleHamburguesa();
   event.stopPropagation();
   event.preventDefault();
@@ -200,16 +248,12 @@ function cargarProductosCategoria(event, nombreCategoria) {
       type: "GET",
       url: "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos"
     }).done(function (response) {
-      console.log("Consulta done");
       // No hay forma de poner en la url categorias/Carnes ya que se va sumando todo el rato el categorias y va saliendo así categorias/categorias/categorias/ --> Un ejemplo
       window.history.pushState({
           categoria: nombreCategoria
         },
         nombreCategoria, nombreCategoria
       );
-      console.log("productos");
-      console.log(response);
-      console.log(response.mensaje);
       let numRedes = response.data.length;
       let html =
         "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
@@ -246,23 +290,26 @@ function abrirNotificacion(mensaje) {
 
 window.onbeforeunload = function () {
   // Aquí poner todo el código de leer la url, ver en que página está y cargar lo correspondiente
-  return "¿Desea recargar la página web?";
+  // return "¿Desea recargar la página web?";
 };
 
 function registrar(e) {
-  console.log("registro");
-
   e.preventDefault();
 
-  var formData = new FormData();
+  let usuario = $("#inputEmail").val();
+  let password = $("#inputPassword1").val();
+  let objetoUsuario = {
+    "email": usuario,
+    "password": password
+  };
+  var formData = new FormData(this);
   formData.append("nombre", $("#inputNombre").val());
   formData.append("apellidos", $("#inputApellidos").val());
   formData.append("email", $("#inputEmail").val());
   formData.append("nickName", $("#inputNick").val());
   formData.append("password1", $("#inputPassword1").val());
-  formData.append("password1", $("#inputPassword2").val());
-  formData.append("avatar", $("#inputAvatar").val());
-  console.log(formData);
+  formData.append("password2", $("#inputPassword2").val());
+  formData.append("avatar", $("#inputAvatar")[0].files[0]);
 
   $.ajax({
       url: "http://127.0.0.1:8000/api/auth/register",
@@ -273,11 +320,13 @@ function registrar(e) {
       processData: false
     })
     .done(function (res) {
-      console.log("done");
-      // console.log(res);
+      abrirNotificacion("Registro completado");
+      setTimeout(() => {
+        window.location.replace("index.html");
+        enviarLoginServidor(objetoUsuario);
+      }, 1000);
     })
     .fail(function (res) {
-      console.log("fail");
-      // console.log(res);
+      abrirNotificacion("Registro fallido");
     });
 }
