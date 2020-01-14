@@ -1,7 +1,7 @@
 .producto {
   width: 300px;
   height: 300px;
-  background-color: red;
+  background: rgba(0,0,0,.6);
   display: grid;
   grid-template-areas:
     "producto__imagen"
@@ -11,6 +11,11 @@
   margin: 4%;
   grid-auto-rows: 3fr 1fr 1fr 1fr;
 
+  box-shadow: 10px 10px 20px #666;   
+  border: 5px solid #f8991d;
+
+ 
+
   &__imagen {
     grid-area: producto__imagen;
     width: 100%;
@@ -19,13 +24,25 @@
 
   &__nombre {
     grid-area: producto__nombre;
+
+    color:#f8991d;
+    text-align: center;
+    border-top:5px solid #f8991d;
+    border-bottom:5px solid #f8991d;
+    padding:0px;
+    margin-bottom: 10px;
+    background-color: white;
   }
 
   &__informacion {
     grid-area: producto__informacion;
+    color:#f8991d;
+    text-align: center;
   }
 
   &__precio {
     grid-area: producto__precio;
+    color:#f8991d;
+    text-align: center;
   }
 }
