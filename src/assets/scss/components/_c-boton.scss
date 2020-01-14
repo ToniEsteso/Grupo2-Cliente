@@ -59,5 +59,11 @@
         margin-left: 2%;
         border: none;
         background-color: white;
+        text-decoration: none;
+    }
+
+    &--back:hover {   
+        color: #f8991d;
+        text-decoration: none;
     }
 }
