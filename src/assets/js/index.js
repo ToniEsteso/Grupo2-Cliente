@@ -1,12 +1,24 @@
-$(document).ready(function () {
+let urlCliente = "http://localhost/Grupo2";
+let urlServidor = "http://127.0.0.1:8000/api";
+let urlImagenes = "http://127.0.0.1:8000";
+
+$(document).ready(function() {
+  console.log("Se va a ejecutar todo");
   cargarCategorias();
-  cargarImagenesCarousel();
   cargarRedesSociales();
+  console.log("Va a ejercutarse leerURL");
+  leerUrl();
+  console.log("ejecutado leerURL");
 
   //event listeners
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
   $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
+});
+
+//cerrar el log in al hacer click en la pagina
+$(document).mouseup(function(e) {
+  var container = $(".log-in");
   $("#formularioRegistro").on("submit", registrar);
 
   $("#botonAbrirLogIn").on({
@@ -14,18 +26,21 @@ $(document).ready(function () {
   });
   $(".log-in").on({
     mouseleave: toggleLogin
-  })
+  });
 
-  window.addEventListener('popstate', function (event) {
+  window.addEventListener("popstate", function(event) {
     console.log(event);
-    //$('.page-content').html(state);        
+    //$('.page-content').html(state);
   });
 });
 
 function toggleLogin() {
   console.log(this);
-  let altura = document.getElementById("botonAbrirLogIn").getBoundingClientRect().height;
-  let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect().y;
+  let altura = document
+    .getElementById("botonAbrirLogIn")
+    .getBoundingClientRect().height;
+  let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect()
+    .y;
 
   if ($(".log-in").hasClass("log-in__fade-in")) {
     $(".log-in").removeClass("log-in__fade-in");
@@ -41,26 +56,23 @@ function toggleLogin() {
 
   console.log("altura: " + altura);
   console.log("posY: " + posY);
-
-
 }
 
 function logIn() {
   let email = $("#inputUsuario").val();
   let password = $("#inputContrasenya").val();
   let objetoUsuario = {
-    "email": email,
-    "password": password
+    email: email,
+    password: password
   };
 
-  $.post("http://127.0.0.1:8000/api/auth/login", objetoUsuario)
-    .done(function (response) {
-      console.log(response);
+  $.post(urlServidor + "/api/auth/login", objetoUsuario)
+    .done(function() {
       abrirNotificacion("Bienvenido " + response.user.nickName + "!");
       $("#divPerfilLogin").html(response.user.nickName);
       $(".log-in").hide();
     })
-    .fail(function (response) {
+    .fail(function() {
       abrirNotificacion("Login fallido");
     });
 }
@@ -106,24 +118,21 @@ function toggleHamburguesa() {
 }
 
 function cargarCategorias() {
-
   $.ajax({
     type: "GET",
-    url: "http://127.0.0.1:8000/api/categorias"
-  }).done(function (response) {
+    url: urlServidor + "/categorias"
+  }).done(function(response) {
     console.log(response.mensaje);
     let html = "";
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
       // html += "<div class='menu-lateral__item'><a href='#' class='menu-lateral__enlace'>" + element.nombre + "</a></div>"
       html +=
-        "<a href='categorias/" +
-        element.nombre +
-        "'class='menu-lateral__enlace' id='" +
+        "<a href='javascript:void(0)'class='menu-lateral__enlace' id='" +
         element.id +
-        "' onclick='cargarProductosCategoria(event, \"" +
+        "' onclick='cargarProductosCategoria(\"/categorias/" +
         element.nombre +
-        "\")'><i class='" +
+        "/productos\")'><i class='" +
         element.icono +
         " menu-lateral__icono'></i>" +
         element.nombre +
@@ -149,8 +158,8 @@ function cargarCategorias() {
 function cargarImagenesCarousel() {
   $.ajax({
     type: "GET",
-    url: "http://127.0.0.1:8000/api/carousel"
-  }).done(function (response) {
+    url: urlServidor + "/carousel"
+  }).done(function(response) {
     console.log(response);
     console.log(response.mensaje);
     let html = "";
@@ -159,9 +168,9 @@ function cargarImagenesCarousel() {
       html +=
         "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
       html +=
-        "<img class='d-block c-carousel__imagen' src='http://127.0.0.1:8000" +
+        "<img class='d-block c-carousel__imagen' src='" +
+        urlImagenes +
         response.rutaServerImagenes +
-        "/" +
         element +
         "'>";
       html += "</div>";
@@ -175,62 +184,71 @@ function cargarImagenesCarousel() {
 function cargarRedesSociales() {
   $.ajax({
     type: "GET",
-    url: "http://127.0.0.1:8000/api/redessociales",
-  }).done(function (response) {
+    url: urlServidor + "/redessociales"
+  }).done(function(response) {
     let numRedes = response.data.length;
     let html = "";
 
-    html += "<div class='l-columnas l-columnas" + ((numRedes <= 4) ? "--" + numRedes + "-columnas" : "--4-columnas") + "'>";
+    html +=
+      "<div class='l-columnas l-columnas" +
+      (numRedes <= 4 ? "--" + numRedes + "-columnas" : "--4-columnas") +
+      "'>";
     response.data.forEach(element => {
-      html += "<a href='" + element.enlace + "' class='red'><i class='red__icono " + element.icono + "'></i>" + element.nombre + "</a>";
+      html +=
+        "<a href='" +
+        element.enlace +
+        "' class='red'><i class='red__icono " +
+        element.icono +
+        "'></i>" +
+        element.nombre +
+        "</a>";
     });
     html += "</div>";
     $(".footer__enlaces").append(html);
-
   });
 }
 
-function cargarProductosCategoria(event, nombreCategoria) {
-  console.log(nombreCategoria);
+function cargarProductosCategoria(url) {
+  console.log(url);
   toggleHamburguesa();
-  event.stopPropagation();
-  event.preventDefault();
 
   $.ajax({
     type: "GET",
-    url: "http://127.0.0.1:8000/api/categorias/" + nombreCategoria + "/productos"
-  }).done(function (response) {
-    console.log("Consulta done");
-    // No hay forma de poner en la url categorias/Carnes ya que se va sumando todo el rato el categorias y va saliendo así categorias/categorias/categorias/ --> Un ejemplo
-    window.history.pushState({
-      categoria: nombreCategoria
-    },
-      nombreCategoria, nombreCategoria
-    );
-    console.log("productos");
-    console.log(response);
-    console.log(response.mensaje);
-    let numRedes = response.data.length;
-    let html =
-      "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
-    response.data.forEach(element => {
-      html += "<div class='producto'>";
-      html += "<img class='producto__imagen' src='http://127.0.0.1:8000" + response.rutaServerImagenes + element.imagen + "'>";
-      html += "<div class='producto__nombre'>" + element.nombre + "</div>";
-      html += "<div class='producto__informacion'>" + element.descripcion + "</div>";
-      html += "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-      html += "<button class ='producto__boton'><i class = 'fa fa-shopping-cart'></i>Añadir al carrito</button>";
-      html += "<div class='producto__overlay'>";
-      html += "<h2 class='overlay-text'>Añadido al carrito</h2>";
-      html += "<i class='fa fa-check'></i>";
-      html += "</div>";
-      html += "</div>";
-    });
-    html += "</div>";
-    $(".l-page__content").html("");
-    $(".l-page__content").html(html);
+    url: urlServidor + url
   })
-    .fail(function () {
+    .done(function(response) {
+      console.log("Consulta done");
+      window.history.pushState({ categoria: url }, url, urlCliente + url);
+      console.log("productos");
+      console.log(response);
+      console.log(response.mensaje);
+      let numRedes = response.data.length;
+      let html =
+        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
+      response.data.forEach(element => {
+        html += "<div class='producto'>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          response.rutaServerImagenes +
+          element.imagen +
+          "'>";
+        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
+        html +=
+          "<div class='producto__informacion'>" +
+          element.descripcion +
+          "</div>";
+        html +=
+          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        html += "<button class ='producto__boton'><i class = 'fa fa-shopping-cart'></i>Añadir al carrito</button>";
+        html += "</div>";
+      });
+      html += "</div>";
+      $(".l-page__content").html("");
+      $(".l-page__content").html(html);
+      //alert(location.href);
+    })
+    .fail(function() {
       console.log("consulta fallida");
     });
 }
@@ -240,7 +258,7 @@ function abrirNotificacion(mensaje) {
   $("#notificacion").addClass("notificacion--show");
 
   // After 3 seconds, remove the show class from DIV
-  setTimeout(function () {
+  setTimeout(function() {
     $("#notificacion").removeClass("notificacion--show");
   }, 3000);
 }
@@ -249,10 +267,32 @@ function abrirNotificacion(mensaje) {
 //   window.onpopstate()
 // }
 
-window.onbeforeunload = function () {
-  // Aquí poner todo el código de leer la url, ver en que página está y cargar lo correspondiente
-  return "¿Desea recargar la página web?";
-};
+function leerUrl() {
+  console.log("HECHO LEER URL HOLAAAA");
+  let url = location.href.split("Grupo2/")[1];
+  let prueba = url.split("/")[0];
+  console.log("Prueba: " + prueba);
+  switch (prueba) {
+    case "":
+      console.log("Hola1");
+      cargarImagenesCarousel();
+      break;
+    case "categorias":
+      console.log("Hola2");
+      cargarProductosCategoria("/" + url);
+      break;
+    case "productos":
+      break;
+    case "recetas":
+      break;
+    default:
+      // Aquí cargar una página de error
+      break;
+  }
+}
+
+window.addEventListener("hashchange", leerUrl);
+window.addEventListener("load", leerUrl);
 
 function registrar(e) {
   console.log("registro");
@@ -277,11 +317,11 @@ function registrar(e) {
     contentType: false,
     processData: false
   })
-    .done(function (res) {
+    .done(function(res) {
       console.log("done");
       // console.log(res);
     })
-    .fail(function (res) {
+    .fail(function(res) {
       console.log("fail");
       // console.log(res);
     });
