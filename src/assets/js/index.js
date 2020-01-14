@@ -2,38 +2,48 @@ let urlCliente = "http://localhost/Grupo2";
 let urlServidor = "http://127.0.0.1:8000/api";
 let urlImagenes = "http://127.0.0.1:8000";
 
-$(document).ready(function() {
+$(document).ready(function () {
   checkToken();
   cargarCategorias();
   cargarRedesSociales();
-  console.log("Va a ejercutarse leerURL");
+  // console.log("Va a ejercutarse leerURL");
   leerUrl();
-  console.log("ejecutado leerURL");
+  // console.log("ejecutado leerURL");
 
   //event listeners
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
-  $("#botonAbrirLogIn").on("click", abrirLogIn);
-  $("#botonRegistrarse").on("click", registrarse);
+  $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
-});
-
-//cerrar el log in al hacer click en la pagina
-$(document).mouseup(function(e) {
-  var container = $(".log-in");
-  $("#formularioRegistro").on("submit", registrar);
+  $(document).on("click", ".producto", abrirModal)
   $(document).on("click", "#botonLogout", logout);
-
-  if (!container.is(e.target) && container.has(e.target).length === 0) {
-    container.hide();
-  }
+  $("#formularioRegistro").on("submit", registrar);
+  $("#botonAbrirLogIn").on({
+    click: toggleLogin
+  });
+  $(".log-in").on({
+    mouseleave: toggleLogin
+  });
+  window.addEventListener("popstate", function (event) {
+    // console.log(event);
+    //$('.page-content').html(state);
+  });
 });
+
+function abrirModal() {
+  let nombreProducto = $(this).find(".producto__nombre").text()
+  let informacionProducto = $(this).find(".producto__informacion").text();
+  let precioProducto = $(this).find(".producto__precio").text();
+
+  $(".modal-producto__header").text(nombreProducto);
+  let html = "<p>" + informacionProducto + "</p>" + precioProducto;
+  $(".modal-producto__body").html(html);
+
+  $("#modalProducto").modal("show");
+}
 
 function toggleLogin() {
-  let altura = document
-    .getElementById("botonAbrirLogIn")
-    .getBoundingClientRect().height;
-  let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect()
-    .y;
+  let altura = document.getElementById("botonAbrirLogIn").getBoundingClientRect().height;
+  let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect().y;
 
   if ($(".log-in").hasClass("log-in__fade-in")) {
     $(".log-in").removeClass("log-in__fade-in");
@@ -49,40 +59,38 @@ function toggleLogin() {
 }
 
 function logout() {
-  window.localStorage.removeItem("Usuario");
+  window.localStorage.removeItem('Usuario');
   window.location.reload();
 }
 
 function checkToken() {
-  let token = "Bearer " + window.localStorage.getItem("Usuario");
+  let token = "Bearer " + window.localStorage.getItem('Usuario');
 
-  if (window.localStorage.getItem("Usuario") != null) {
+  if (window.localStorage.getItem('Usuario') != null) {
     $.ajax({
-      type: "POST",
-      url: "http://127.0.0.1:8000/api/auth/me",
-      headers: {
-        Authorization: token
-      }
-    }).done(function(response) {
-      abrirNotificacion("Bienvenido " + response.nickName + "!");
-      let html = "";
-      html = "<div class='usuario'>";
+        type: "POST",
+        url: urlServidor + "/auth/me",
+        headers: {
+          "Authorization": token
+        }
+      })
+      .done(function (response) {
+        abrirNotificacion("Bienvenido " + response.nickName + "!");
+        let html = "";
+        html = "<div class='usuario'>";
 
-      html +=
-        "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
-        response.avatar +
-        "'></img>";
-      html += "<div class='usuario__nick'>";
-      html += response.nickName;
-      html += "</div>";
-      html += "<div id='botonLogout' class='boton boton--terciario'>";
-      html += "Logout";
-      html += "</div>";
-      html += "</div>";
+        html += "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.avatar + "'></img>";
+        html += "<div class='usuario__nick'>";
+        html += response.nickName;
+        html += "</div>";
+        html += "<div id='botonLogout' class='boton boton--terciario'>";
+        html += "Logout";
+        html += "</div>";
+        html += "</div>";
 
-      $("#divPerfilLogin").html(html);
-      $(".log-in").hide();
-    });
+        $("#divPerfilLogin").html(html);
+        $(".log-in").hide();
+      });
   }
 }
 
@@ -90,27 +98,23 @@ function logIn() {
   let usuario = $("#inputUsuario").val();
   let password = $("#inputContrasenya").val();
   let objetoUsuario = {
-    email: usuario,
-    password: password
+    "email": usuario,
+    "password": password
   };
-  console.log(objetoUsuario);
 
   enviarLoginServidor(objetoUsuario);
 }
 
 function enviarLoginServidor(objetoUsuario) {
-  $.post(urlServidor + "/api/auth/login", objetoUsuario)
-    .done(function(response) {
-      window.localStorage.setItem("Usuario", response.access_token);
+  $.post(urlServidor + "/auth/login", objetoUsuario)
+    .done(function (response) {
+      window.localStorage.setItem('Usuario', response.access_token);
 
       abrirNotificacion("Bienvenido " + response.user.nickName + "!");
       let html = "";
       html = "<div class='usuario'>";
 
-      html +=
-        "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
-        response.user.avatar +
-        "'></img>";
+      html += "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.user.avatar + "'></img>";
       html += "<div class='usuario__nick'>";
       html += response.user.nickName;
       html += "</div>";
@@ -123,12 +127,12 @@ function enviarLoginServidor(objetoUsuario) {
       $("#divPerfilLogin").html(html);
       $(".log-in").hide();
     })
-    .fail(function() {
+    .fail(function () {
       abrirNotificacion("Login fallido");
     });
 }
 
-function registrarse() {
+function abrirRegistro() {
   window.location.replace("registro.html");
 }
 
@@ -138,30 +142,22 @@ function toggleHamburguesa() {
   if (!$(".l-page").hasClass("l-page--con-sidebar")) {
     //abrir el menu lateral
     $(".l-page").removeClass("l-page--sin-sidebar");
-    $(".l-page__menu-lateral").removeClass(
-      "l-page__menu-lateral__animacion-cerrar"
-    );
+    $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-cerrar");
     $(".l-page__content").removeClass("l-page__content__animacion-sin-sidebar");
 
     $(".l-page").addClass("l-page--con-sidebar");
-    $(".l-page__menu-lateral").addClass(
-      "l-page__menu-lateral__animacion-abrir"
-    );
+    $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-abrir");
     $(".l-page__content").addClass("l-page__content__animacion-con-sidebar");
 
     $(".menu-lateral__hamburguesa").html("<i class='fas fa-times'></i>");
   } else {
     //cerrar el menu lateral
     $(".l-page").removeClass("l-page--con-sidebar");
-    $(".l-page__menu-lateral").removeClass(
-      "l-page__menu-lateral__animacion-abrir"
-    );
+    $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-abrir");
     $(".l-page__content").removeClass("l-page__content__animacion-con-sidebar");
 
     $(".l-page").addClass("l-page--sin-sidebar");
-    $(".l-page__menu-lateral").addClass(
-      "l-page__menu-lateral__animacion-cerrar"
-    );
+    $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-cerrar");
     $(".l-page__content").addClass("l-page__content__animacion-sin-sidebar");
 
     $(".menu-lateral__hamburguesa").html("<i class='fas fa-bars'></i>");
@@ -172,7 +168,7 @@ function cargarCategorias() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/categorias"
-  }).done(function(response) {
+  }).done(function (response) {
     let html = "";
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
@@ -206,11 +202,10 @@ function cargarCategorias() {
 }
 
 function cargarImagenesCarousel() {
-  console.log("entrado");
   $.ajax({
     type: "GET",
     url: urlServidor + "/carousel"
-  }).done(function(response) {
+  }).done(function (response) {
     let html = "";
     let contador = 0;
     response.imagenes.forEach(element => {
@@ -234,24 +229,13 @@ function cargarRedesSociales() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/redessociales"
-  }).done(function(response) {
-    console.log(response.mensaje);
+  }).done(function (response) {
     let numRedes = response.data.length;
     let html = "";
 
-    html +=
-      "<div class='l-columnas l-columnas" +
-      (numRedes <= 4 ? "--" + numRedes + "-columnas" : "--4-columnas") +
-      "'>";
+    html += "<div class='l-columnas l-columnas" + (numRedes <= 4 ? "--" + numRedes + "-columnas" : "--4-columnas") + "'>";
     response.data.forEach(element => {
-      html +=
-        "<a href='" +
-        element.enlace +
-        "' class='red'><i class='red__icono " +
-        element.icono +
-        "'></i>" +
-        element.nombre +
-        "</a>";
+      html += "<a href='" + element.enlace + "' class='red'><i class='red__icono " + element.icono + "'></i>" + element.nombre + "</a>";
     });
     html += "</div>";
     $(".footer__enlaces").append(html);
@@ -259,18 +243,21 @@ function cargarRedesSociales() {
 }
 
 function cargarProductosCategoria(url) {
-  console.log(url);
+  // console.log(url);
+  toggleHamburguesa();
 
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      console.log("Consulta done");
-      window.history.pushState({ categoria: url }, url, urlCliente + url);
-      console.log("productos");
-      console.log(response);
-      console.log(response.mensaje);
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      // console.log("Consulta done");
+      window.history.pushState({
+        categoria: url
+      }, url, urlCliente + url);
+      // console.log("productos");
+      // console.log(response);
+      // console.log(response.mensaje);
       let numRedes = response.data.length;
       let html =
         "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
@@ -289,7 +276,6 @@ function cargarProductosCategoria(url) {
           "</div>";
         html +=
           "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-        html += "<button class ='producto__boton'><i class = 'fa fa-shopping-cart'></i>Añadir al carrito</button>";
         html += "</div>";
       });
       html += "</div>";
@@ -297,18 +283,17 @@ function cargarProductosCategoria(url) {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {
-      console.log("consulta fallida");
+    .fail(function () {
+      // console.log("consulta fallida");
     });
 }
 
 function abrirNotificacion(mensaje) {
-  console.log(mensaje);
   $("#notificacion").text(mensaje);
   $("#notificacion").addClass("notificacion--show");
 
   // After 3 seconds, remove the show class from DIV
-  setTimeout(function() {
+  setTimeout(function () {
     $("#notificacion").removeClass("notificacion--show");
   }, 3000);
 }
@@ -318,17 +303,17 @@ function abrirNotificacion(mensaje) {
 // }
 
 function leerUrl() {
-  console.log("HECHO LEER URL HOLAAAA");
+  // console.log("HECHO LEER URL HOLAAAA");
   let url = location.href.split("Grupo2/")[1];
   let prueba = url.split("/")[0];
-  console.log("Prueba: " + prueba);
+  // console.log("Prueba: " + prueba);
   switch (prueba) {
     case "":
-      console.log("Hola1");
+      // console.log("Hola1");
       cargarImagenesCarousel();
       break;
     case "categorias":
-      console.log("Hola2");
+      // console.log("Hola2");
       cargarProductosCategoria("/" + url);
       break;
     case "productos":
@@ -350,8 +335,8 @@ function registrar(e) {
   let usuario = $("#inputEmail").val();
   let password = $("#inputPassword1").val();
   let objetoUsuario = {
-    email: usuario,
-    password: password
+    "email": usuario,
+    "password": password
   };
   var formData = new FormData(this);
   formData.append("nombre", $("#inputNombre").val());
@@ -362,24 +347,33 @@ function registrar(e) {
   formData.append("password2", $("#inputPassword2").val());
   formData.append("avatar", $("#inputAvatar")[0].files[0]);
 
+
   console.log(urlServidor + "/auth/register");
 
   $.ajax({
-    url: urlServidor + "/auth/register",
-    type: "post",
-    data: formData,
-    cache: false,
-    contentType: false,
-    processData: false
-  })
-    .done(function(res) {
+      url: urlServidor + "/auth/register",
+      type: "post",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function (res) {
+      console.log("done");
+
+      console.log(res);
+      console.log(res.responseText);
       abrirNotificacion("Registro completado");
       setTimeout(() => {
         // location.href(urlCliente);
         enviarLoginServidor(objetoUsuario);
       }, 1000);
     })
-    .fail(function(res) {
+    .fail(function (res) {
+      console.log("fail");
+
+      console.log(res);
+      console.log(res.responseText);
       abrirNotificacion("Registro fallido");
     });
 }

@@ -9,6 +9,7 @@
         "l-page__menu-lateral l-page__content"
         "l-page__footer l-page__footer";
     grid-auto-columns: 10% 90%;
+    background-color: #343434;
 
     &__header {
         grid-area: l-page__header;
@@ -20,8 +21,9 @@
 
         width: 100vw;
         left: -10vw;
+        background-color: $colorPrincipal;
 
-        //animacion cerrar content
+        //oscurecer fondo
         &__animacion-sin-sidebar {
             animation-name: animacion__sin-sidebar;
             animation-duration: 0.5s;
@@ -30,44 +32,38 @@
         }
 
         @keyframes animacion__sin-sidebar {
-            0% {
-                width: 90vw;
-                left: 0;
+            0%{
+                opacity: 0.6;
             }
-
             100% {
-                width: 100vw;
-                left: -10vw;
+                opacity: 1;
             }
         }
 
-        //animacion abrir content
+        //aclarar fondo
         &__animacion-con-sidebar {
             animation-name: animacion__con-sidebar;
             animation-duration: 0.5s;
             animation-fill-mode: forwards;
-            animation-direction: reverse;
             animation-timing-function: ease-in-out;
         }
 
         @keyframes animacion__con-sidebar {
-            0% {
-                width: 90vw;
-                left: 0;
+            0%{
+                opacity: 1;
             }
-
             100% {
-                width: 100vw;
-                left: -10vw;
+               opacity: 0.6;
             }
         }
     }
 
     &__menu-lateral {
         grid-area: l-page__menu-lateral;
+        z-index: 999;
         position: relative;
-
         left: -10vw;
+        width: 10vw;
 
         //animacion cerrar hamburguesa lateral
         &__animacion-cerrar {
@@ -109,7 +105,6 @@
 
     &__footer {
         grid-area: l-page__footer;
-        padding-top: 2%;
     }
 
 

@@ -88,31 +88,41 @@
     </div>
 
     <div class="log-in">
-      <div class="log-in__nombre">
-        <div class="log-in__label"><i class="fas fa-user"></i></div>
-        <input
-          id="inputUsuario"
-          class="log-in__input"
-          type="text"
-          placeholder="Correo electrónico..."
-        />
-      </div>
-      <div class="log-in__contrasenya">
-        <div class="log-in__label"><i class="fas fa-key"></i></div>
-        <input
-          id="inputContrasenya"
-          class="log-in__input"
-          type="password"
-          placeholder="Contraseña..."
-        />
-      </div>
-      <div class="log-in__boton">
-        <div class="boton" id="botonLogin">
-          Entrar
+        <div class="log-in__nombre">
+            <div class="log-in__label"><i class="fas fa-user"></i></div>
+            <input id="inputUsuario" class="log-in__input" type="text" placeholder="Correo electrónico...">
+        </div>
+        <div class="log-in__contrasenya">
+            <div class="log-in__label"><i class="fas fa-key"></i></div>
+            <input id="inputContrasenya" class="log-in__input" type="password" placeholder="Contraseña...">
+        </div>
+        <div class="log-in__boton">
+            <div class="boton boton--primario" id="botonLogin">
+                <div class="boton__icono">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+            </div>
         </div>
     </div>
 
     <div id="notificacion" class="notificacion"></div>
+
+    <div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content modal-producto">
+            <div id="modalHeader" class="modal-producto__header">
+              titulo
+            </div>
+            <div id="modalBody" class="modal-producto__body">
+              texto
+            </div>
+            <div class="modal-producto__footer">
+              <div class="boton boton--terciario" data-dismiss="modal">Cerrar</div>
+              <div class="boton boton--primario">Añadir al carrito</div>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 
 </html>

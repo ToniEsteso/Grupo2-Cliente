@@ -1,0 +1,23 @@
+.modal-producto {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr 5fr 1fr;
+    padding: 1%;
+
+    &__header {
+        display: flex;
+        padding: 2% 5%;
+        font-weight: bold;
+        font-size: 1.5em;
+        color: $colorCuaternario;
+    }
+
+    &__content {
+        padding: 2% 5%;
+    }
+
+    &__footer {
+        display: flex;
+        padding: 2%;
+    }
+}
