@@ -17,6 +17,7 @@ $(document).ready(function () {
   $(document).on("click", ".producto", abrirModal)
   $(document).on("click", "#botonLogout", logout);
   $("#formularioRegistro").on("submit", registrar);
+  $("#volverAtrasRegistro").attr("href", urlCliente);
   $("#botonAbrirLogIn").on({
     click: toggleLogin
   });
@@ -68,12 +69,12 @@ function checkToken() {
 
   if (window.localStorage.getItem('Usuario') != null) {
     $.ajax({
-        type: "POST",
-        url: urlServidor + "/auth/me",
-        headers: {
-          "Authorization": token
-        }
-      })
+      type: "POST",
+      url: urlServidor + "/auth/me",
+      headers: {
+        "Authorization": token
+      }
+    })
       .done(function (response) {
         abrirNotificacion("Bienvenido " + response.nickName + "!");
         let html = "";
@@ -133,7 +134,8 @@ function enviarLoginServidor(objetoUsuario) {
 }
 
 function abrirRegistro() {
-  window.location.replace("registro.html");
+  window.location = urlCliente + "/registro.html";
+  // window.location.replace("registro.html");
 }
 
 function toggleHamburguesa() {
@@ -247,9 +249,9 @@ function cargarProductosCategoria(url) {
   toggleHamburguesa();
 
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
+    type: "GET",
+    url: urlServidor + url
+  })
     .done(function (response) {
       // console.log("Consulta done");
       window.history.pushState({
@@ -309,11 +311,10 @@ function leerUrl() {
   // console.log("Prueba: " + prueba);
   switch (prueba) {
     case "":
-      // console.log("Hola1");
+      cargarPrincipal();
       cargarImagenesCarousel();
       break;
     case "categorias":
-      // console.log("Hola2");
       cargarProductosCategoria("/" + url);
       break;
     case "productos":
@@ -351,13 +352,13 @@ function registrar(e) {
   console.log(urlServidor + "/auth/register");
 
   $.ajax({
-      url: urlServidor + "/auth/register",
-      type: "post",
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false
-    })
+    url: urlServidor + "/auth/register",
+    type: "post",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false
+  })
     .done(function (res) {
       console.log("done");
 
@@ -376,4 +377,29 @@ function registrar(e) {
       console.log(res.responseText);
       abrirNotificacion("Registro fallido");
     });
+}
+
+function cargarPrincipal() {
+  let html = "";
+  html += '<div class="portada">';
+  html += '<div class="portada__carousel">';
+  html += '<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">';
+  html += '<div id="carousel" class="carousel-inner" ></div >';
+  html += '</div >';
+  html += '</div >';
+  html += '<div class="portada__paneles">';
+  html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">';
+  html += '  <div class="l-columnas__item">';
+  html += '     <div class="boton boton--primario">Categorias</div>';
+  html += '     </div>';
+  html += '    <div class="l-columnas__item">';
+  html += '      <div class="boton boton--primario">Productos</div>';
+  html += '    </div>';
+  html += '    <div class="l-columnas__item">';
+  html += '      <div class="boton boton--primario"> Recetas</div>';
+  html += '</div>';
+  html += '  </div>';
+  html += '   </div>';
+  html += ' </div > ';
+  $(".l-page__content").html(html);
 }
