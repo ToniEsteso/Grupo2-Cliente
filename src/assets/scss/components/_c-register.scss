@@ -12,13 +12,9 @@
     &__item--derecha{
         grid-area: derecha;
         
-        background: rgba(0,0,0,.6);
         width:100%;
-        max-width: 650px;
-        padding:5px 35px;
-        margin-top:30px;
+        padding:10px 35px;
         border-radius: 3px;
-        margin-right: 400px;
 
     }
     &__logo{
@@ -31,71 +27,15 @@
     &__tittle{
 
         text-align: center;
-        color:#ff851b;
+        color:$colorCuaternario;
     }
     &__msg{
-        color:#ff851b;
+        color:$colorCuaternario;
         font-size: 15px;
     }
     &__welcome{
         
-        color:#ff851b;
+        color:$colorCuaternario;
         font-size: 50px;
     }
-}
-
-.form{
-
-    &-label{
-
-        display: block;
-        color:#ff851b;
-        font-size:16px;
-        position: relative;
-    }
-
-    &-input{
-
-        background: $colorPrincipal;
-        border:none;
-        outline:none;
-        border-bottom:2px solid #ff851b;
-        width:100%;
-        padding:12px;
-        margin-bottom: 20px;
-        border-radius: 2px;
-        font-size: 14px;
-        color:black;
-    }
-
-    &-submit{
-
-        width:100%;
-        outline:none;
-        background:#ff851b ;
-        font-size:16px;
-        border:none;
-        color:white;
-        padding:10px 0;
-        cursor:pointer;
-        margin-top:30px;
-        margin-bottom:20px;
-    }
-
-    &-submit:hover{
-
-        background:#F29718 ;
-
-    }
-
-}
-
-@-webkit-keyframes mover {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-20px); }
-}
-
-@keyframes mover {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-20px); }
 }

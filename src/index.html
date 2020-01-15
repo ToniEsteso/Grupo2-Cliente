@@ -35,7 +35,13 @@
                         <button class="barra-busqueda__boton" type="submit"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
-                <div class="menu__item menu__item--derecho" id="divPerfilLogin">
+                <div class="menu__item">
+                    <div class='carrito'>
+                        <i class='fas fa-shopping-cart carrito__icono'></i>
+                        <div class="carrito__num-productos">0</div>
+                    </div>
+                </div>
+                <div class="menu__item" id="divPerfilLogin">
                     <div id="botonAbrirLogIn" class="boton boton--terciario">Log in</div>
                     <div id="botonRegistrarse" class="boton boton--secundario">Registrarse</div>
                 </div>
@@ -58,26 +64,11 @@
         </div>
     </div>
 
-    <div class="log-in">
-        <div class="log-in__nombre">
-            <div class="log-in__label"><i class="fas fa-user"></i></div>
-            <input id="inputUsuario" class="log-in__input" type="text" placeholder="Correo electrónico...">
-        </div>
-        <div class="log-in__contrasenya">
-            <div class="log-in__label"><i class="fas fa-key"></i></div>
-            <input id="inputContrasenya" class="log-in__input" type="password" placeholder="Contraseña...">
-        </div>
-        <div class="log-in__boton">
-            <div class="boton boton--primario" id="botonLogin">
-                <div class="boton__icono">
-                    <i class="fas fa-sign-in-alt"></i>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <div id="notificacion" class="notificacion"></div>
 
+    <!-- MODAL PRODUCTO -->
     <div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -90,7 +81,72 @@
                 </div>
                 <div class="modal-producto__footer">
                     <div class="boton boton--terciario" data-dismiss="modal">Cerrar</div>
-                    <div class="boton boton--primario">Añadir al carrito</div>
+                    <div id="botonAnyadirCarrito" class="boton boton--primario">Añadir al carrito</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="modalRegistro" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="register__item register__item--derecha">
+                    <form class="form" enctype="multipart/form__data" id="formularioRegistro" method="post">
+                        <label for="nombre" class="form__label">Nombre:</label>
+                        <input id="inputNombre" type="text" class="form__input" placeholder="Escriba su nombre">
+
+                        <label for="apellidos" class="form__label">Apellidos:</label>
+                        <input id="inputApellidos" type="text" class="form__input" placeholder="Escriba sus apellidos">
+
+                        <label for="email" class="form__label">Email:</label>
+                        <input id="inputEmail" type="text" class="form__input"
+                            placeholder="Escriba su correo electrónico">
+
+                        <label for="nick" class="form__label">Nick:</label>
+                        <input id="inputNick" type="text" class="form__input" placeholder="Escriba su nick">
+
+                        <label for="pass" class="form__label">Contraseña:</label>
+                        <input id="inputPassword1" type="password" class="form__input"
+                            placeholder="Escriba su contraseña">
+
+                        <label for="pass" class="form__label">Repite la contraseña:</label>
+                        <input id="inputPassword2" type="password" class="form__input"
+                            placeholder="Repite la contraseña">
+
+                        <label for="avatar" class="form__label">Imagen de Perfil:</label>
+                        <input id="inputAvatar" type="file" class="form__input"
+                            placeholder="Escoja su imagen de perfil">
+
+                        <input id="botonRegistrar" type="submit" class="boton boton--primario" value="Registrarse">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LOG IN -->
+    <div class="modal fade" id="modalLogIn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="log-in form">
+                    <div class="log-in__nombre">
+                        <div class="form__label"><i class="fas fa-user"></i></div>
+                        <input id="inputUsuario" class="form__input" type="text" placeholder="Correo electrónico...">
+                    </div>
+                    <div class="log-in__contrasenya">
+                        <div class="form__label"><i class="fas fa-key"></i></div>
+                        <input id="inputContrasenya" class="form__input" type="password" placeholder="Contraseña...">
+                    </div>
+                    <div class="log-in__boton">
+                        <div class="boton boton--primario" id="botonLogin">
+                            <div class="boton__icono">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
