@@ -1,0 +1,22 @@
+.icono-carrito {
+    position: relative;
+    cursor: pointer;
+
+    &__icono {
+        font-size: 2rem;
+        color: $colorCuaternario;
+    }
+
+    &__num-productos {
+        position: absolute;
+        height: 25px;
+        width: 25px;
+        top: -12px;
+        right: -12px;
+        border-radius: 100%;
+        border: 1px solid $colorCuaternario;
+        background-color: white;
+        text-align: center;
+        color: $colorCuaternario;
+    }
+}

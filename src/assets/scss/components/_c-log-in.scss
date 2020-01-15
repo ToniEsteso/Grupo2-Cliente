@@ -3,7 +3,7 @@
     position: absolute;
 
     background-color: white;
-    padding: 10px;
+    padding: 50px;
     border-radius: 5px;
     width: 100%;
 
@@ -15,51 +15,19 @@
 
     &__nombre {
         display: flex;
+        align-items: center;
+        margin-bottom: 30px;
     }
 
     &__contrasenya {
         display: flex;
+        align-items: center;
+        margin-bottom: 30px;
     }
 
     &__boton {
         width: 100%;
+        display: flex;
+        align-items: center;
     }
-
-    // &__fade-in {
-    //     animation-name: login-fade-in;
-    //     animation-duration: 1s;
-    //     animation-fill-mode: forwards;
-    // }
-
-    // @keyframes login-fade-in {
-
-    //     0% {
-    //         display: flex;
-    //         opacity: 0;
-    //     }
-
-    //     100% {
-    //         opacity: 1;
-    //     }
-    // }
-
-    // &__fade-out {
-    //     animation-name: login-fade-out;
-    //     animation-duration: 1s;
-    //     animation-fill-mode: forwards;
-    // }
-
-    // @keyframes login-fade-out {
-
-    //     0% {
-    //         display: flex;
-    //         opacity: 1;
-    //     }
-
-    //     100% {
-    //         visibility: hidden;
-    //         opacity: 0;
-    //     }
-
-    // }
 }

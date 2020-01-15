@@ -8,6 +8,7 @@ class Producto {
     this.precio = precio;
     this.descripcion = descripcion;
     this.imagen = imagen;
+    this.unidades = 1;
   }
 }
 class Carrito {
@@ -15,9 +16,28 @@ class Carrito {
     this.productos = [];
   }
   anyadirProducto(producto) {
-    this.productos.push(producto);
-    $(".carrito__num-productos").text(this.productos.length);
-    console.log(this.productos);
+    if (this.productos.includes(producto)) {
+      let repetido = this.productos.find(prod => prod == producto);
+      repetido.unidades++;
+    } else {
+      this.productos.push(producto);
+    }
+
+    this.actualizarContador();
+  }
+
+  borrarProducto(idProducto) {
+    console.log("borrar producto id: " + idProducto);
+    console.log("index: " + this.productos.findIndex(prod => prod.id == idProducto));
+
+    this.productos.splice(this.productos.findIndex(prod => prod.id == idProducto), 1);
+
+    this.actualizarContador();
+    cargarProductosCarrito();
+  }
+
+  actualizarContador() {
+    $(".icono-carrito__num-productos").text(this.productos.length);
   }
 }
 
@@ -41,6 +61,7 @@ $(document).ready(function () {
   $(document).on("click", "#botonLogout", logout);
   $("#formularioRegistro").on("submit", registrar);
   $("#volverAtrasRegistro").attr("href", urlCliente);
+  $(".icono-carrito").on("click", cargarProductosCarrito);
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
   $("#botonAbrirLogIn").on({
     click: toggleLogin
@@ -54,9 +75,41 @@ $(document).ready(function () {
   });
 });
 
+function cargarProductosCarrito() {
+  console.log(carrito);
+  let html = "";
+  if (carrito.productos.length === 0) {
+    html += "<div class='producto-carrito'>"
+    html += "No tienes productos en el carrito";
+    html += "</div>";
+  } else {
+    carrito.productos.forEach(prod => {
+      html += "<div class='producto-carrito'>"
+      html += "<img src='" + urlImagenes + prod.imagen + "' class='producto-carrito__imagen'>";
+      html += "<div class='producto-carrito__nombre'>";
+      html += prod.nombre;
+      html += "</div>";
+      html += "<div class='producto-carrito__unidades'>";
+      html += prod.unidades;
+      html += "</div>";
+      html += "<div class='producto-carrito__precio'>";
+      html += prod.unidades * prod.precio;
+      html += "</div>";
+      html += "<div class='producto-carrito__borrar' onclick=carrito.borrarProducto(" + prod.id + ")>";
+      html += "<i class='fas fa-trash'></i>";
+      html += "</div>";
+      html += "</div>";
+    });
+  }
+  $(".carrito").html(html)
+  $("#modalCarrito").modal("show");
+}
+
 function anyadirProducto() {
   let nombreProducto = $(this).parents().find(".modal-producto__header").text();
-  carrito.anyadirProducto(nombreProducto);
+  let producto = productosGlobal.find(element => element.nombre == nombreProducto);
+
+  carrito.anyadirProducto(producto);
 }
 
 function abrirModalProducto() {
@@ -66,7 +119,7 @@ function abrirModalProducto() {
   let imagenProducto = $(this).find(".producto__imagen").attr("src");
 
   $(".modal-producto__header").text(nombreProducto);
-  let html =  "<img class = 'modal-imagen' src = '" +imagenProducto+"'></img>"  + "<p>" + informacionProducto + "</p>"+ "<p>" + precioProducto + "</p>";
+  let html = "<img class = 'modal-imagen' src = '" + imagenProducto + "'></img>" + "<p>" + informacionProducto + "</p>" + "<p>" + precioProducto + "</p>";
   $(".modal-producto__body").html(html);
 
   $("#modalProducto").modal("show");
@@ -155,9 +208,6 @@ function enviarLoginServidor(objetoUsuario) {
       html += "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.user.avatar + "'></img>";
       html += "<div class='usuario__nick'>";
       html += response.user.nickName;
-      html += "</div>";
-      html += "<div class='usuario__carrito'>";
-      html += "<i class='fas fa-shopping-cart'></i>"
       html += "</div>";
       html += "<div id='botonLogout' class='boton boton--terciario'>";
       html += "Logout";
@@ -302,9 +352,9 @@ function cargarProductosCategoria(url) {
 
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-xl'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
-        let producto = new Producto(element.id, element.nombre, element.precio, element.descripcion, element.imagen);
+        let producto = new Producto(element.id, element.nombre, element.precio, element.descripcion, response.rutaServerImagenes + element.imagen);
 
         let existe = false;
         productosGlobal.forEach(element => {
@@ -345,56 +395,9 @@ function cargarProductosCategoria(url) {
 function cargarProductos() {
   let url = "/productos";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function (response) {
-      // console.log("Consulta done");
-      window.history.pushState({
-        categoria: url
-      }, url, urlCliente + url);
-      // console.log("productos");
-      // console.log(response);
-      // console.log(response.mensaje);
-      let numRedes = response.data.length;
-      let html =
-        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
-      response.data.forEach(element => {
-        html += "<div class='producto'>";
-        html +=
-          "<img class='producto__imagen' src='" +
-          urlImagenes +
-          response.rutaImagenesServer +
-          element.imagen +
-          "'>";
-        console.log("urlImagenes  --> " + urlImagenes);
-        console.log("response.rutaServerImagenes  --> " + response.rutaServerImagenes);
-        console.log("element.imagen  --> " + element.imagen);
-        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
-        html +=
-          "<div class='producto__informacion'>" +
-          element.descripcion +
-          "</div>";
-        html +=
-          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-        html += "</div>";
-      });
-      html += "</div>";
-      $(".l-page__content").html("");
-      $(".l-page__content").html(html);
-      //alert(location.href);
+      type: "GET",
+      url: urlServidor + url
     })
-    .fail(function () {
-      // console.log("consulta fallida");
-    });
-}
-
-function cargarProductos() {
-  let url = "/productos";
-  $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
     .done(function (response) {
       // console.log("Consulta done");
       window.history.pushState({
@@ -405,7 +408,7 @@ function cargarProductos() {
       // console.log(response.mensaje);
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-xl'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         html += "<div class='producto'>";
         html +=
@@ -439,9 +442,9 @@ function cargarProductos() {
 function cargarRecetas() {
   let url = "/recetas";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
+      type: "GET",
+      url: urlServidor + url
+    })
     .done(function (response) {
       // console.log("Consulta done");
       window.history.pushState({
@@ -462,7 +465,7 @@ function cargarRecetas() {
           element.imagen +
           "'>";
         html += "<div class='producto__nombre'>" + element.nombre + "</div>";
-        
+
         html +=
           "<a href='" + element.enlace + "'><div class='boton boton--secundario'> Enlace Web </div></a>";
         html += "</div>";
@@ -547,6 +550,7 @@ function registrar(e) {
       processData: false
     })
     .done(function (res) {
+      console.log(res);
       enviarLoginServidor(objetoUsuario);
       $("#modalRegistro").modal("hide");
       abrirNotificacion("Registro completado");

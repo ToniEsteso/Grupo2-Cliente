@@ -5,17 +5,16 @@
     "producto__nombre"
     "producto__informacion"
     "producto__precio";
-    grid-template-rows: 250px 40px 50px 50px;
+  grid-template-rows: 250px 40px 50px 50px;
 
-  box-shadow:15px 10px 15px rgb(182, 179, 179);
+  box-shadow: 15px 10px 15px rgb(182, 179, 179);
   border-radius: 3px;
   padding: 10px;
-  margin: 1em;
   overflow: hidden;
   position: relative;
   flex: auto;
 
-  width:350px;
+  width: 100%;
 
   &__imagen {
     grid-area: producto__imagen;

@@ -24,7 +24,7 @@
         <div class="l-page__header">
             <!-- Pensar otro nombre para cabecera -->
             <div class="menu">
-                <div class="menu__item menu__item--izquierdo">
+                <div class="menu__item">
                     <a href="/Grupo2"><img class="logo" src="http://localhost/Grupo2/assets/img/logo.png" />
                     </a>
                 </div>
@@ -36,9 +36,9 @@
                     </div>
                 </div>
                 <div class="menu__item">
-                    <div class='carrito'>
-                        <i class='fas fa-shopping-cart carrito__icono'></i>
-                        <div class="carrito__num-productos">0</div>
+                    <div class='icono-carrito'>
+                        <i class='fas fa-shopping-cart icono-carrito__icono'></i>
+                        <div class="icono-carrito__num-productos">0</div>
                     </div>
                 </div>
                 <div class="menu__item" id="divPerfilLogin">
@@ -129,7 +129,7 @@
     <!-- MODAL LOG IN -->
     <div class="modal fade" id="modalLogIn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="log-in form">
                     <div class="log-in__nombre">
@@ -140,13 +140,21 @@
                         <div class="form__label"><i class="fas fa-key"></i></div>
                         <input id="inputContrasenya" class="form__input" type="password" placeholder="Contraseña...">
                     </div>
-                    <div class="log-in__boton">
-                        <div class="boton boton--primario" id="botonLogin">
-                            <div class="boton__icono">
-                                <i class="fas fa-sign-in-alt"></i>
-                            </div>
-                        </div>
+                    <div class="boton boton--primario log-in__boton" id="botonLogin">
+                        Log in
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CARRITO -->
+    <div class="modal fade bd-example-modal-lg" id="modalCarrito" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="carrito">
+
                 </div>
             </div>
         </div>
