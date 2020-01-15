@@ -341,6 +341,94 @@ function cargarProductosCategoria(url) {
     });
 }
 
+function cargarProductos() {
+  let url = "/productos";
+  $.ajax({
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function (response) {
+      // console.log("Consulta done");
+      window.history.pushState({
+        categoria: url
+      }, url, urlCliente + url);
+      // console.log("productos");
+      // console.log(response);
+      // console.log(response.mensaje);
+      let numRedes = response.data.length;
+      let html =
+        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
+      response.data.forEach(element => {
+        html += "<div class='producto'>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          response.rutaImagenesServer +
+          element.imagen +
+          "'>";
+        console.log("urlImagenes  --> " + urlImagenes);
+        console.log("response.rutaServerImagenes  --> " + response.rutaServerImagenes);
+        console.log("element.imagen  --> " + element.imagen);
+        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
+        html +=
+          "<div class='producto__informacion'>" +
+          element.descripcion +
+          "</div>";
+        html +=
+          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        html += "</div>";
+      });
+      html += "</div>";
+      $(".l-page__content").html("");
+      $(".l-page__content").html(html);
+      //alert(location.href);
+    })
+    .fail(function () {
+      // console.log("consulta fallida");
+    });
+}
+
+function cargarRecetas() {
+  let url = "/recetas";
+  $.ajax({
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function (response) {
+      // console.log("Consulta done");
+      window.history.pushState({
+        categoria: url
+      }, url, urlCliente + url);
+      // console.log("productos");
+      // console.log(response);
+      // console.log(response.mensaje);
+      let numRedes = response.data.length;
+      let html =
+        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
+      response.data.forEach(element => {
+        html += "<div class='producto'>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          response.rutaImagenesServer +
+          element.imagen +
+          "'>";
+        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
+        
+        html +=
+          "<a href='" + element.enlace + "'><div class='boton boton--secundario'> Enlace Web </div></a>";
+        html += "</div>";
+      });
+      html += "</div>";
+      $(".l-page__content").html("");
+      $(".l-page__content").html(html);
+      //alert(location.href);
+    })
+    .fail(function () {
+      // console.log("consulta fallida");
+    });
+}
+
 function abrirNotificacion(mensaje) {
   $("#notificacion").text(mensaje);
   $("#notificacion").addClass("notificacion--show");
@@ -438,10 +526,10 @@ function cargarPrincipal() {
   html += '     <div class="boton boton--primario">Categorias</div>';
   html += '     </div>';
   html += '    <div class="l-columnas__item">';
-  html += '      <div class="boton boton--primario">Productos</div>';
+  html += '      <div class="boton boton--primario" onclick="cargarProductos()">Productos</div>';
   html += '    </div>';
   html += '    <div class="l-columnas__item">';
-  html += '      <div class="boton boton--primario"> Recetas</div>';
+  html += '      <div class="boton boton--primario" onclick="cargarRecetas()"> Recetas</div>';
   html += '</div>';
   html += '  </div>';
   html += '   </div>';
