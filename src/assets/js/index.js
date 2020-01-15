@@ -40,7 +40,12 @@ $(document).ready(function () {
   $(document).on("click", ".producto", abrirModalProducto)
   $(document).on("click", "#botonLogout", logout);
   $("#formularioRegistro").on("submit", registrar);
-  $("#volverAtrasRegistro").attr("href", urlCliente);
+  $(document).on("click", "#logoHeader", function () {
+    window.history.pushState({
+      categoria: urlCliente
+    }, urlCliente, urlCliente + "/")
+    leerUrl();
+  });
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
   $("#botonAbrirLogIn").on({
     click: toggleLogin
@@ -66,7 +71,7 @@ function abrirModalProducto() {
   let imagenProducto = $(this).find(".producto__imagen").attr("src");
 
   $(".modal-producto__header").text(nombreProducto);
-  let html =  "<img class = 'modal-imagen' src = '" +imagenProducto+"'></img>"  + "<p>" + informacionProducto + "</p>"+ "<p>" + precioProducto + "</p>";
+  let html = "<img class = 'modal-imagen' src = '" + imagenProducto + "'></img>" + "<p>" + informacionProducto + "</p>" + "<p>" + precioProducto + "</p>";
   $(".modal-producto__body").html(html);
 
   $("#modalProducto").modal("show");
@@ -104,12 +109,12 @@ function checkToken() {
 
   if (window.localStorage.getItem('Usuario') != null) {
     $.ajax({
-        type: "POST",
-        url: urlServidor + "/auth/me",
-        headers: {
-          "Authorization": token
-        }
-      })
+      type: "POST",
+      url: urlServidor + "/auth/me",
+      headers: {
+        "Authorization": token
+      }
+    })
       .done(function (response) {
         abrirNotificacion("Bienvenido " + response.nickName + "!");
         let html = "";
@@ -291,9 +296,9 @@ function cargarProductosCategoria(url) {
   toggleHamburguesa();
 
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
+    type: "GET",
+    url: urlServidor + url
+  })
     .done(function (response) {
       window.history.pushState({
         categoria: url
@@ -462,7 +467,7 @@ function cargarRecetas() {
           element.imagen +
           "'>";
         html += "<div class='producto__nombre'>" + element.nombre + "</div>";
-        
+
         html +=
           "<a href='" + element.enlace + "'><div class='boton boton--secundario'> Enlace Web </div></a>";
         html += "</div>";
@@ -494,23 +499,28 @@ function abrirNotificacion(mensaje) {
 function leerUrl() {
   // console.log("HECHO LEER URL HOLAAAA");
   let url = location.href.split("Grupo2/")[1];
-  let prueba = url.split("/")[0];
-  // console.log("Prueba: " + prueba);
-  switch (prueba) {
-    case "":
-      cargarPrincipal();
-      cargarImagenesCarousel();
-      break;
-    case "categorias":
-      cargarProductosCategoria("/" + url);
-      break;
-    case "productos":
-      break;
-    case "recetas":
-      break;
-    default:
-      // Aquí cargar una página de error
-      break;
+  if (typeof url !== "undefined") {
+    let prueba = url.split("/")[0];
+    // console.log("Prueba: " + prueba);
+    switch (prueba) {
+      case "":
+        cargarPrincipal();
+        cargarImagenesCarousel();
+        break;
+      case "categorias":
+        cargarProductosCategoria("/" + url);
+        break;
+      case "productos":
+        break;
+      case "recetas":
+        break;
+      default:
+        // Aquí cargar una página de error
+        break;
+    }
+  } else {
+    cargarPrincipal();
+    cargarImagenesCarousel();
   }
 }
 
@@ -539,13 +549,13 @@ function registrar(e) {
   console.log(urlServidor + "/auth/register");
 
   $.ajax({
-      url: urlServidor + "/auth/register",
-      type: "post",
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false
-    })
+    url: urlServidor + "/auth/register",
+    type: "post",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false
+  })
     .done(function (res) {
       enviarLoginServidor(objetoUsuario);
       $("#modalRegistro").modal("hide");
