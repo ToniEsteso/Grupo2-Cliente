@@ -3,7 +3,10 @@
     flex-direction: column;
     font-family: 'Merriweather Sans';;
     height: 100%;
-    background-color: #efefef;
+   // background-color: #efefef;
+    background: linear-gradient(to bottom , rgb(255, 227, 185) , white); 
+    
+
 
     &__contenedor-enlaces {
         position: relative;

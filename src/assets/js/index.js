@@ -34,9 +34,10 @@ function abrirModal() {
   let nombreProducto = $(this).find(".producto__nombre").text()
   let informacionProducto = $(this).find(".producto__informacion").text();
   let precioProducto = $(this).find(".producto__precio").text();
+  let imagenProducto = $(this).find(".producto__imagen").attr("src");
 
   $(".modal-producto__header").text(nombreProducto);
-  let html = "<p>" + informacionProducto + "</p>" + precioProducto;
+  let html =  "<img class = 'modal-imagen' src = '" +imagenProducto+"'></img>"  + "<p>" + informacionProducto + "</p>"+ "<p>" + precioProducto + "</p>";
   $(".modal-producto__body").html(html);
 
   $("#modalProducto").modal("show");
