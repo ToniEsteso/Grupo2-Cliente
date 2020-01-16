@@ -9,12 +9,13 @@
     <script src="http://localhost/Grupo2/assets/js/jquery-3.4.1.min.js"></script>
     <script></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
-    <link rel="stylesheet" href="http://localhost/Grupo2/assets/css/main.css" />
     <link rel="stylesheet" href="http://localhost/Grupo2/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://localhost/Grupo2/assets/css/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Merriweather Sans" rel="stylesheet" />
     <script src="http://localhost/Grupo2/assets/js/index.js"></script>
     <script src="http://localhost/Grupo2/assets/js/bootstrap.min.js"></script>
     <script src="http://localhost/Grupo2/assets/js/popper.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <link rel="shortcut icon" type="image/png" href="http://localhost/Grupo2/assets/img/icono.ico" />
 </head>
@@ -25,7 +26,8 @@
             <!-- Pensar otro nombre para cabecera -->
             <div class="menu">
                 <div class="menu__item">
-                    <a href="/Grupo2"><img class="logo" src="http://localhost/Grupo2/assets/img/logo.png" />
+                    <a  class="menu__item--logo" id="logoHeader">
+                        <img class="logo" src="http://localhost/Grupo2/assets/img/logo.png" />
                     </a>
                 </div>
 
@@ -73,7 +75,7 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-producto">
-                <div id="modalHeader" class="modal-producto__header">
+                <div id="nombreProducto" class="modal-producto__header">
                     titulo
                 </div>
                 <div id="modalBody" class="modal-producto__body">

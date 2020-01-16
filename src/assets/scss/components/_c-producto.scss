@@ -4,41 +4,73 @@
     "producto__imagen"
     "producto__nombre"
     "producto__informacion"
-    "producto__precio";
-  grid-template-rows: 250px 40px 50px 50px;
+    "producto__precio"
+    "producto__boton";
+  grid-template-rows: 5fr 1fr 2.5fr 0.5fr 1fr;
+  background-color: white;
 
-  box-shadow: 15px 10px 15px rgb(182, 179, 179);
-  border-radius: 3px;
-  padding: 10px;
+  box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.014),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.02),
+    0 12.5px 10px rgba(0, 0, 0, 0.025),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.03),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.036),
+    0 100px 80px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
   overflow: hidden;
   position: relative;
   flex: auto;
 
+  height: 500px;
   width: 100%;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow:
+      0 2.8px 2.2px rgba(0, 0, 0, 0.04),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.056),
+      0 12.5px 10px rgba(0, 0, 0, 0.066),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.076),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.088),
+      0 100px 80px rgba(0, 0, 0, 0.12);
+
+  }
 
   &__imagen {
     grid-area: producto__imagen;
+    padding: 20px;
     width: 100%;
     height: 100%;
-
+    background-color: darken($colorPrincipal, 3);
   }
 
   &__nombre {
     grid-area: producto__nombre;
 
-    color: $colorSecundario;
+    color: $colorCuaternario;
+    padding: 30px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-weight: 450;
     text-align: center;
-    border-top: 1px solid $colorSecundario;
-    border-bottom: 1px solid $colorSecundario;
     margin-bottom: 10px;
-    background-color: white;
   }
 
   &__informacion {
     grid-area: producto__informacion;
+    padding: 25px;
+    color: hsl(0, 0%, 33%);
+    padding: 25px;
   }
 
   &__precio {
     grid-area: producto__precio;
+    padding: 10px 35px;
+  }
+
+  &__boton {
+    grid-area: producto__boton;
+padding: 20px;
   }
 }

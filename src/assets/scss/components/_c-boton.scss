@@ -32,6 +32,12 @@
         &:hover {
             border-color: darken($colorSecundario, 5);
             background-color: darken($colorSecundario, 10);
+            box-shadow:
+                0 0.3px 1px rgba(0, 0, 0, 0.041),
+                0 0.9px 2.3px rgba(0, 0, 0, 0.055),
+                0 1.8px 4.5px rgba(0, 0, 0, 0.068),
+                0 3.7px 9px rgba(0, 0, 0, 0.09),
+                0 10px 24px rgba(0, 0, 0, 0.15);
         }
     }
 
@@ -62,7 +68,7 @@
         text-decoration: none;
     }
 
-    &--back:hover {   
+    &--back:hover {
         color: #f8991d;
         text-decoration: none;
     }

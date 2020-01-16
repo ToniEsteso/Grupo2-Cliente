@@ -1,10 +1,13 @@
 $debug: false;
-$colorPrincipal: #FFEBCD;
+// $colorPrincipal: #FFEBCD;
+$colorPrincipal: #fff1dc;
 $colorSecundario: #f8991d;
 $colorTerciario: #9B734B;
 $colorCuaternario: #005247;
 
-.body{
+
+.body {
+    font-family: "Segoe UI","Roboto","Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     overflow-x: hidden;
     background-color: $colorPrincipal;
 }

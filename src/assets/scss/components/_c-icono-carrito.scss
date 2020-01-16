@@ -14,9 +14,12 @@
         top: -12px;
         right: -12px;
         border-radius: 100%;
-        border: 1px solid $colorCuaternario;
+        border: 1px solid #005247;
         background-color: white;
         text-align: center;
-        color: $colorCuaternario;
+        color: #005247;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

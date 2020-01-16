@@ -3,8 +3,8 @@
     position: absolute;
 
     background-color: white;
-    padding: 50px;
-    border-radius: 5px;
+    padding: 40px;
+    border-radius: 20px;
     width: 100%;
 
     flex-direction: column;
@@ -16,13 +16,13 @@
     &__nombre {
         display: flex;
         align-items: center;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
 
     &__contrasenya {
         display: flex;
         align-items: center;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
 
     &__boton {
