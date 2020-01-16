@@ -6,7 +6,7 @@
     "producto__informacion"
     "producto__precio"
     "producto__boton";
-  grid-template-rows: 5fr 1fr 2.5fr 0.5fr 1fr;
+  grid-template-rows: 5fr 1fr 1fr 0.5fr 1fr;
   background-color: white;
 
   box-shadow:
@@ -59,9 +59,8 @@
 
   &__informacion {
     grid-area: producto__informacion;
-    padding: 25px;
+    padding: 10px 25px;
     color: hsl(0, 0%, 33%);
-    padding: 25px;
   }
 
   &__precio {
