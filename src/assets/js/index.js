@@ -323,8 +323,14 @@ function cargarImagenesCarousel() {
         "'>";
       html += "</div>";
       contador++;
+
     });
 
+    $(".carousel").carousel({
+      "data-pause" : false,
+      "interval" : 3000
+    })
+    
     $("#carousel").append(html);
   });
 }
