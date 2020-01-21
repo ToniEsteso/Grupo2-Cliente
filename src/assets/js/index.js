@@ -483,6 +483,39 @@ function cargarRecetas() {
     .fail(function () {});
 }
 
+function cargarCategorias() {
+  let url = "/categorias";
+  $.ajax({
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
+        categoria: url
+      }, url, urlCliente + url);
+      let numRedes = response.data.length;
+      let html =
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+      response.data.forEach(element => {
+        html += "<div class='producto'>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          "/imagenes/productos/lomoCerdo.jpg'>"; //METEMOS A PELO UNA IMAGEN, HAY QUE METER IMAGENES PARA LAS CATEGORIAS
+        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
+
+        html +=
+          "<a href='" + element.enlace + "'><div class='boton boton--secundario'> Enlace Web </div></a>";
+        html += "</div>";
+      });
+      html += "</div>";
+      $(".l-page__content").html("");
+      $(".l-page__content").html(html);
+      //alert(location.href);
+    })
+    .fail(function () {});
+}
+
 function abrirNotificacion(mensaje) {
   $("#notificacion").text(mensaje);
   $("#notificacion").addClass("notificacion--show");
@@ -576,7 +609,7 @@ function cargarPrincipal() {
   html += '<div class="portada__paneles">';
   html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">';
   html += '  <div class="l-columnas__item">';
-  html += '     <div class="boton boton--primario">Categorias</div>';
+  html += '     <div class="boton boton--primario" onclick="cargarCategorias()">Categorias</div>';
   html += '     </div>';
   html += '    <div class="l-columnas__item">';
   html += '      <div class="boton boton--primario" onclick="cargarProductos()">Productos</div>';
