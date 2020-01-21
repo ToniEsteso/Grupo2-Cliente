@@ -1,6 +1,12 @@
+// let urlCliente = "http://localhost/Grupo2";
 let urlCliente = "http://localhost/Grupo2";
+
+// let urlServidor = "http://127.0.0.1:8000/api";
 let urlServidor = "http://127.0.0.1:8000/api";
+
+// let urlImagenes = "http://127.0.0.1:8000";
 let urlImagenes = "http://127.0.0.1:8000";
+
 class Producto {
   constructor(id, nombre, precio, descripcion, imagen) {
     this.id = id;
@@ -159,7 +165,10 @@ function toggleLogin() {
 
 function logout() {
   window.localStorage.removeItem('Usuario');
-  window.location.reload();
+  window.history.pushState({
+    categoria: url
+  }, url, urlCliente);
+  leerUrl(); 
 }
 
 function checkToken() {
@@ -445,7 +454,7 @@ function cargarRecetas() {
       }, url, urlCliente + url);
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         html += "<div class='producto'>";
         html +=
