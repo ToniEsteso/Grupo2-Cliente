@@ -1,6 +1,7 @@
 // let urlCliente = "http://localhost/Grupo2";
-import {urlCliente, urlImagenes, urlServidor} from "../../config.js";
-
+import { urlCliente } from "../../config.js";
+import { urlImagenes } from "../../config.js";
+import { urlServidor } from "../../config.js";
 class Producto {
   constructor(id, nombre, precio, descripcion, imagen) {
     this.id = id;
@@ -30,8 +31,10 @@ class Carrito {
   }
 
   borrarProducto(idProducto) {
-
-    this.productos.splice(this.productos.findIndex(prod => prod.id == idProducto), 1);
+    this.productos.splice(
+      this.productos.findIndex(prod => prod.id == idProducto),
+      1
+    );
 
     this.actualizarContador();
     cargarProductosCarrito();
@@ -45,8 +48,7 @@ class Carrito {
 let productosGlobal = [];
 let carrito = new Carrito();
 
-$(document).ready(function () {
-
+$(document).ready(function() {
   checkToken();
   cargarCategorias();
   cargarRedesSociales();
@@ -56,15 +58,19 @@ $(document).ready(function () {
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
   $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
-  $(document).on("click", ".producto", abrirModalProducto)
+  $(document).on("click", ".producto", abrirModalProducto);
   $(document).on("click", "#botonLogout", logout);
   $("#formularioRegistro").on("submit", registrar);
   $("#volverAtrasRegistro").attr("href", urlCliente);
   $(".icono-carrito").on("click", cargarProductosCarrito);
-  $(document).on("click", "#logoHeader", function () {
-    window.history.pushState({
-      categoria: urlCliente
-    }, urlCliente, urlCliente + "/")
+  $(document).on("click", "#logoHeader", function() {
+    window.history.pushState(
+      {
+        categoria: urlCliente
+      },
+      urlCliente,
+      urlCliente + "/"
+    );
     leerUrl();
   });
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
@@ -74,7 +80,7 @@ $(document).ready(function () {
   $(".log-in").on({
     mouseleave: toggleLogin
   });
-  window.addEventListener("popstate", function (event) {
+  window.addEventListener("popstate", function(event) {
     //$('.page-content').html(state);
   });
 });
@@ -83,13 +89,17 @@ function cargarProductosCarrito() {
   let html = "";
   let precioTotal = 0;
   if (carrito.productos.length === 0) {
-    html += "<div class='producto-carrito'>"
+    html += "<div class='producto-carrito'>";
     html += "No tienes productos en el carrito";
     html += "</div>";
   } else {
     carrito.productos.forEach(prod => {
-      html += "<div class='producto-carrito'>"
-      html += "<img src='" + urlImagenes + prod.imagen + "' class='producto-carrito__imagen'>";
+      html += "<div class='producto-carrito'>";
+      html +=
+        "<img src='" +
+        urlImagenes +
+        prod.imagen +
+        "' class='producto-carrito__imagen'>";
       html += "<div class='producto-carrito__nombre'>";
       html += prod.nombre;
       html += "</div>";
@@ -100,7 +110,10 @@ function cargarProductosCarrito() {
       html += prod.unidades * prod.precio;
       precioTotal += prod.unidades * prod.precio;
       html += "</div>";
-      html += "<div class='producto-carrito__borrar' onclick=carrito.borrarProducto(" + prod.id + ")>";
+      html +=
+        "<div class='producto-carrito__borrar' onclick=carrito.borrarProducto(" +
+        prod.id +
+        ")>";
       html += "<i class='fas fa-trash'></i>";
       html += "</div>";
       html += "</div>";
@@ -109,27 +122,52 @@ function cargarProductosCarrito() {
     html += precioTotal;
     html += "</div>";
   }
-  $(".carrito").html(html)
+  $(".carrito").html(html);
   $("#modalCarrito").modal("show");
 }
 
 function anyadirProducto(e) {
   e.stopPropagation();
-  let nombreProducto = $(this).parents().find("#nombreProducto")[$(this).parents().find("#nombreProducto").length - 1].textContent;
+  let nombreProducto = $(this)
+    .parents()
+    .find("#nombreProducto")[
+    $(this)
+      .parents()
+      .find("#nombreProducto").length - 1
+  ].textContent;
 
-  let producto = productosGlobal.find(element => element.nombre == nombreProducto);
+  let producto = productosGlobal.find(
+    element => element.nombre == nombreProducto
+  );
 
   carrito.anyadirProducto(producto);
 }
 
 function abrirModalProducto() {
-  let nombreProducto = $(this).find(".producto__nombre").text()
-  let informacionProducto = $(this).find(".producto__informacion").text();
-  let precioProducto = $(this).find(".producto__precio").text();
-  let imagenProducto = $(this).find(".producto__imagen").attr("src");
+  let nombreProducto = $(this)
+    .find(".producto__nombre")
+    .text();
+  let informacionProducto = $(this)
+    .find(".producto__informacion")
+    .text();
+  let precioProducto = $(this)
+    .find(".producto__precio")
+    .text();
+  let imagenProducto = $(this)
+    .find(".producto__imagen")
+    .attr("src");
 
   $(".modal-producto__header").text(nombreProducto);
-  let html = "<img class = 'modal-imagen' src = '" + imagenProducto + "'></img>" + "<p>" + informacionProducto + "</p>" + "<p>" + precioProducto + "</p>";
+  let html =
+    "<img class = 'modal-imagen' src = '" +
+    imagenProducto +
+    "'></img>" +
+    "<p>" +
+    informacionProducto +
+    "</p>" +
+    "<p>" +
+    precioProducto +
+    "</p>";
   $(".modal-producto__body").html(html);
 
   $("#modalProducto").modal("show");
@@ -158,44 +196,50 @@ function toggleLogin() {
 }
 
 function logout() {
-  window.localStorage.removeItem('Usuario');
-  window.history.pushState({
-    categoria: url
-  }, url, urlCliente);
-  leerUrl(); 
+  window.localStorage.removeItem("Usuario");
+  window.history.pushState(
+    {
+      categoria: url
+    },
+    url,
+    urlCliente
+  );
+  leerUrl();
 }
 
 function checkToken() {
-  let token = "Bearer " + window.localStorage.getItem('Usuario');
+  let token = "Bearer " + window.localStorage.getItem("Usuario");
 
-  if (window.localStorage.getItem('Usuario') != null) {
+  if (window.localStorage.getItem("Usuario") != null) {
     $.ajax({
-        type: "POST",
-        url: urlServidor + "/auth/me",
-        headers: {
-          "Authorization": token
-        }
-      })
-      .done(function (response) {
-        abrirNotificacion("Bienvenido " + response.nickName + "!");
-        let html = "";
-        html += "<div class='carrito'>";
-        html += "<i class='fas fa-shopping-cart'></i>"
-        html += "</div>";
-        html = "<div class='usuario'>";
+      type: "POST",
+      url: urlServidor + "/auth/me",
+      headers: {
+        Authorization: token
+      }
+    }).done(function(response) {
+      abrirNotificacion("Bienvenido " + response.nickName + "!");
+      let html = "";
+      html += "<div class='carrito'>";
+      html += "<i class='fas fa-shopping-cart'></i>";
+      html += "</div>";
+      html = "<div class='usuario'>";
 
-        html += "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.avatar + "'></img>";
-        html += "<div class='usuario__nick'>";
-        html += response.nickName;
-        html += "</div>";
-        html += "<div id='botonLogout' class='boton boton--terciario'>";
-        html += "Logout";
-        html += "</div>";
-        html += "</div>";
+      html +=
+        "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
+        response.avatar +
+        "'></img>";
+      html += "<div class='usuario__nick'>";
+      html += response.nickName;
+      html += "</div>";
+      html += "<div id='botonLogout' class='boton boton--terciario'>";
+      html += "Logout";
+      html += "</div>";
+      html += "</div>";
 
-        $("#divPerfilLogin").html(html);
-        $(".log-in").hide();
-      });
+      $("#divPerfilLogin").html(html);
+      $(".log-in").hide();
+    });
   }
 }
 
@@ -203,8 +247,8 @@ function logIn() {
   let usuario = $("#inputUsuario").val();
   let password = $("#inputContrasenya").val();
   let objetoUsuario = {
-    "email": usuario,
-    "password": password
+    email: usuario,
+    password: password
   };
 
   enviarLoginServidor(objetoUsuario);
@@ -212,13 +256,16 @@ function logIn() {
 
 function enviarLoginServidor(objetoUsuario) {
   $.post(urlServidor + "/auth/login", objetoUsuario)
-    .done(function (response) {
-      window.localStorage.setItem('Usuario', response.access_token);
+    .done(function(response) {
+      window.localStorage.setItem("Usuario", response.access_token);
       $("#modalLogIn").modal("hide");
       abrirNotificacion("Bienvenido " + response.user.nickName + "!");
       let html = "";
       html = "<div class='usuario'>";
-      html += "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.user.avatar + "'></img>";
+      html +=
+        "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
+        response.user.avatar +
+        "'></img>";
       html += "<div class='usuario__nick'>";
       html += response.user.nickName;
       html += "</div>";
@@ -231,7 +278,7 @@ function enviarLoginServidor(objetoUsuario) {
       $("#divPerfilLogin").html(html);
       $(".log-in").hide();
     })
-    .fail(function () {
+    .fail(function() {
       abrirNotificacion("Login fallido");
     });
 }
@@ -248,22 +295,30 @@ function toggleHamburguesa() {
   if (!$(".l-page").hasClass("l-page--con-sidebar")) {
     //abrir el menu lateral
     $(".l-page").removeClass("l-page--sin-sidebar");
-    $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-cerrar");
+    $(".l-page__menu-lateral").removeClass(
+      "l-page__menu-lateral__animacion-cerrar"
+    );
     $(".l-page__content").removeClass("l-page__content__animacion-sin-sidebar");
 
     $(".l-page").addClass("l-page--con-sidebar");
-    $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-abrir");
+    $(".l-page__menu-lateral").addClass(
+      "l-page__menu-lateral__animacion-abrir"
+    );
     $(".l-page__content").addClass("l-page__content__animacion-con-sidebar");
 
     $(".menu-lateral__hamburguesa").html("<i class='fas fa-times'></i>");
   } else {
     //cerrar el menu lateral
     $(".l-page").removeClass("l-page--con-sidebar");
-    $(".l-page__menu-lateral").removeClass("l-page__menu-lateral__animacion-abrir");
+    $(".l-page__menu-lateral").removeClass(
+      "l-page__menu-lateral__animacion-abrir"
+    );
     $(".l-page__content").removeClass("l-page__content__animacion-con-sidebar");
 
     $(".l-page").addClass("l-page--sin-sidebar");
-    $(".l-page__menu-lateral").addClass("l-page__menu-lateral__animacion-cerrar");
+    $(".l-page__menu-lateral").addClass(
+      "l-page__menu-lateral__animacion-cerrar"
+    );
     $(".l-page__content").addClass("l-page__content__animacion-sin-sidebar");
 
     $(".menu-lateral__hamburguesa").html("<i class='fas fa-bars'></i>");
@@ -274,7 +329,7 @@ function cargarCategorias() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/categorias"
-  }).done(function (response) {
+  }).done(function(response) {
     let html = "";
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
@@ -312,7 +367,7 @@ function cargarImagenesCarousel() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/carousel"
-  }).done(function (response) {
+  }).done(function(response) {
     let html = "";
     let contador = 0;
     response.imagenes.forEach(element => {
@@ -326,14 +381,13 @@ function cargarImagenesCarousel() {
         "'>";
       html += "</div>";
       contador++;
-
     });
 
     $(".carousel").carousel({
-      "data-pause" : false,
-      "interval" : 3000
-    })
-    
+      "data-pause": false,
+      interval: 3000
+    });
+
     $("#carousel").append(html);
   });
 }
@@ -342,13 +396,23 @@ function cargarRedesSociales() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/redessociales"
-  }).done(function (response) {
+  }).done(function(response) {
     let numRedes = response.data.length;
     let html = "";
 
-    html += "<div class='l-columnas l-columnas" + (numRedes <= 4 ? "--" + numRedes + "-columnas" : "--4-columnas") + "'>";
+    html +=
+      "<div class='l-columnas l-columnas" +
+      (numRedes <= 4 ? "--" + numRedes + "-columnas" : "--4-columnas") +
+      "'>";
     response.data.forEach(element => {
-      html += "<a href='" + element.enlace + "' class='red'><i class='red__icono " + element.icono + "'></i>" + element.nombre + "</a>";
+      html +=
+        "<a href='" +
+        element.enlace +
+        "' class='red'><i class='red__icono " +
+        element.icono +
+        "'></i>" +
+        element.nombre +
+        "</a>";
     });
     html += "</div>";
     $(".footer__enlaces").append(html);
@@ -359,20 +423,29 @@ function cargarProductosCategoria(url) {
   toggleHamburguesa();
 
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
-        categoria: url
-      }, url, urlCliente + url);
-
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
+          categoria: url
+        },
+        url,
+        urlCliente + url
+      );
 
       let numRedes = response.data.length;
       let html =
         "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
-        let producto = new Producto(element.id, element.nombre, element.precio, element.descripcion, response.rutaServerImagenes + element.imagen);
+        let producto = new Producto(
+          element.id,
+          element.nombre,
+          element.precio,
+          element.descripcion,
+          response.rutaServerImagenes + element.imagen
+        );
 
         let existe = false;
         productosGlobal.forEach(element => {
@@ -385,11 +458,24 @@ function cargarProductosCategoria(url) {
         }
 
         html += "<div class='producto'>";
-        html += "<img class='producto__imagen' src='" + urlImagenes + response.rutaServerImagenes + element.imagen + "'>";
-        html += "<div id='nombreProducto' class='producto__nombre'>" + element.nombre + "</div>";
-        html += "<div class='producto__informacion'>" + element.descripcion + "</div>";
-        html += "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-        html += "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          response.rutaServerImagenes +
+          element.imagen +
+          "'>";
+        html +=
+          "<div id='nombreProducto' class='producto__nombre'>" +
+          element.nombre +
+          "</div>";
+        html +=
+          "<div class='producto__informacion'>" +
+          element.descripcion +
+          "</div>";
+        html +=
+          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        html +=
+          "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
         html += "</div>";
       });
       html += "</div>";
@@ -397,24 +483,34 @@ function cargarProductosCategoria(url) {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function () {});
+    .fail(function() {});
 }
 
 function cargarProductos() {
   let url = "/productos";
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
-        categoria: url
-      }, url, urlCliente + url);
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
+          categoria: url
+        },
+        url,
+        urlCliente + url
+      );
 
       let html =
         "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
-        let producto = new Producto(element.id, element.nombre, element.precio, element.descripcion, response.rutaServerImagenes + element.imagen);
+        let producto = new Producto(
+          element.id,
+          element.nombre,
+          element.precio,
+          element.descripcion,
+          response.rutaServerImagenes + element.imagen
+        );
 
         let existe = false;
         productosGlobal.forEach(element => {
@@ -427,11 +523,24 @@ function cargarProductos() {
         }
 
         html += "<div class='producto'>";
-        html += "<img class='producto__imagen' src='" + urlImagenes + response.rutaImagenesServer + element.imagen + "'>";
-        html += "<div id='nombreProducto' class='producto__nombre'>" + element.nombre + "</div>";
-        html += "<div class='producto__informacion'>" + element.descripcion + "</div>";
-        html += "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-        html += "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          response.rutaImagenesServer +
+          element.imagen +
+          "'>";
+        html +=
+          "<div id='nombreProducto' class='producto__nombre'>" +
+          element.nombre +
+          "</div>";
+        html +=
+          "<div class='producto__informacion'>" +
+          element.descripcion +
+          "</div>";
+        html +=
+          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        html +=
+          "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
         html += "</div>";
       });
       html += "</div>";
@@ -439,19 +548,23 @@ function cargarProductos() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function () {});
+    .fail(function() {});
 }
 
 function cargarRecetas() {
   let url = "/recetas";
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
-        categoria: url
-      }, url, urlCliente + url);
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
+          categoria: url
+        },
+        url,
+        urlCliente + url
+      );
       let numRedes = response.data.length;
       let html =
         "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
@@ -466,7 +579,9 @@ function cargarRecetas() {
         html += "<div class='producto__nombre'>" + element.nombre + "</div>";
 
         html +=
-          "<a href='" + element.enlace + "'><div class='boton boton--secundario'> Enlace Web </div></a>";
+          "<a href='" +
+          element.enlace +
+          "'><div class='boton boton--secundario'> Enlace Web </div></a>";
         html += "</div>";
       });
       html += "</div>";
@@ -474,31 +589,35 @@ function cargarRecetas() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function () {});
+    .fail(function() {});
 }
 
 function cargarCategoriasBoton() {
   let url = "/categorias";
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
-        categoria: url
-      }, url, urlCliente + url);
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
+          categoria: url
+        },
+        url,
+        urlCliente + url
+      );
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>"; 
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>";
       response.data.forEach(element => {
-
         html += "<div class='categorias'>";
 
-        html += "<img class='categorias__imagen' src='" +
-        urlImagenes +
-        response.rutaImagenesServer +
-        element.imagen +
-        "'>";
+        html +=
+          "<img class='categorias__imagen' src='" +
+          urlImagenes +
+          response.rutaImagenesServer +
+          element.imagen +
+          "'>";
         console.log(urlImagenes);
         console.log(response.rutaServerImagenes);
         console.log(element.imagen);
@@ -506,14 +625,13 @@ function cargarCategoriasBoton() {
         html += "<div class='categorias__nombre'>" + element.nombre + "</div>";
 
         html += "</div>";
-
       });
       html += "</div>";
       $(".l-page__content").html("");
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function () {});
+    .fail(function() {});
 }
 
 function abrirNotificacion(mensaje) {
@@ -521,7 +639,7 @@ function abrirNotificacion(mensaje) {
   $("#notificacion").addClass("notificacion--show");
 
   // After 3 seconds, remove the show class from DIV
-  setTimeout(function () {
+  setTimeout(function() {
     $("#notificacion").removeClass("notificacion--show");
   }, 3000);
 }
@@ -565,8 +683,8 @@ function registrar(e) {
   let usuario = $("#inputEmail").val();
   let password = $("#inputPassword1").val();
   let objetoUsuario = {
-    "email": usuario,
-    "password": password
+    email: usuario,
+    password: password
   };
   var formData = new FormData(this);
   formData.append("nombre", $("#inputNombre").val());
@@ -577,23 +695,20 @@ function registrar(e) {
   formData.append("password2", $("#inputPassword2").val());
   formData.append("avatar", $("#inputAvatar")[0].files[0]);
 
-
-
   $.ajax({
-      url: urlServidor + "/auth/register",
-      type: "post",
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false
-    })
-    .done(function (res) {
+    url: urlServidor + "/auth/register",
+    type: "post",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false
+  })
+    .done(function(res) {
       enviarLoginServidor(objetoUsuario);
       $("#modalRegistro").modal("hide");
       abrirNotificacion("Registro completado");
     })
-    .fail(function (res) {
-
+    .fail(function(res) {
       abrirNotificacion("Registro fallido");
     });
 }
@@ -602,23 +717,27 @@ function cargarPrincipal() {
   let html = "";
   html += '<div class="portada">';
   html += '<div class="portada__carousel">';
-  html += '<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">';
+  html +=
+    '<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">';
   html += '<div id="carousel" class="carousel-inner" ></div >';
-  html += '</div >';
-  html += '</div >';
+  html += "</div >";
+  html += "</div >";
   html += '<div class="portada__paneles">';
   html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">';
   html += '  <div class="l-columnas__item">';
-  html += '     <div class="boton boton--primario" onclick="cargarCategoriasBoton()">Categorias</div>';
-  html += '     </div>';
+  html +=
+    '     <div class="boton boton--primario" onclick="cargarCategoriasBoton()">Categorias</div>';
+  html += "     </div>";
   html += '    <div class="l-columnas__item">';
-  html += '      <div class="boton boton--primario" onclick="cargarProductos()">Productos</div>';
-  html += '    </div>';
+  html +=
+    '      <div class="boton boton--primario" onclick="cargarProductos()">Productos</div>';
+  html += "    </div>";
   html += '    <div class="l-columnas__item">';
-  html += '      <div class="boton boton--primario" onclick="cargarRecetas()"> Recetas</div>';
-  html += '</div>';
-  html += '  </div>';
-  html += '   </div>';
-  html += ' </div > ';
+  html +=
+    '      <div class="boton boton--primario" onclick="cargarRecetas()"> Recetas</div>';
+  html += "</div>";
+  html += "  </div>";
+  html += "   </div>";
+  html += " </div > ";
   $(".l-page__content").html(html);
 }
