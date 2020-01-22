@@ -1,11 +1,5 @@
 // let urlCliente = "http://localhost/Grupo2";
-let urlCliente = "http://localhost/Grupo2";
-
-// let urlServidor = "http://127.0.0.1:8000/api";
-let urlServidor = "http://127.0.0.1:8000/api";
-
-// let urlImagenes = "http://127.0.0.1:8000";
-let urlImagenes = "http://127.0.0.1:8000";
+import {urlCliente, urlImagenes, urlServidor} from "../../config.js";
 
 class Producto {
   constructor(id, nombre, precio, descripcion, imagen) {
@@ -483,7 +477,7 @@ function cargarRecetas() {
     .fail(function () {});
 }
 
-function cargarCategorias() {
+function cargarCategoriasBoton() {
   let url = "/categorias";
   $.ajax({
       type: "GET",
@@ -609,7 +603,7 @@ function cargarPrincipal() {
   html += '<div class="portada__paneles">';
   html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">';
   html += '  <div class="l-columnas__item">';
-  html += '     <div class="boton boton--primario" onclick="cargarCategorias()">Categorias</div>';
+  html += '     <div class="boton boton--primario" onclick="cargarCategoriasBoton()">Categorias</div>';
   html += '     </div>';
   html += '    <div class="l-columnas__item">';
   html += '      <div class="boton boton--primario" onclick="cargarProductos()">Productos</div>';
