@@ -483,7 +483,7 @@ function cargarRecetas() {
     .fail(function () {});
 }
 
-function cargarCategorias() {
+function cargarCategoriasBoton() {
   let url = "/categorias";
   $.ajax({
       type: "GET",
@@ -495,18 +495,24 @@ function cargarCategorias() {
       }, url, urlCliente + url);
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>"; 
       response.data.forEach(element => {
-        html += "<div class='producto'>";
-        html +=
-          "<img class='producto__imagen' src='" +
-          urlImagenes +
-          "/imagenes/productos/lomoCerdo.jpg'>"; //METEMOS A PELO UNA IMAGEN, HAY QUE METER IMAGENES PARA LAS CATEGORIAS
-        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
 
-        html +=
-          "<a href='" + element.enlace + "'><div class='boton boton--secundario'> Enlace Web </div></a>";
+        html += "<div class='categorias'>";
+
+        html += "<img class='categorias__imagen' src='" +
+        urlImagenes +
+        response.rutaImagenesServer +
+        element.imagen +
+        "'>";
+        console.log(urlImagenes);
+        console.log(response.rutaServerImagenes);
+        console.log(element.imagen);
+
+        html += "<div class='categorias__nombre'>" + element.nombre + "</div>";
+
         html += "</div>";
+
       });
       html += "</div>";
       $(".l-page__content").html("");
@@ -609,7 +615,7 @@ function cargarPrincipal() {
   html += '<div class="portada__paneles">';
   html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">';
   html += '  <div class="l-columnas__item">';
-  html += '     <div class="boton boton--primario" onclick="cargarCategorias()">Categorias</div>';
+  html += '     <div class="boton boton--primario" onclick="cargarCategoriasBoton()">Categorias</div>';
   html += '     </div>';
   html += '    <div class="l-columnas__item">';
   html += '      <div class="boton boton--primario" onclick="cargarProductos()">Productos</div>';
