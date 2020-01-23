@@ -1,10 +1,9 @@
-// let urlCliente = "http://localhost/Grupo2";
-// import { urlCliente, urlImagenes, urlServidor } from "../../config.js";
+import { urlCliente, urlImagenes, urlServidor } from "../../config.js";
 
 // LOCALHOST
-let urlServidor = "http://127.0.0.1:8000/api";
-let urlCliente = "http://localhost/Grupo2";
-let urlImagenes = "http://127.0.0.1:8000";
+// let urlServidor = "http://127.0.0.1:8000/api";
+// let urlCliente = "http://localhost/Grupo2";
+// let urlImagenes = "http://127.0.0.1:8000";
 
 //SERVIDOR CLASE
 // let urlServidor = "http://172.16.205.54:10320/api";
