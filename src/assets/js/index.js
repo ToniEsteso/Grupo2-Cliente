@@ -428,6 +428,8 @@ function cargarRedesSociales() {
 function cargarProductosCategoria() {
   toggleHamburguesa();
 
+  console.log(this);
+
   let categoria = this.textContent;
 
   let url = '/categorias/' + categoria + '/productos';
@@ -445,7 +447,7 @@ function cargarProductosCategoria() {
 
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         let producto = new Producto(
           element.id,
@@ -496,7 +498,7 @@ function cargarProductos() {
       );
 
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         let producto = new Producto(
           element.id,
@@ -546,7 +548,7 @@ function cargarRecetas() {
         urlCliente + url
       );
 
-      let html = "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+      let html = "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         html += "<div class='producto'>";
         html += "<img class='producto__imagen' src='" + urlImagenes + response.rutaImagenesServer + element.imagen + "'>";
@@ -577,7 +579,7 @@ function cargarCategoriasBoton() {
         urlCliente + url
       );
       let numRedes = response.data.length;
-      let html = "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l'>";
+      let html = "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>";
       response.data.forEach(element => {
         html += "<div class='categorias'>";
 
@@ -686,7 +688,7 @@ function cargarPrincipal() {
   html += "</div >";
   html += "</div >";
   html += '<div class="portada__paneles">';
-  html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">';
+  html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl l-columnas--tablet-gap-m l-columnas--tablet-2-columnas l-columnas--mobile-gap-xs l-columnas--mobile-1-columnas">';
   html += '  <div class="l-columnas__item">';
   html += '     <div id="botonCargarCategorias" class="boton boton--primario">Categorias</div>';
   html += "     </div>";

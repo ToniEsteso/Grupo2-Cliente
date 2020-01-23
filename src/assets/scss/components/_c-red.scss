@@ -4,7 +4,7 @@
     padding: 2% 5%;
     color: $colorPrincipal;
     font-weight: bolder;
-    font-size: 20px;
+    font-size: calc(0.75em + 1vmin);
 
     &__icono {
         margin-right: 6px;
