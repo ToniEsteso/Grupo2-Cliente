@@ -1,4 +1,8 @@
-import { urlCliente, urlImagenes, urlServidor } from "../../config.js";
+import {
+  urlCliente,
+  urlImagenes,
+  urlServidor
+} from "../../config.js";
 
 // LOCALHOST
 // let urlServidor = "http://127.0.0.1:8000/api";
@@ -64,6 +68,10 @@ $(document).ready(function () {
   leerUrl();
 
   //event listeners
+  $(document).on("click", "#botonCargarCategorias", cargarCategoriasBoton);
+  $(document).on("click", "#botonCargarProductos", cargarProductos);
+  $(document).on("click", "#botonCargarRecetas", cargarRecetas);
+
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
   $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
@@ -419,7 +427,8 @@ function cargarRedesSociales() {
 
 function cargarProductosCategoria() {
   toggleHamburguesa();
-  categoria = this.textContent;
+
+  let categoria = this.textContent;
 
   let url = '/categorias/' + categoria + '/productos';
   $.ajax({
@@ -679,13 +688,13 @@ function cargarPrincipal() {
   html += '<div class="portada__paneles">';
   html += ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl">';
   html += '  <div class="l-columnas__item">';
-  html += '     <div class="boton boton--primario" onclick="cargarCategoriasBoton()">Categorias</div>';
+  html += '     <div id="botonCargarCategorias" class="boton boton--primario">Categorias</div>';
   html += "     </div>";
   html += '    <div class="l-columnas__item">';
-  html += '      <div class="boton boton--primario" onclick="cargarProductos()">Productos</div>';
+  html += '      <div id="botonCargarProductos" class="boton boton--primario">Productos</div>';
   html += "    </div>";
-  html += '    <div class="l-columnas__item">';
-  html += '      <div class="boton boton--primario" onclick="cargarRecetas()"> Recetas</div>';
+  html += '    <divclass="l-columnas__item">';
+  html += '      <div id="botonCargarRecetas" class="boton boton--primario"> Recetas</div>';
   html += "</div>";
   html += "  </div>";
   html += "   </div>";
