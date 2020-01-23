@@ -1,9 +1,10 @@
 docker container stop veganfood_frontend
 docker container rm veganfood_frontend
 rm -rf ./html/frontend/
-mkdir ./html/frontend/Grupo2-Cliente
+mkdir -p ./html/frontend/Grupo2-Cliente
 git clone -b develop https://github.com/ToniEsteso/Grupo2-Cliente.git ./html/frontend/Grupo2-Cliente
 chmod -R 777 ./html/frontend/
+npm rebuild node-sass --prefix ./html/frontend/Grupo2-Cliente
 npm run build --prefix ./html/frontend/Grupo2-Cliente/
 mv ./html/frontend/Grupo2-Cliente/dist ./html/frontend/
 rm -rf ./html/frontend/Grupo2-Cliente
