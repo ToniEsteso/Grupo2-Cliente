@@ -1,0 +1,36 @@
+.padding {
+    $padding-sizes: ("xs": 5, "s": 15, "m": 30, "l": 60, "xl": 120);
+    $screen-sizes: ("tablet": 1100, "mobile": 600);
+
+    @each $padding-size,
+    $padding-number in $padding-sizes {
+        &--#{$padding-size} {
+            padding: #{$padding-number}px;
+        }
+    }
+
+
+    @each $screen-size,
+    $screen-number in $screen-sizes {
+
+        @each $padding-size,
+        $padding-number in $padding-sizes {
+            &--#{$screen-size}-#{$padding-size} {
+                padding: #{$padding-number}px;
+            }
+        }
+    }
+
+    $at: '@';
+
+    @each $screen-size,
+    $screen-number in $screen-sizes {
+        @media (max-width: #{$screen-number}px) {
+            @for $i from 1 through 12 {
+                &--#{$screen-size}-#{$i}-columnas {
+                    grid-template-columns: repeat(#{$i}, 1fr);
+                }
+            }
+        }
+    }
+}

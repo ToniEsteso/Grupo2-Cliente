@@ -15,4 +15,10 @@
         grid-area: paneles;
         padding: 2% 4%;
     }
+
+    @media (max-width: 600px) {
+        grid-template-areas: "carousel"
+            "paneles";
+        grid-template-columns: 1fr;
+    }
 }
