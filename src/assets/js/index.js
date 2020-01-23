@@ -88,6 +88,7 @@ $(document).ready(function () {
   });
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
   $(document).on("click", ".menu-lateral__enlace", cargarProductosCategoria);
+  $(document).on("click", ".categorias", cargarProductosCategoria);
   $("#botonAbrirLogIn").on({
     click: toggleLogin
   });
