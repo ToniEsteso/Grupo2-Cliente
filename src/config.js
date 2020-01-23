@@ -10,12 +10,8 @@ urlImagenes = "http://127.0.0.1:8000";
 // urlImagenes = "http://172.16.205.54:10320";
 
 // SERVIDOR FRANCIA
-// urlServidor = "http://www.api.veganfood.pve2.fpmislata.com/public/api";
-// urlCliente = "http://www.veganfood.fpmislata.pve2.fpmislata.com";
-// urlImagenes = "http://www.api.veganfood.pve2.fpmislata.com";
+urlServidor = "http://www.api.veganfood.pve2.fpmislata.com/public/api";
+urlCliente = "http://www.veganfood.fpmislata.pve2.fpmislata.com";
+urlImagenes = "http://www.api.veganfood.pve2.fpmislata.com/public";
 
-export {
-  urlServidor,
-  urlCliente,
-  urlImagenes
-};
+export { urlServidor, urlCliente, urlImagenes };
