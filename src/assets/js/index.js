@@ -66,7 +66,6 @@ $(document).ready(function() {
 
   cargarCategorias();
   cargarRedesSociales();
-  leerUrl();
 
   //event listeners
   $(document).on("click", "#botonCargarCategorias", cargarCategoriasBoton);
@@ -441,7 +440,6 @@ function cargarRedesSociales() {
   }).done(function(response) {
     let numRedes = response.data.length;
     let html = "";
-
     html +=
       "<div class='l-columnas l-columnas" +
       (numRedes <= 4 ? "--" + numRedes + "-columnas" : "--4-columnas") +
