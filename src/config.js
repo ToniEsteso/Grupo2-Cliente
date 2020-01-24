@@ -11,7 +11,7 @@ let urlServidor, urlCliente, urlImagenes;
 
 // SERVIDOR FRANCIA
 urlServidor = "http://www.api.veganfood.pve2.fpmislata.com/public/api";
-urlCliente = "http://www.veganfood.fpmislata.pve2.fpmislata.com";
+urlCliente = "http://www.veganfood.pve2.fpmislata.com";
 urlImagenes = "http://www.api.veganfood.pve2.fpmislata.com/public";
 
 export { urlServidor, urlCliente, urlImagenes };
