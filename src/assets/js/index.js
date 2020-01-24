@@ -551,11 +551,11 @@ function cargarRecetas() {
 
       let html = "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
-        html += "<div class='producto'>";
-        html += "<img class='producto__imagen' src='" + urlImagenes + response.rutaImagenesServer + element.imagen + "'>";
-        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
+        html += "<div class='recetas'>";
+        html += "<img class='recetas__imagen' src='" + urlImagenes + response.rutaImagenesServer + element.imagen + "'>";
+        html += "<div class='recetas__nombre'>" + element.nombre + "</div>";
 
-        html += "<a href='" + element.enlace + "'><div class='boton boton--secundario'> Enlace Web </div></a>";
+        html += "<a href='" + element.enlace + "' class='recetas__enlace'><div class='boton boton--primario'> Enlace Web </div></a>";
         html += "</div>";
       });
       html += "</div>";
