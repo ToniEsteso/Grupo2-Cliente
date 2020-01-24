@@ -616,19 +616,19 @@ function cargarRecetas() {
       let html =
         "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
-        html += "<div class='producto'>";
+        html += "<div class='recetas'>";
         html +=
-          "<img class='producto__imagen' src='" +
+          "<img class='recetas__imagen' src='" +
           urlImagenes +
           response.rutaImagenesServer +
           element.imagen +
           "'>";
-        html += "<div class='producto__nombre'>" + element.nombre + "</div>";
+        html += "<div class='recetas__nombre'>" + element.nombre + "</div>";
 
         html +=
           "<a href='" +
           element.enlace +
-          "'><div class='boton boton--secundario'> Enlace Web </div></a>";
+          "' class='recetas__enlace'><div class='boton boton--primario'> Enlace Web </div></a>";
         html += "</div>";
       });
       html += "</div>";
@@ -681,6 +681,40 @@ function cargarCategoriasBoton() {
     .fail(function() {});
 }
 
+function cargarPaginaError(prueba) {
+  console.log("ENTRA EN ERROR");
+  let html = "<div class='error'>";
+
+  html += "<div class='error__imagen'>";
+  html += "<div class='errorImagen404'>";
+
+  html += "<div class='errorImagen404__numero1'>";
+  html += "<h1>4</h1>";
+  html += "</div>";
+
+  html += "<div class='errorImagen404__imagenTomate'>";
+  html += "<img src='assets/img/tomateError.png'>";
+  html += "</div>";
+
+  html += "<div class='errorImagen404__numero2'>";
+  html += "<h1>4</h1>";
+  html += "</div>";
+
+  html += "</div>";
+  html += "</div>";
+
+  html += "<div class='error__mensaje'>";
+  html += "<p> ERROR </p>";
+  html += "<p> PÁGINA NO ENCONTRADA </p></br>";
+  html += "<p> La página " + prueba + " no existe o no se encuentra </p>";
+  html += "</div>";
+
+  html += "</div>";
+
+  $(".l-page__content").html("");
+  $(".l-page__content").html(html);
+}
+
 function abrirNotificacion(mensaje) {
   $("#notificacion").text(mensaje);
   $("#notificacion").addClass("notificacion--show");
@@ -715,7 +749,7 @@ function leerUrl() {
         cargarRecetas();
         break;
       default:
-        // Aquí cargar una página de error HACER FUNCION CARGAR ERROR Y DEJARLO CON SPA TAMBIÉN
+        cargarPaginaError(prueba);
         break;
     }
   } else {

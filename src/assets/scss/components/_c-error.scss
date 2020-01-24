@@ -1,0 +1,46 @@
+.error{
+    grid-template-areas: 
+    "imagen mensaje";
+    grid-template-columns: 1fr 2fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.75%;
+    
+
+    &__imagen{
+        grid-area: imagen;
+        margin: 2%;
+    }
+
+    &__mensaje{
+        grid-area: mensaje;
+        margin: 2%;
+        padding: 1%;
+    }
+}
+
+.errorImagen404{
+    grid-template-areas: 
+    "numero1 imagenTomate numero2";
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 1%;
+    display: inline-flex;
+
+    &__numero1{
+        grid-area: numero1;
+        font-size: 550%;
+        margin-top: 10%;
+        margin-right: 3%;
+    }
+
+    &__imagenTomate{
+        grid-area: imagenTomate;
+    }
+
+    &__numero2{
+        grid-area: numero2;
+        font-size: 550%;
+        margin-top: 10%;
+    }
+}
