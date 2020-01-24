@@ -1,114 +1,128 @@
 .l-page {
-    //ESTO HAY QUE DARLE UNA VUELTA
-    //ES UNA CHAPUZA
-    // overflow-x: hidden;
+  //ESTO HAY QUE DARLE UNA VUELTA
+  //ES UNA CHAPUZA
+  // overflow-x: hidden;
 
-    display: grid;
-    grid-template-areas:
-        "l-page__header l-page__header"
-        "l-page__menu-lateral l-page__content"
-        "l-page__footer l-page__footer";
-    grid-auto-columns: 10% 90%;
-    background-color: #343434;
+  display: grid;
+  grid-template-areas:
+    "l-page__header l-page__header"
+    "l-page__menu-lateral l-page__content"
+    "l-page__footer l-page__footer";
+  grid-auto-columns: 10% 90%;
+  background-color: #343434;
+  height: 100vh;
 
-    &__header {
-        grid-area: l-page__header;
+  &__header {
+    grid-area: l-page__header;
+  }
+
+  &__content {
+    grid-area: l-page__content;
+    position: relative;
+
+    width: 100vw;
+    left: -10vw;
+    padding: 50px;
+    background-color: $colorPrincipal;
+
+    //oscurecer fondo
+    &__animacion-sin-sidebar {
+      animation-name: animacion__sin-sidebar;
+      animation-duration: 0.5s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-in-out;
     }
 
-    &__content {
-        grid-area: l-page__content;
-        position: relative;
+    @keyframes animacion__sin-sidebar {
+      0% {
+        opacity: 0.6;
+      }
 
-        width: 100vw;
-        left: -10vw;
-        padding: 50px;
-        background-color: $colorPrincipal;
-
-        //oscurecer fondo
-        &__animacion-sin-sidebar {
-            animation-name: animacion__sin-sidebar;
-            animation-duration: 0.5s;
-            animation-fill-mode: forwards;
-            animation-timing-function: ease-in-out;
-        }
-
-        @keyframes animacion__sin-sidebar {
-            0% {
-                opacity: 0.6;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        //aclarar fondo
-        &__animacion-con-sidebar {
-            animation-name: animacion__con-sidebar;
-            animation-duration: 0.5s;
-            animation-fill-mode: forwards;
-            animation-timing-function: ease-in-out;
-        }
-
-        @keyframes animacion__con-sidebar {
-            0% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0.6;
-            }
-        }
+      100% {
+        opacity: 1;
+      }
     }
 
-    &__menu-lateral {
-        grid-area: l-page__menu-lateral;
-        z-index: 999;
-        position: relative;
-        left: -10vw;
-        width: 10vw;
-
-        //animacion cerrar hamburguesa lateral
-        &__animacion-cerrar {
-            animation-name: animacion__cerrar-menu-lateral;
-            animation-duration: 0.5s;
-            animation-fill-mode: forwards;
-            animation-timing-function: ease-in-out;
-        }
-
-        @keyframes animacion__cerrar-menu-lateral {
-            0% {
-                left: 0vw;
-            }
-
-            100% {
-                left: -10vw;
-            }
-        }
-
-        //animacion abrir hamburguesa lateral
-        &__animacion-abrir {
-            animation-name: animacion__abrir-menu-lateral;
-            animation-duration: 0.5s;
-            animation-fill-mode: forwards;
-            animation-direction: reverse;
-            animation-timing-function: ease-in-out;
-        }
-
-        @keyframes animacion__abrir-menu-lateral {
-            0% {
-                left: 0vw;
-            }
-
-            100% {
-                left: -10vw;
-            }
-        }
+    //aclarar fondo
+    &__animacion-con-sidebar {
+      animation-name: animacion__con-sidebar;
+      animation-duration: 0.5s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-in-out;
     }
 
-    &__footer {
-        grid-area: l-page__footer;
+    @keyframes animacion__con-sidebar {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &__menu-lateral {
+    grid-area: l-page__menu-lateral;
+    z-index: 999;
+    position: relative;
+    left: -10vw;
+    width: 10vw;
+
+    @media (max-width: 750px) {
+      left: -90vw;
+      width: 90vw;
     }
 
+    //animacion cerrar hamburguesa lateral
+    &__animacion-cerrar {
+      animation-name: animacion__cerrar-menu-lateral;
+      animation-duration: 0.5s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-in-out;
+    }
 
+    @keyframes animacion__cerrar-menu-lateral {
+      0% {
+        left: 0vw;
+      }
+
+      100% {
+        @media (min-width: 751px) {
+          left: -10vw;
+        }
+        @media (max-width: 750px) {
+          left: -90vw;
+        }
+      }
+    }
+
+    //animacion abrir hamburguesa lateral
+    &__animacion-abrir {
+      animation-name: animacion__abrir-menu-lateral;
+      animation-duration: 0.5s;
+      animation-fill-mode: forwards;
+      animation-direction: reverse;
+      animation-timing-function: ease-in-out;
+    }
+
+    @keyframes animacion__abrir-menu-lateral {
+      0% {
+        left: 0vw;
+      }
+
+      100% {
+        @media (min-width: 751px) {
+          left: -10vw;
+        }
+        @media (max-width: 750px) {
+          left: -90vw;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    grid-area: l-page__footer;
+  }
 }

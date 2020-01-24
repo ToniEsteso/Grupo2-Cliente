@@ -1,28 +1,30 @@
 .menu {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  height: 10vh;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  max-height: 10vh;
   background-color: #ffffff;
   position: relative;
   z-index: 10;
-  box-shadow:
-    0 0px 6.7px rgba(0, 0, 0, 0.018),
-    0 0px 13.9px rgba(0, 0, 0, 0.023),
-    0 0px 22.4px rgba(0, 0, 0, 0.026),
-    0 0px 34.1px rgba(0, 0, 0, 0.03),
-    0 0px 55.8px rgba(0, 0, 0, 0.034),
+  box-shadow: 0 0px 6.7px rgba(0, 0, 0, 0.018),
+    0 0px 13.9px rgba(0, 0, 0, 0.023), 0 0px 22.4px rgba(0, 0, 0, 0.026),
+    0 0px 34.1px rgba(0, 0, 0, 0.03), 0 0px 55.8px rgba(0, 0, 0, 0.034),
     0 0px 129px rgba(0, 0, 0, 0.04);
 
   &__item {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 15vw;
     height: 100%;
-    &--logo{
+
+    &--logo {
       padding: 10px;
       height: 80%;
+      @media (max-width: 600px) {
+        display: none;
+      }
     }
   }
 }
