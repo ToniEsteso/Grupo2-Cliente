@@ -601,6 +601,40 @@ function cargarCategoriasBoton() {
     .fail(function () {});
 }
 
+function cargarPaginaError(prueba){
+  console.log("ENTRA EN ERROR");
+  let html = "<div class='error'>";
+
+    html += "<div class='error__imagen'>";
+      html += "<div class='errorImagen404'>";
+
+        html += "<div class='errorImagen404__numero1'>";
+          html += "<h1>4</h1>";
+        html += "</div>";
+
+        html += "<div class='errorImagen404__imagenTomate'>";
+          html += "<img src='assets/img/tomateError.png'>";
+        html += "</div>";
+
+        html += "<div class='errorImagen404__numero2'>";
+          html += "<h1>4</h1>";
+        html += "</div>";
+
+      html += "</div>";
+    html += "</div>";
+
+    html += "<div class='error__mensaje'>";
+      html += "<p> ERROR </p>";
+      html += "<p> PÁGINA NO ENCONTRADA </p></br>";
+      html += "<p> La página " + prueba + " no existe o no se encuentra </p>";
+    html += "</div>";
+
+  html += "</div>";
+
+  $(".l-page__content").html("");
+  $(".l-page__content").html(html);
+}
+
 function abrirNotificacion(mensaje) {
   $("#notificacion").text(mensaje);
   $("#notificacion").addClass("notificacion--show");
@@ -632,7 +666,7 @@ function leerUrl() {
       case "recetas":
         break;
       default:
-        // Aquí cargar una página de error
+        cargarPaginaError(prueba);
         break;
     }
   } else {
