@@ -17,30 +17,54 @@
         height: 100%;
         width: 10%;
         margin-right: 3%;
+        border: 3px solid $colorSecundario;
+        border-radius: 10px;
     }
 
     &__nombre {
         width: 40%;
+        font-weight: bold;
     }
 
     &__unidades {
         width: 10%;
+        font-weight: bold;
     }
 
     &__unidades::before {
         content: 'x';
+        font-weight: bold;
     }
 
-    &__precio {}
+    &__precio {
+        font-weight: bold;
+        margin-right: 7%;
+    }
 
     &__precio::after {
         content: '€';
+        font-weight: bold;
+    }
+
+    &__precioUnidades{
+        font-weight: bold;
+        margin-right: 7%;
+    }
+
+    &__precioUnidades::after{
+        content: '€';
+        font-weight: bold;
     }
 
     &__borrar {
         cursor: pointer;
         margin-left: auto;
-        color: rgb(151, 39, 39);
+        color: black;
         font-size: 100%;
+        transition: all 0.5s;
+    }
+    &__borrar:hover {
+        color: rgb(151, 39, 39);
+        transform: rotate(360deg);
     }
 }
