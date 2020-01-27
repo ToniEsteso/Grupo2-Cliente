@@ -147,6 +147,9 @@ function cargarProductosCarrito() {
       html += prod.unidades;
       html += "</div>";
       html += "<div class='producto-carrito__precio'>";
+      html += prod.precio;
+      html += "</div>";
+      html += "<div class='producto-carrito__precioUnidades'>";
       html += prod.unidades * prod.precio;
       precioTotal += prod.unidades * prod.precio;
       html += "</div>";

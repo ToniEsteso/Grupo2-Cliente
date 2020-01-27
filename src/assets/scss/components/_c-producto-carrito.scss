@@ -38,9 +38,20 @@
 
     &__precio {
         font-weight: bold;
+        margin-right: 7%;
     }
 
     &__precio::after {
+        content: '€';
+        font-weight: bold;
+    }
+
+    &__precioUnidades{
+        font-weight: bold;
+        margin-right: 7%;
+    }
+
+    &__precioUnidades::after{
         content: '€';
         font-weight: bold;
     }
