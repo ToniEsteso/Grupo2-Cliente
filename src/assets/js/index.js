@@ -920,13 +920,13 @@ function registrar(e) {
 function cargarPrincipal() {
   let html = "";
   html += '<div class="portada">';
-  html += '<div class="portada__carousel">';
+  html += '<div class="portada__carousel padding--tablet-m padding--mobile-xs">';
   html +=
     '<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">';
   html += '<div id="carousel" class="carousel-inner" ></div >';
   html += "</div >";
   html += "</div >";
-  html += '<div class="portada__paneles">';
+  html += '<div class="portada__paneles padding--tablet-m padding--mobile-xs">';
   html +=
     ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl l-columnas--tablet-gap-m l-columnas--tablet-2-columnas l-columnas@mobile-gap-xs l-columnas@mobile-1-columnas">';
   html += '  <div class="l-columnas__item">';
