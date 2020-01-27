@@ -97,6 +97,7 @@ $(document).ready(function () {
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
   $(document).on("click", ".menu-lateral__enlace", cargarProductosCategoria);
   $(document).on("click", ".categorias", cargarProductosCategoria);
+  $(document).on("click", ".usuario", cargarDropDownUsuario);
   $(document).on("click", ".producto-carrito__borrar", function () {
     carrito.borrarProducto(this);
   });
@@ -107,6 +108,10 @@ $(document).ready(function () {
     mouseleave: toggleLogin
   });
 });
+
+function cargarDropDownUsuario() {
+  $('.dropdown-usuario').toggle();
+}
 
 function yaTengoCuenta() {
   toggleModalRegistro();
@@ -257,7 +262,7 @@ function toggleLogin() {
 function logout() {
   window.localStorage.removeItem("Usuario");
   window.history.pushState({
-      categoria: url
+      categoria: urlCliente
     },
     url,
     urlCliente
@@ -304,9 +309,16 @@ function checkToken() {
       html += "<div class='usuario__nick'>";
       html += response.nickName;
       html += "</div>";
+
+      html += "<div class='dropdown-usuario'>";
+      html += "<div id='botonPerfil' class='boton boton--terciario'>";
+      html += "Perfil";
+      html += "</div>";
       html += "<div id='botonLogout' class='boton boton--terciario'>";
       html += "Logout";
       html += "</div>";
+      html += "</div>";
+
       html += "</div>";
 
       $("#divPerfilLogin").html(html);
@@ -342,8 +354,14 @@ function enviarLoginServidor(objetoUsuario) {
       html += "<div class='usuario__nick'>";
       html += response.user.nickName;
       html += "</div>";
+
+      html += "<div class='dropdown-usuario'>";
+      html += "<div id='botonPerfil' class='boton boton--terciario'>";
+      html += "Perfil";
+      html += "</div>";
       html += "<div id='botonLogout' class='boton boton--terciario'>";
       html += "Logout";
+      html += "</div>";
       html += "</div>";
 
       html += "</div>";
