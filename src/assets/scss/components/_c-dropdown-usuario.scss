@@ -1,0 +1,14 @@
+.dropdown-usuario {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 10%;
+    background-color: white;
+    display: flex;
+    display: none;
+    flex-direction: column;
+
+    &__item {
+        padding: 5px;
+    }
+}

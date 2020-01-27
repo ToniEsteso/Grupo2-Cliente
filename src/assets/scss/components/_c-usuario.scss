@@ -1,7 +1,8 @@
 .usuario {
     width: 100%;
     display: flex;
-    align-items:center;
+    align-items: center;
+    cursor: pointer;
 
     &__imagen {
         text-align: center;
@@ -11,7 +12,7 @@
         border-radius: 100%;
         margin-right: 5%;
     }
-    
+
     &__nick {
         color: $colorCuaternario;
         text-align: center;
