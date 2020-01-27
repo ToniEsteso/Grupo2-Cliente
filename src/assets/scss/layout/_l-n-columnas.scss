@@ -29,7 +29,7 @@
 
         @each $gap-size,
         $gap-number in $gap-sizes {
-            &--#{$screen-size}-gap-#{$gap-size} {
+            &\@#{$screen-size}-gap-#{$gap-size} {
                 gap: #{$gap-number}px;
             }
         }
@@ -41,7 +41,7 @@
     $screen-number in $screen-sizes {
         @media (max-width: #{$screen-number}px) {
             @for $i from 1 through 12 {
-                &--#{$screen-size}-#{$i}-columnas {
+                &\@#{$screen-size}-#{$i}-columnas {
                     grid-template-columns: repeat(#{$i}, 1fr);
                 }
             }

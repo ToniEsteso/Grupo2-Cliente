@@ -1,4 +1,8 @@
-import { urlCliente, urlImagenes, urlServidor } from "../../config.js";
+import {
+  urlCliente,
+  urlImagenes,
+  urlServidor
+} from "../../config.js";
 
 // LOCALHOST
 // let urlServidor = "http://127.0.0.1:8000/api";
@@ -61,9 +65,8 @@ class Carrito {
 let productosGlobal = [];
 let carrito = new Carrito();
 
-$(document).ready(function() {
+$(document).ready(function () {
   checkToken();
-
   cargarCategorias();
   cargarRedesSociales();
 
@@ -72,17 +75,17 @@ $(document).ready(function() {
   $(document).on("click", "#botonCargarProductos", cargarProductos);
   $(document).on("click", "#botonCargarRecetas", cargarRecetas);
 
+  $("#botonYaTengoCuenta").on("click", yaTengoCuenta);
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
   $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
-  $(document).on("click", ".producto", abrirModalProducto);
+  $(document).on("click", ".producto", toggleModalProducto);
   $(document).on("click", "#botonLogout", logout);
   $("#formularioRegistro").on("submit", registrar);
   $("#volverAtrasRegistro").attr("href", urlCliente);
   $(".icono-carrito").on("click", cargarProductosCarrito);
-  $(document).on("click", "#logoHeader", function() {
-    window.history.pushState(
-      {
+  $(document).on("click", "#logoHeader", function () {
+    window.history.pushState({
         categoria: urlCliente
       },
       urlCliente,
@@ -90,10 +93,11 @@ $(document).ready(function() {
     );
     leerUrl();
   });
+  $(document).on("click", "#botonComprar", enviarCarritoServidor);
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
   $(document).on("click", ".menu-lateral__enlace", cargarProductosCategoria);
   $(document).on("click", ".categorias", cargarProductosCategoria);
-  $(document).on("click", ".producto-carrito__borrar", function() {
+  $(document).on("click", ".producto-carrito__borrar", function () {
     carrito.borrarProducto(this);
   });
   $("#botonAbrirLogIn").on({
@@ -104,16 +108,30 @@ $(document).ready(function() {
   });
 });
 
-function checkCarrito() {
+function yaTengoCuenta() {
+  toggleModalRegistro();
+  toggleLogin();
+}
+
+function enviarCarritoServidor() {
   console.log(carrito);
+  carrito.fechaCompra = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-  console.log("check carrito");
+  $.ajax({
+      type: "POST",
+      url: urlServidor + "/enviarCarrito",
+      data: carrito,
+    })
+    .done(function (response) {
+      console.log(response);
+      console.log(response.responseText);
+    });
+}
 
+function checkCarrito() {
   let carritoStorage = JSON.parse(window.localStorage.getItem("Carrito"));
-  console.log(carritoStorage);
 
   if (carritoStorage !== null) {
-    console.log(carritoStorage);
     carrito.productos = carritoStorage.productos;
     carrito.actualizarContador();
   } else {
@@ -138,8 +156,6 @@ function cargarProductosCarrito() {
         urlImagenes +
         prod.imagen +
         "' class='producto-carrito__imagen'>";
-      console.log(urlImagenes);
-      console.log("IMAGEN: " + prod.imagen);
       html += "<div class='producto-carrito__nombre'>";
       html += prod.nombre;
       html += "</div>";
@@ -158,9 +174,12 @@ function cargarProductosCarrito() {
     html += "<div class='carrito__total'>";
     html += precioTotal;
     html += "</div>";
+    html += "<div class='carrito__boton-comprar'>";
+    html += "<div id='botonComprar' class='boton boton--primario'>Comprar</div>";
+    html += "</div>";
   }
   $(".carrito").html(html);
-  $("#modalCarrito").modal("show");
+  $("#modalCarrito").modal("toggle");
 }
 
 function anyadirProducto(e) {
@@ -168,23 +187,19 @@ function anyadirProducto(e) {
   let nombreProducto = $(this)
     .parents()
     .find("#nombreProducto")[
-    $(this)
+      $(this)
       .parents()
       .find("#nombreProducto").length - 1
-  ].textContent;
-  console.log(nombreProducto);
+    ].textContent;
 
   let producto = productosGlobal.find(
     element => element.nombre == nombreProducto
   );
-  console.log("producto");
-  console.log(productosGlobal);
-  console.log("/producto");
   // SE QUEDA MAL AQUÍ, AQUÍ LA IMAGEN SE PONE EL UNDEFINED DELANTE
   carrito.anyadirProducto(producto);
 }
 
-function abrirModalProducto() {
+function toggleModalProducto() {
   let nombreProducto = $(this)
     .find(".producto__nombre")
     .text();
@@ -211,15 +226,15 @@ function abrirModalProducto() {
     "</p>";
   $(".modal-producto__body").html(html);
 
-  $("#modalProducto").modal("show");
+  $("#modalProducto").modal("toggle");
 }
 
-function abrirModalRegistro() {
-  $("#modalRegistro").modal("show");
+function toggleModalRegistro() {
+  $("#modalRegistro").modal("toggle");
 }
 
 function toggleLogin() {
-  $("#modalLogIn").modal("show");
+  $("#modalLogIn").modal("toggle");
   // let altura = document.getElementById("botonAbrirLogIn").getBoundingClientRect().height;
   // let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect().y;
 
@@ -238,8 +253,7 @@ function toggleLogin() {
 
 function logout() {
   window.localStorage.removeItem("Usuario");
-  window.history.pushState(
-    {
+  window.history.pushState({
       categoria: url
     },
     url,
@@ -248,7 +262,18 @@ function logout() {
   leerUrl();
 }
 
+function historialCarritos(idUsuario) {
+  $.ajax({
+    url: urlServidor + "/historialCarritos/" + idUsuario,
+    success: function (response) {
+      console.log(response);
+    }
+  });
+
+}
+
 function checkToken() {
+
   let token = "Bearer " + window.localStorage.getItem("Usuario");
 
   if (window.localStorage.getItem("Usuario") != null) {
@@ -258,8 +283,10 @@ function checkToken() {
       headers: {
         Authorization: token
       }
-    }).done(function(response) {
+    }).done(function (response) {
       checkCarrito();
+
+      carrito.idUsuario = response.id;
       abrirNotificacion("Bienvenido " + response.nickName + "!");
       let html = "";
       html += "<div class='carrito'>";
@@ -298,7 +325,7 @@ function logIn() {
 
 function enviarLoginServidor(objetoUsuario) {
   $.post(urlServidor + "/auth/login", objetoUsuario)
-    .done(function(response) {
+    .done(function (response) {
       window.localStorage.setItem("Usuario", response.access_token);
       $("#modalLogIn").modal("hide");
       abrirNotificacion("Bienvenido " + response.user.nickName + "!");
@@ -321,13 +348,13 @@ function enviarLoginServidor(objetoUsuario) {
       $("#divPerfilLogin").html(html);
       $(".log-in").hide();
     })
-    .fail(function() {
+    .fail(function () {
       abrirNotificacion("Login fallido");
     });
 }
 
 function abrirRegistro() {
-  abrirModalRegistro();
+  toggleModalRegistro();
   // window.location = urlCliente + "/registro.html";
   // window.location.replace("registro.html");
 }
@@ -372,7 +399,7 @@ function cargarCategorias() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/categorias"
-  }).done(function(response) {
+  }).done(function (response) {
     let html = "";
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
@@ -408,7 +435,7 @@ function cargarImagenesCarousel() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/carousel"
-  }).done(function(response) {
+  }).done(function (response) {
     let html = "";
     let contador = 0;
     response.imagenes.forEach(element => {
@@ -437,7 +464,7 @@ function cargarRedesSociales() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/redessociales"
-  }).done(function(response) {
+  }).done(function (response) {
     let numRedes = response.data.length;
     let html = "";
     html +=
@@ -462,18 +489,15 @@ function cargarRedesSociales() {
 function cargarProductosCategoria() {
   toggleHamburguesa();
 
-  console.log(this);
-
   let categoria = this.textContent;
 
   let url = "/categorias/" + categoria + "/productos";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -482,7 +506,7 @@ function cargarProductosCategoria() {
 
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         let producto = new Producto(
           element.id,
@@ -529,18 +553,17 @@ function cargarProductosCategoria() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {});
+    .fail(function () {});
 }
 
 function cargarProductos() {
   let url = "/productos";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -548,7 +571,7 @@ function cargarProductos() {
       );
 
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         let producto = new Producto(
           element.id,
@@ -593,18 +616,17 @@ function cargarProductos() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {});
+    .fail(function () {});
 }
 
 function cargarRecetas() {
   let url = "/recetas";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -612,7 +634,7 @@ function cargarRecetas() {
       );
 
       let html =
-        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         html += "<div class='recetas'>";
         html +=
@@ -634,18 +656,17 @@ function cargarRecetas() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {});
+    .fail(function () {});
 }
 
 function cargarCategoriasBoton() {
   let url = "/categorias";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -653,7 +674,7 @@ function cargarCategoriasBoton() {
       );
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>";
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>";
       response.data.forEach(element => {
         html += "<div class='categorias'>";
 
@@ -676,7 +697,7 @@ function cargarCategoriasBoton() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {});
+    .fail(function () {});
 }
 
 function cargarPaginaError(prueba) {
@@ -718,7 +739,7 @@ function abrirNotificacion(mensaje) {
   $("#notificacion").addClass("notificacion--show");
 
   // After 3 seconds, remove the show class from DIV
-  setTimeout(function() {
+  setTimeout(function () {
     $("#notificacion").removeClass("notificacion--show");
   }, 3000);
 }
@@ -728,6 +749,8 @@ function abrirNotificacion(mensaje) {
 // }
 
 function leerUrl() {
+  console.log("leer url");
+
   let url = location.href.split("Grupo2/")[1];
   if (typeof url !== "undefined") {
     let prueba = url.split("/")[0];
@@ -778,19 +801,19 @@ function registrar(e) {
   formData.append("avatar", $("#inputAvatar")[0].files[0]);
 
   $.ajax({
-    url: urlServidor + "/auth/register",
-    type: "post",
-    data: formData,
-    cache: false,
-    contentType: false,
-    processData: false
-  })
-    .done(function(res) {
+      url: urlServidor + "/auth/register",
+      type: "post",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function (res) {
       enviarLoginServidor(objetoUsuario);
       $("#modalRegistro").modal("hide");
       abrirNotificacion("Registro completado");
     })
-    .fail(function(res) {
+    .fail(function (res) {
       abrirNotificacion("Registro fallido");
     });
 }
@@ -806,7 +829,7 @@ function cargarPrincipal() {
   html += "</div >";
   html += '<div class="portada__paneles">';
   html +=
-    ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl l-columnas--tablet-gap-m l-columnas--tablet-2-columnas l-columnas--mobile-gap-xs l-columnas--mobile-1-columnas">';
+    ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl l-columnas--tablet-gap-m l-columnas--tablet-2-columnas l-columnas@mobile-gap-xs l-columnas@mobile-1-columnas">';
   html += '  <div class="l-columnas__item">';
   html +=
     '     <div id="botonCargarCategorias" class="boton boton--primario">Categorias</div>';
