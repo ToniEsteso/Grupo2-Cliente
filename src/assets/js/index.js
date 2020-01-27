@@ -848,8 +848,7 @@ $(".barra-busqueda__input").keyup(function(e) {
   $.ajax({
     type: "GET",
     url: urlServidor + url
-  })
-  .done(function(response) {
+  }).done(function(response) {
     window.history.pushState(
       {
         categoria: url
