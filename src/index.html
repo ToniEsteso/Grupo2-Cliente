@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>VeganFood</title>
+    <base href="http://localhost/Grupo2/" />
     <script src="assets/js/jquery-3.4.1.min.js"></script>
     <link
       rel="stylesheet"
@@ -22,236 +23,170 @@
     <script src="assets/js/popper.min.js"></script>
     <!-- <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
-    <link rel="shortcut icon" type="image/png" href="assets/img/icono.ico" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>VeganFood</title>
+  <script src="assets/js/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link href="https://fonts.googleapis.com/css?family=Merriweather Sans" rel="stylesheet" />
+  <script src="config.js" type="module"></script>
+  <script src="assets/js/index.js" type="module"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <!-- <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
-  <body class="body">
-    <div class="l-page">
-      <div class="l-page__header">
-        <!-- Pensar otro nombre para cabecera -->
-        <div class="menu">
-          <div class="menu__item">
-            <a class="menu__item--logo" id="logoHeader">
-              <img class="logo" src="assets/img/logo.png" />
-            </a>
-          </div>
+  <link rel="shortcut icon" type="image/png" href="assets/img/icono.ico" />
+</head>
 
-          <div class="menu__item">
-            <div class="barra-busqueda">
-              <input
-                class="barra-busqueda__input"
-                type="text"
-                placeholder="Buscar..."
-                name="barra-busqueda"
-              />
-              <button class="barra-busqueda__boton" type="submit">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-          </div>
-          <div class="menu__item">
-            <div class="icono-carrito">
-              <i class="fas fa-shopping-cart icono-carrito__icono"></i>
-              <div class="icono-carrito__num-productos">0</div>
-            </div>
-          </div>
-          <div class="menu__item" id="divPerfilLogin">
-            <div id="botonAbrirLogIn" class="boton boton--terciario">
-              Log in
-            </div>
-            <div id="botonRegistrarse" class="boton boton--secundario">
-              Registrarse
-            </div>
+<body class="body">
+  <div class="l-page">
+    <div class="l-page__header">
+      <!-- Pensar otro nombre para cabecera -->
+      <div class="menu">
+        <div class="menu__item">
+          <a class="menu__item--logo" id="logoHeader">
+            <img class="logo" src="assets/img/logo.png" />
+          </a>
+        </div>
+
+        <div class="menu__item">
+          <div class="barra-busqueda">
+            <input class="barra-busqueda__input" type="text" placeholder="Buscar..." name="barra-busqueda" />
+            <button class="barra-busqueda__boton" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
           </div>
         </div>
-      </div>
-      <div class="l-page__menu-lateral">
-        <div class="menu-lateral" id="menu-lateral">
-          <div class="menu-lateral__hamburguesa">
-            <i class="fas fa-bars"></i>
+        <div class="menu__item">
+          <div class="icono-carrito">
+            <i class="fas fa-shopping-cart icono-carrito__icono"></i>
+            <div class="icono-carrito__num-productos">0</div>
           </div>
         </div>
-      </div>
-      <div class="l-page__content padding--tablet-m padding--mobile-xs"></div>
-      <div class="l-page__footer">
-        <div class="footer__enlaces"></div>
-        <div class="footer__disclaimer">
-          <span>© 2019,VeganFood. Todos los derechos reservados.</span>
-        </div>
-      </div>
-    </div>
-
-    <div id="notificacion" class="notificacion"></div>
-
-    <!-- MODAL PRODUCTO -->
-    <div
-      class="modal fade"
-      id="modalProducto"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content modal-producto">
-          <div id="nombreProducto" class="modal-producto__header">
-            titulo
+        <div class="menu__item" id="divPerfilLogin">
+          <div id="botonAbrirLogIn" class="boton boton--terciario menu__item@mobile-none">
+            Log in
           </div>
-          <div id="modalBody" class="modal-producto__body">
-            texto
-          </div>
-          <div class="modal-producto__footer">
-            <div class="boton boton--terciario" data-dismiss="modal">
-              Cerrar
-            </div>
-            <div id="botonAnyadirCarrito" class="boton boton--primario">
-              Añadir al carrito
-            </div>
+          <div id="botonRegistrarse" class="boton boton--secundario">
+            Registro
           </div>
         </div>
       </div>
     </div>
+    <div class="l-page__menu-lateral">
+      <div class="menu-lateral" id="menu-lateral">
+        <div class="menu-lateral__hamburguesa">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </div>
+    <div class="l-page__content padding--tablet-m padding@mobile-xs"></div>
+    <div class="l-page__footer">
+      <div class="footer__enlaces"></div>
+      <div class="footer__disclaimer">
+        <span>© 2019,VeganFood. Todos los derechos reservados.</span>
+      </div>
+    </div>
+  </div>
 
-    <!-- MODAL REGISTRO -->
-    <div
-      class="modal fade bd-example-modal-lg"
-      id="modalRegistro"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="myLargeModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="register__item register__item--derecha">
-            <form
-              class="form"
-              enctype="multipart/form__data"
-              id="formularioRegistro"
-              method="post"
-            >
-              <label for="nombre" class="form__label">Nombre:</label>
-              <input
-                id="inputNombre"
-                type="text"
-                class="form__input"
-                placeholder="Escriba su nombre"
-              />
+  <div id="notificacion" class="notificacion"></div>
 
-              <label for="apellidos" class="form__label">Apellidos:</label>
-              <input
-                id="inputApellidos"
-                type="text"
-                class="form__input"
-                placeholder="Escriba sus apellidos"
-              />
-
-              <label for="email" class="form__label">Email:</label>
-              <input
-                id="inputEmail"
-                type="text"
-                class="form__input"
-                placeholder="Escriba su correo electrónico"
-              />
-
-              <label for="nick" class="form__label">Nick:</label>
-              <input
-                id="inputNick"
-                type="text"
-                class="form__input"
-                placeholder="Escriba su nick"
-              />
-
-              <label for="pass" class="form__label">Contraseña:</label>
-              <input
-                id="inputPassword1"
-                type="password"
-                class="form__input"
-                placeholder="Escriba su contraseña"
-              />
-
-              <label for="pass" class="form__label"
-                >Repite la contraseña:</label
-              >
-              <input
-                id="inputPassword2"
-                type="password"
-                class="form__input"
-                placeholder="Repite la contraseña"
-              />
-
-              <label for="avatar" class="form__label">Imagen de Perfil:</label>
-              <input
-                id="inputAvatar"
-                type="file"
-                class="form__input"
-                placeholder="Escoja su imagen de perfil"
-              />
-
-              <input
-                id="botonRegistrar"
-                type="submit"
-                class="boton boton--primario"
-                value="Registrarse"
-              />
-            </form>
+  <!-- MODAL PRODUCTO -->
+  <div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-producto">
+        <div id="nombreProducto" class="modal-producto__header">
+          titulo
+        </div>
+        <div id="modalBody" class="modal-producto__body">
+          texto
+        </div>
+        <div class="modal-producto__footer">
+          <div class="boton boton--terciario" data-dismiss="modal">
+            Cerrar
+          </div>
+          <div id="botonAnyadirCarrito" class="boton boton--primario">
+            Añadir al carrito
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- MODAL LOG IN -->
-    <div
-      class="modal fade"
-      id="modalLogIn"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalCenterTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="log-in form">
-            <div class="log-in__nombre">
-              <div class="form__label"><i class="fas fa-user"></i></div>
-              <input
-                id="inputUsuario"
-                class="form__input"
-                type="text"
-                placeholder="Correo electrónico..."
-              />
+  <!-- MODAL REGISTRO -->
+  <div class="modal fade bd-example-modal-lg" id="modalRegistro" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="register__item register__item--derecha">
+          <form class="form" enctype="multipart/form__data" id="formularioRegistro" method="post">
+            <label for="nombre" class="form__label">Nombre:</label>
+            <input id="inputNombre" type="text" class="form__input" placeholder="Escriba su nombre" />
+
+            <label for="apellidos" class="form__label">Apellidos:</label>
+            <input id="inputApellidos" type="text" class="form__input" placeholder="Escriba sus apellidos" />
+
+            <label for="email" class="form__label">Email:</label>
+            <input id="inputEmail" type="text" class="form__input" placeholder="Escriba su correo electrónico" />
+
+            <label for="nick" class="form__label">Nick:</label>
+            <input id="inputNick" type="text" class="form__input" placeholder="Escriba su nick" />
+
+            <label for="pass" class="form__label">Contraseña:</label>
+            <input id="inputPassword1" type="password" class="form__input" placeholder="Escriba su contraseña" />
+
+            <label for="pass" class="form__label">Repite la contraseña:</label>
+            <input id="inputPassword2" type="password" class="form__input" placeholder="Repite la contraseña" />
+
+            <label for="avatar" class="form__label">Imagen de Perfil:</label>
+            <input id="inputAvatar" type="file" class="form__input" placeholder="Escoja su imagen de perfil" />
+
+            <input id="botonRegistrar" type="submit" class="boton boton--primario" value="Registrarse" />
+            <div id='botonYaTengoCuenta' class="boton boton--terciario">
+              Ya tengo una cuenta...
             </div>
-            <div class="log-in__contrasenya">
-              <div class="form__label"><i class="fas fa-key"></i></div>
-              <input
-                id="inputContrasenya"
-                class="form__input"
-                type="password"
-                placeholder="Contraseña..."
-              />
-            </div>
-            <div class="boton boton--primario log-in__boton" id="botonLogin">
-              Log in
-            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LOG IN -->
+  <div class="modal fade" id="modalLogIn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="log-in form">
+          <div class="log-in__nombre">
+            <div class="form__label"><i class="fas fa-user"></i></div>
+            <input id="inputUsuario" class="form__input" type="text" placeholder="Correo electrónico..." />
+          </div>
+          <div class="log-in__contrasenya">
+            <div class="form__label"><i class="fas fa-key"></i></div>
+            <input id="inputContrasenya" class="form__input" type="password" placeholder="Contraseña..." />
+          </div>
+          <div class="boton boton--primario log-in__boton" id="botonLogin">
+            Log in
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- MODAL CARRITO -->
-    <div
-      class="modal fade bd-example-modal-lg"
-      id="modalCarrito"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="myLargeModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="carrito"></div>
-        </div>
+  <!-- MODAL CARRITO -->
+  <div class="modal fade bd-example-modal-lg" id="modalCarrito" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="carrito"></div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

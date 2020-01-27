@@ -63,7 +63,6 @@ let carrito = new Carrito();
 
 $(document).ready(function() {
   checkToken();
-
   cargarCategorias();
   cargarRedesSociales();
 
@@ -72,10 +71,11 @@ $(document).ready(function() {
   $(document).on("click", "#botonCargarProductos", cargarProductos);
   $(document).on("click", "#botonCargarRecetas", cargarRecetas);
 
+  $("#botonYaTengoCuenta").on("click", yaTengoCuenta);
   $(".menu-lateral__hamburguesa").on("click", toggleHamburguesa);
   $("#botonRegistrarse").on("click", abrirRegistro);
   $("#botonLogin").on("click", logIn);
-  $(document).on("click", ".producto", abrirModalProducto);
+  $(document).on("click", ".producto", toggleModalProducto);
   $(document).on("click", "#botonLogout", logout);
   $("#formularioRegistro").on("submit", registrar);
   $("#volverAtrasRegistro").attr("href", urlCliente);
@@ -90,9 +90,11 @@ $(document).ready(function() {
     );
     leerUrl();
   });
+  $(document).on("click", "#botonComprar", enviarCarritoServidor);
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
   $(document).on("click", ".menu-lateral__enlace", cargarProductosCategoria);
   $(document).on("click", ".categorias", cargarProductosCategoria);
+  $(document).on("click", ".usuario", cargarDropDownUsuario);
   $(document).on("click", ".producto-carrito__borrar", function() {
     carrito.borrarProducto(this);
   });
@@ -104,16 +106,36 @@ $(document).ready(function() {
   });
 });
 
-function checkCarrito() {
+function cargarDropDownUsuario() {
+  $(".dropdown-usuario").toggle();
+}
+
+function yaTengoCuenta() {
+  toggleModalRegistro();
+  toggleLogin();
+}
+
+function enviarCarritoServidor() {
   console.log(carrito);
+  carrito.fechaCompra = new Date()
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " ");
 
-  console.log("check carrito");
+  $.ajax({
+    type: "POST",
+    url: urlServidor + "/enviarCarrito",
+    data: carrito
+  }).done(function(response) {
+    console.log(response);
+    console.log(response.responseText);
+  });
+}
 
+function checkCarrito() {
   let carritoStorage = JSON.parse(window.localStorage.getItem("Carrito"));
-  console.log(carritoStorage);
 
   if (carritoStorage !== null) {
-    console.log(carritoStorage);
     carrito.productos = carritoStorage.productos;
     carrito.actualizarContador();
   } else {
@@ -138,8 +160,6 @@ function cargarProductosCarrito() {
         urlImagenes +
         prod.imagen +
         "' class='producto-carrito__imagen'>";
-      console.log(urlImagenes);
-      console.log("IMAGEN: " + prod.imagen);
       html += "<div class='producto-carrito__nombre'>";
       html += prod.nombre;
       html += "</div>";
@@ -147,6 +167,9 @@ function cargarProductosCarrito() {
       html += prod.unidades;
       html += "</div>";
       html += "<div class='producto-carrito__precio'>";
+      html += prod.precio;
+      html += "</div>";
+      html += "<div class='producto-carrito__precioUnidades'>";
       html += prod.unidades * prod.precio;
       precioTotal += prod.unidades * prod.precio;
       html += "</div>";
@@ -158,9 +181,13 @@ function cargarProductosCarrito() {
     html += "<div class='carrito__total'>";
     html += precioTotal;
     html += "</div>";
+    html += "<div class='carrito__boton-comprar'>";
+    html +=
+      "<div id='botonComprar' class='boton boton--primario'>Comprar</div>";
+    html += "</div>";
   }
   $(".carrito").html(html);
-  $("#modalCarrito").modal("show");
+  $("#modalCarrito").modal("toggle");
 }
 
 function anyadirProducto(e) {
@@ -172,19 +199,15 @@ function anyadirProducto(e) {
       .parents()
       .find("#nombreProducto").length - 1
   ].textContent;
-  console.log(nombreProducto);
 
   let producto = productosGlobal.find(
     element => element.nombre == nombreProducto
   );
-  console.log("producto");
-  console.log(productosGlobal);
-  console.log("/producto");
   // SE QUEDA MAL AQUÍ, AQUÍ LA IMAGEN SE PONE EL UNDEFINED DELANTE
   carrito.anyadirProducto(producto);
 }
 
-function abrirModalProducto() {
+function toggleModalProducto() {
   let nombreProducto = $(this)
     .find(".producto__nombre")
     .text();
@@ -211,15 +234,15 @@ function abrirModalProducto() {
     "</p>";
   $(".modal-producto__body").html(html);
 
-  $("#modalProducto").modal("show");
+  $("#modalProducto").modal("toggle");
 }
 
-function abrirModalRegistro() {
-  $("#modalRegistro").modal("show");
+function toggleModalRegistro() {
+  $("#modalRegistro").modal("toggle");
 }
 
 function toggleLogin() {
-  $("#modalLogIn").modal("show");
+  $("#modalLogIn").modal("toggle");
   // let altura = document.getElementById("botonAbrirLogIn").getBoundingClientRect().height;
   // let posY = document.getElementById("botonAbrirLogIn").getBoundingClientRect().y;
 
@@ -240,12 +263,21 @@ function logout() {
   window.localStorage.removeItem("Usuario");
   window.history.pushState(
     {
-      categoria: url
+      categoria: urlCliente
     },
     url,
     urlCliente
   );
   leerUrl();
+}
+
+function historialCarritos(idUsuario) {
+  $.ajax({
+    url: urlServidor + "/historialCarritos/" + idUsuario,
+    success: function(response) {
+      console.log(response);
+    }
+  });
 }
 
 function checkToken() {
@@ -260,6 +292,8 @@ function checkToken() {
       }
     }).done(function(response) {
       checkCarrito();
+
+      carrito.idUsuario = response.id;
       abrirNotificacion("Bienvenido " + response.nickName + "!");
       let html = "";
       html += "<div class='carrito'>";
@@ -274,9 +308,16 @@ function checkToken() {
       html += "<div class='usuario__nick'>";
       html += response.nickName;
       html += "</div>";
+
+      html += "<div class='dropdown-usuario'>";
+      html += "<div id='botonPerfil' class='boton boton--terciario'>";
+      html += "Perfil";
+      html += "</div>";
       html += "<div id='botonLogout' class='boton boton--terciario'>";
       html += "Logout";
       html += "</div>";
+      html += "</div>";
+
       html += "</div>";
 
       $("#divPerfilLogin").html(html);
@@ -312,8 +353,14 @@ function enviarLoginServidor(objetoUsuario) {
       html += "<div class='usuario__nick'>";
       html += response.user.nickName;
       html += "</div>";
+
+      html += "<div class='dropdown-usuario'>";
+      html += "<div id='botonPerfil' class='boton boton--terciario'>";
+      html += "Perfil";
+      html += "</div>";
       html += "<div id='botonLogout' class='boton boton--terciario'>";
       html += "Logout";
+      html += "</div>";
       html += "</div>";
 
       html += "</div>";
@@ -327,7 +374,7 @@ function enviarLoginServidor(objetoUsuario) {
 }
 
 function abrirRegistro() {
-  abrirModalRegistro();
+  toggleModalRegistro();
   // window.location = urlCliente + "/registro.html";
   // window.location.replace("registro.html");
 }
@@ -411,6 +458,7 @@ function cargarImagenesCarousel() {
   }).done(function(response) {
     let html = "";
     let contador = 0;
+    console.log("hecho carousel");
     response.imagenes.forEach(element => {
       html +=
         "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
@@ -462,8 +510,6 @@ function cargarRedesSociales() {
 function cargarProductosCategoria() {
   toggleHamburguesa();
 
-  console.log(this);
-
   let categoria = this.textContent;
 
   let url = "/categorias/" + categoria + "/productos";
@@ -482,7 +528,7 @@ function cargarProductosCategoria() {
 
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         let producto = new Producto(
           element.id,
@@ -548,7 +594,7 @@ function cargarProductos() {
       );
 
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         let producto = new Producto(
           element.id,
@@ -612,7 +658,7 @@ function cargarRecetas() {
       );
 
       let html =
-        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas--mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         html += "<div class='recetas'>";
         html +=
@@ -653,7 +699,7 @@ function cargarCategoriasBoton() {
       );
       let numRedes = response.data.length;
       let html =
-        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas--mobile-gap-m l-columnas--mobile-1-columnas'>";
+        "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>";
       response.data.forEach(element => {
         html += "<div class='categorias'>";
 
@@ -728,17 +774,24 @@ function abrirNotificacion(mensaje) {
 // }
 
 function leerUrl() {
+  console.log("leer url");
+
   let url = location.href.split("Grupo2/")[1];
+  console.log(url);
   if (typeof url !== "undefined") {
     let prueba = url.split("/")[0];
+    console.log("URL: " + url);
+    console.log("PRUEBA: " + prueba);
     switch (prueba) {
       case "":
         cargarPrincipal();
         cargarImagenesCarousel();
         break;
       case "categorias":
+        console.log("entrado en cateogiras");
         // HACER IF PARA CARGAR CATEGORIAS Y PRODUCTOS POR CATEGORIA
-        cargarProductosCategoria("/" + url);
+        // cargarProductosCategoria("/" + url);
+        cargarCategoriasBoton();
         break;
       case "productos":
         cargarProductos();
@@ -806,7 +859,7 @@ function cargarPrincipal() {
   html += "</div >";
   html += '<div class="portada__paneles padding--tablet-m padding--mobile-xs">';
   html +=
-    ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl l-columnas--tablet-gap-m l-columnas--tablet-2-columnas l-columnas--mobile-gap-xs l-columnas--mobile-1-columnas">';
+    ' <div class="l-columnas l-columnas--3-columnas l-columnas--gap-xl l-columnas--tablet-gap-m l-columnas--tablet-2-columnas l-columnas@mobile-gap-xs l-columnas@mobile-1-columnas">';
   html += '  <div class="l-columnas__item">';
   html +=
     '     <div id="botonCargarCategorias" class="boton boton--primario">Categorias</div>';
@@ -824,3 +877,92 @@ function cargarPrincipal() {
   html += " </div > ";
   $(".l-page__content").html(html);
 }
+
+//BARRA DE BÚSQUEDA
+
+$(".barra-busqueda__input").keyup(function(e) {
+  let consulta = $(".barra-busqueda__input").val();
+
+  if (consulta == "") {
+    cargarProductos();
+  }
+  let url = "/barra/" + consulta;
+  console.log(url);
+
+  $.ajax({
+    type: "GET",
+    url: urlServidor + url
+  }).done(function(response) {
+    window.history.pushState(
+      {
+        categoria: url
+      },
+      url,
+      urlCliente + url
+    );
+
+    let html =
+      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
+
+    if (response.data.length != 0) {
+      response.data.forEach(element => {
+        let producto = new Producto(
+          element.id,
+          element.nombre,
+          element.precio,
+          element.descripcion,
+          response.rutaServerImagenes + element.imagen
+        );
+
+        let existe = false;
+        productosGlobal.forEach(element => {
+          if (element.id == producto.id) {
+            existe = true;
+          }
+        });
+        if (!existe) {
+          productosGlobal.push(producto);
+        }
+        $(".l-page__content").html("");
+
+        html += "<div class='producto'>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          response.rutaImagenesServer +
+          element.imagen +
+          "'>";
+        html +=
+          "<div id='nombreProducto' class='producto__nombre'>" +
+          element.nombre +
+          "</div>";
+        html +=
+          "<div class='producto__informacion'>" +
+          element.descripcion +
+          "</div>";
+        html +=
+          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        html +=
+          "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
+        html += "</div>";
+
+        $(".l-page__content").html(html);
+      });
+    } else {
+      $(".l-page__content").html("");
+
+      let html =
+        "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+      html += "<div class='productoError'>";
+      html +=
+        "<div class='productoError__informacion'>Producto no encontrado</div>";
+      html += "</div>";
+      html += "</div>";
+
+      $(".l-page__content").html(html);
+    }
+
+    //alert(location.href);
+    console.log(url);
+  });
+});
