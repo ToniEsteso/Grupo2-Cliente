@@ -765,10 +765,8 @@ function leerUrl() {
   }
 }
 
-// window.addEventListener("hashchange", leerUrl);
-// window.addEventListener("load", leerUrl);
-window.onload = leerUrl();
-window.onhashchange = leerUrl();
+window.addEventListener("hashchange", leerUrl);
+window.addEventListener("load", leerUrl);
 
 function registrar(e) {
   e.preventDefault();
@@ -838,85 +836,90 @@ function cargarPrincipal() {
 
 //BARRA DE BÚSQUEDA
 
-$(".barra-busqueda__input").keyup(function (e) {
-
+$(".barra-busqueda__input").keyup(function(e) {
   let consulta = $(".barra-busqueda__input").val();
 
   if (consulta == "") {
-
     cargarProductos();
-
   }
   let url = "/barra/" + consulta;
   console.log(url);
 
   $.ajax({
     type: "GET",
-    url: urlServidor + url,
+    url: urlServidor + url
   })
-
-    .done(function (response) {
-      window.history.pushState({
+  .done(function(response) {
+    window.history.pushState(
+      {
         categoria: url
       },
-        url,
-        urlCliente + url
-      );
+      url,
+      urlCliente + url
+    );
 
-      let html = "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
+    let html =
+      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
 
-      if (response.data.length != 0) {
+    if (response.data.length != 0) {
+      response.data.forEach(element => {
+        let producto = new Producto(
+          element.id,
+          element.nombre,
+          element.precio,
+          element.descripcion,
+          response.rutaServerImagenes + element.imagen
+        );
 
-        response.data.forEach(element => {
-          let producto = new Producto(
-            element.id,
-            element.nombre,
-            element.precio,
-            element.descripcion,
-            response.rutaServerImagenes + element.imagen
-          );
-
-          let existe = false;
-          productosGlobal.forEach(element => {
-            if (element.id == producto.id) {
-              existe = true;
-            }
-          });
-          if (!existe) {
-            productosGlobal.push(producto);
-
+        let existe = false;
+        productosGlobal.forEach(element => {
+          if (element.id == producto.id) {
+            existe = true;
           }
-          $(".l-page__content").html("");
-
-
-          html += "<div class='producto'>";
-          html += "<img class='producto__imagen' src='" + urlImagenes + response.rutaImagenesServer + element.imagen + "'>";
-          html += "<div id='nombreProducto' class='producto__nombre'>" + element.nombre + "</div>";
-          html += "<div class='producto__informacion'>" + element.descripcion + "</div>";
-          html += "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-          html += "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
-          html += "</div>";
-
-          $(".l-page__content").html(html);
         });
-
-      } else {
-
+        if (!existe) {
+          productosGlobal.push(producto);
+        }
         $(".l-page__content").html("");
 
-        let html = "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
-        html += "<div class='productoError'>";
-        html += "<div class='productoError__informacion'>Producto no encontrado</div>";
+        html += "<div class='producto'>";
+        html +=
+          "<img class='producto__imagen' src='" +
+          urlImagenes +
+          response.rutaImagenesServer +
+          element.imagen +
+          "'>";
+        html +=
+          "<div id='nombreProducto' class='producto__nombre'>" +
+          element.nombre +
+          "</div>";
+        html +=
+          "<div class='producto__informacion'>" +
+          element.descripcion +
+          "</div>";
+        html +=
+          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        html +=
+          "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
         html += "</div>";
-        html += "</div>";
-
 
         $(".l-page__content").html(html);
+      });
+    } else {
+      $(".l-page__content").html("");
 
-      }
+      let html =
+        "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+      html += "<div class='productoError'>";
+      html +=
+        "<div class='productoError__informacion'>Producto no encontrado</div>";
+      html += "</div>";
+      html += "</div>";
 
-      //alert(location.href);
-      console.log(url);
-    })
+      $(".l-page__content").html(html);
+    }
 
-})
+    //alert(location.href);
+    console.log(url);
+  });
+});
