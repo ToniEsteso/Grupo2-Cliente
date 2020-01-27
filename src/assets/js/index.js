@@ -509,75 +509,142 @@ function cargarRedesSociales() {
 
 function cargarProductosCategoria() {
   toggleHamburguesa();
-
   let categoria = this.textContent;
+  // console.log("this.textContent: " + this.textContent);
+  // console.log("categoria: ");
+  // console.log(categoria);
+  // Hecho apaño para la función leerUrl
+  // if (typeof categoria !== Object) {
+  // url = "/categorias/" + categoria + "/productos";
+  // // } else {
+  // url = "/categorias/" + this.textContent + "/productos";
+  // }
 
   let url = "/categorias/" + categoria + "/productos";
   $.ajax({
     type: "GET",
     url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
-          categoria: url
-        },
-        url,
-        urlCliente + url
+  }).done(function(response) {
+    window.history.pushState(
+      {
+        categoria: url
+      },
+      url,
+      urlCliente + url
+    );
+
+    let numRedes = response.data.length;
+    let html =
+      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+    response.data.forEach(element => {
+      let producto = new Producto(
+        element.id,
+        element.nombre,
+        element.precio,
+        element.descripcion,
+        response.rutaServerImagenes + element.imagen
       );
+      console.log("CARGAR PRODUCTOS: " + element.imagen);
 
-      let numRedes = response.data.length;
-      let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
-      response.data.forEach(element => {
-        let producto = new Producto(
-          element.id,
-          element.nombre,
-          element.precio,
-          element.descripcion,
-          response.rutaServerImagenes + element.imagen
-        );
-        console.log("CARGAR PRODUCTOS: " + element.imagen);
-
-        let existe = false;
-        productosGlobal.forEach(element => {
-          if (element.id == producto.id) {
-            existe = true;
-          }
-        });
-        if (!existe) {
-          productosGlobal.push(producto);
+      let existe = false;
+      productosGlobal.forEach(element => {
+        if (element.id == producto.id) {
+          existe = true;
         }
-
-        html += "<div class='producto'>";
-        html +=
-          "<img class='producto__imagen' src='" +
-          urlImagenes +
-          response.rutaServerImagenes +
-          element.imagen +
-          "'>";
-        html +=
-          "<div id='nombreProducto' class='producto__nombre'>" +
-          element.nombre +
-          "</div>";
-        html +=
-          "<div class='producto__informacion'>" +
-          element.descripcion +
-          "</div>";
-        html +=
-          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-        html +=
-          "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
-        html += "</div>";
       });
+      if (!existe) {
+        productosGlobal.push(producto);
+      }
+
+      html += "<div class='producto'>";
+      html +=
+        "<img class='producto__imagen' src='" +
+        urlImagenes +
+        response.rutaServerImagenes +
+        element.imagen +
+        "'>";
+      html +=
+        "<div id='nombreProducto' class='producto__nombre'>" +
+        element.nombre +
+        "</div>";
+      html +=
+        "<div class='producto__informacion'>" + element.descripcion + "</div>";
+      html +=
+        "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+      html +=
+        "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
       html += "</div>";
-      $(".l-page__content").html("");
-      $(".l-page__content").html(html);
-      //alert(location.href);
-    })
-    .fail(function() {});
+    });
+    html += "</div>";
+    $(".l-page__content").html("");
+    $(".l-page__content").html(html);
+    //alert(location.href);
+  });
 }
 
+function recargarProductosCategoria(categoria) {
+  // HE TENIDO QUE HACER ESTA FUNCIÓN PORQUE ME DABA ERROR CON EL THIS EN LA OTRA SI PONÍA UN PARÁMETRO EN LA FUNCIÓN
+  let url = "/categorias/" + categoria + "/productos";
+  $.ajax({
+    type: "GET",
+    url: urlServidor + url
+  }).done(function(response) {
+    window.history.pushState(
+      {
+        categoria: url
+      },
+      url,
+      urlCliente + url
+    );
+
+    let numRedes = response.data.length;
+    let html =
+      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+    response.data.forEach(element => {
+      let producto = new Producto(
+        element.id,
+        element.nombre,
+        element.precio,
+        element.descripcion,
+        response.rutaServerImagenes + element.imagen
+      );
+      console.log("CARGAR PRODUCTOS: " + element.imagen);
+
+      let existe = false;
+      productosGlobal.forEach(element => {
+        if (element.id == producto.id) {
+          existe = true;
+        }
+      });
+      if (!existe) {
+        productosGlobal.push(producto);
+      }
+
+      html += "<div class='producto'>";
+      html +=
+        "<img class='producto__imagen' src='" +
+        urlImagenes +
+        response.rutaServerImagenes +
+        element.imagen +
+        "'>";
+      html +=
+        "<div id='nombreProducto' class='producto__nombre'>" +
+        element.nombre +
+        "</div>";
+      html +=
+        "<div class='producto__informacion'>" + element.descripcion + "</div>";
+      html +=
+        "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+      html +=
+        "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
+      html += "</div>";
+    });
+    html += "</div>";
+    $(".l-page__content").html("");
+    $(".l-page__content").html(html);
+    //alert(location.href);
+  });
+}
 function cargarProductos() {
   let url = "/productos";
   $.ajax({
@@ -777,21 +844,23 @@ function leerUrl() {
   console.log("leer url");
 
   let url = location.href.split("Grupo2/")[1];
-  console.log(url);
+  console.log("URL1: " + url);
+  let categoria = url.split("/")[1];
   if (typeof url !== "undefined") {
     let prueba = url.split("/")[0];
-    console.log("URL: " + url);
-    console.log("PRUEBA: " + prueba);
+    console.log(categoria);
     switch (prueba) {
       case "":
         cargarPrincipal();
         cargarImagenesCarousel();
         break;
       case "categorias":
-        console.log("entrado en cateogiras");
-        // HACER IF PARA CARGAR CATEGORIAS Y PRODUCTOS POR CATEGORIA
-        // cargarProductosCategoria("/" + url);
-        cargarCategoriasBoton();
+        if (categoria) {
+          recargarProductosCategoria(categoria);
+        } else {
+          console.log("entrado categorias boton");
+          cargarCategoriasBoton();
+        }
         break;
       case "productos":
         cargarProductos();
