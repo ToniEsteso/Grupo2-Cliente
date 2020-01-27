@@ -12,4 +12,3 @@ mv ./html/frontend/Grupo2-Cliente/dist/* ./html/frontend/
 mv ./html/frontend/Grupo2-Cliente/dist/*.* ./html/frontend/
 rm -rf ./html/frontend/Grupo2-Cliente
 docker container run -d --name veganfood_frontend -v /opt/veganfood/html/frontend:/usr/local/apache2/htdocs --expose 80 -e VIRTUAL_HOST=www.veganfood.pve2.fpmislata.com -e LETSENCRYPT_HOST=www.veganfood.pve2.fpmislata.com --net "nginx-net" httpd:2.4.41
-~
