@@ -411,6 +411,7 @@ function cargarImagenesCarousel() {
   }).done(function(response) {
     let html = "";
     let contador = 0;
+    console.log("hecho carousel");
     response.imagenes.forEach(element => {
       html +=
         "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
@@ -729,16 +730,21 @@ function abrirNotificacion(mensaje) {
 
 function leerUrl() {
   let url = location.href.split("Grupo2/")[1];
+  console.log(url);
   if (typeof url !== "undefined") {
     let prueba = url.split("/")[0];
+    console.log("URL: " + url);
+    console.log("PRUEBA: " + prueba);
     switch (prueba) {
       case "":
         cargarPrincipal();
         cargarImagenesCarousel();
         break;
       case "categorias":
+        console.log("entrado en cateogiras");
         // HACER IF PARA CARGAR CATEGORIAS Y PRODUCTOS POR CATEGORIA
-        cargarProductosCategoria("/" + url);
+        // cargarProductosCategoria("/" + url);
+        cargarCategoriasBoton();
         break;
       case "productos":
         cargarProductos();
@@ -756,8 +762,10 @@ function leerUrl() {
   }
 }
 
-window.addEventListener("hashchange", leerUrl);
-window.addEventListener("load", leerUrl);
+// window.addEventListener("hashchange", leerUrl);
+// window.addEventListener("load", leerUrl);
+window.onload = leerUrl();
+window.onhashchange = leerUrl();
 
 function registrar(e) {
   e.preventDefault();
