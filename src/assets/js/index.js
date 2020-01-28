@@ -835,7 +835,6 @@ function abrirNotificacion(mensaje) {
 function leerUrl() {
   $(".barra-busqueda__input").val("");
   let url = location.href.split(urlCliente + "/")[1];
-  console.log(url);
   if (typeof url !== "undefined") {
     let paginaCarga = url.split("/")[0];
     let separador = paginaCarga.split("=")[0];
@@ -860,7 +859,8 @@ function leerUrl() {
         break;
       case "busqueda":
         let busqueda = paginaCarga.split("=")[1];
-        barraBusqueda(busqueda);
+        barraBusqueda(event, busqueda);
+        $(".barra-busqueda__input").val(busqueda);
         break;
       case "perfil":
         cargarPaginaPerfil();
@@ -946,14 +946,15 @@ function cargarPrincipal() {
 }
 
 //BARRA DE BÚSQUEDA
-function barraBusqueda(consulta = "undefined") {
+function barraBusqueda(event, consulta = "undefined") {
+  console.log("consulta: ");
   console.log(consulta);
-  if (consulta !== "undefined") {
-    console.log("entrado");
+  console.log("terminado consulta");
+  if (consulta == "undefined") {
     consulta = $(".barra-busqueda__input").val();
   }
   let html;
-  if (consulta == "") {
+  if (consulta === "") {
     cargarProductos();
   }
   let url = "/busqueda=" + consulta;
@@ -972,10 +973,8 @@ function barraBusqueda(consulta = "undefined") {
 
     if (response.data.length != 0) {
       html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>";
       response.data.forEach(element => {
-        console.log("element: ");
-        console.log(element);
         let producto = new Producto(
           element.id,
           element.nombre,
@@ -995,8 +994,6 @@ function barraBusqueda(consulta = "undefined") {
         }
         $(".l-page__content").html("");
 
-        html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
         html += "<div class='producto'>";
         html +=
           "<img class='producto__imagen' src='" +
@@ -1022,7 +1019,7 @@ function barraBusqueda(consulta = "undefined") {
       $(".l-page__content").html("");
 
       let html =
-      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       html += "<div class='productoError'>";
       html +=
         "<div class='productoError__informacion'>Producto no encontrado</div>";
@@ -1036,7 +1033,6 @@ function barraBusqueda(consulta = "undefined") {
   });
 }
 
-function menuResponsive(){
+function menuResponsive() {
   document.getElementById("idMobile").classList.toggle("mobile");
 }
-
