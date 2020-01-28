@@ -9,6 +9,7 @@
     "l-page__menu-lateral l-page__content"
     "l-page__footer l-page__footer";
   grid-auto-columns: 10% 90%;
+  grid-auto-rows: 10% 90% 0%;
   background-color: #343434;
   height: 100vh;
 
@@ -17,12 +18,13 @@
   }
 
   &__content {
+    min-height: 90%;
     grid-area: l-page__content;
     position: relative;
 
     width: 100vw;
     left: -10vw;
-    padding: 50px;
+    padding: 20px 50px;
     background-color: $colorPrincipal;
 
     //oscurecer fondo
@@ -91,6 +93,7 @@
         @media (min-width: 751px) {
           left: -10vw;
         }
+
         @media (max-width: 750px) {
           left: -90vw;
         }
@@ -115,6 +118,7 @@
         @media (min-width: 751px) {
           left: -10vw;
         }
+
         @media (max-width: 750px) {
           left: -90vw;
         }
