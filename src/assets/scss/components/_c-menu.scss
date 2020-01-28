@@ -4,7 +4,6 @@
   justify-content: space-around;
   align-items: center;
   height: 100%;
-  max-height: 10vh;
   background-color: #ffffff;
   position: relative;
   z-index: 10;
@@ -28,6 +27,7 @@
     &--logo {
       padding: 10px;
       height: 80%;
+
       @media (max-width: 600px) {
         display: none;
       }
