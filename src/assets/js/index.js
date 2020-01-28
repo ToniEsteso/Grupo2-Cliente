@@ -904,7 +904,7 @@ function barraBusqueda() {
         $(".l-page__content").html("");
 
         html =
-          "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
         html += "<div class='producto'>";
         html +=
           "<img class='producto__imagen' src='" +
@@ -932,7 +932,7 @@ function barraBusqueda() {
       $(".l-page__content").html("");
 
       let html =
-        "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l'>";
+      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       html += "<div class='productoError'>";
       html +=
         "<div class='productoError__informacion'>Producto no encontrado</div>";
@@ -943,3 +943,8 @@ function barraBusqueda() {
     }
   });
 }
+
+function menuResponsive(){
+  document.getElementById("idMobile").classList.toggle("mobile");
+}
+
