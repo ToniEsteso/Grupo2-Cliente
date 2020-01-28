@@ -761,8 +761,9 @@ function leerUrl() {
   let url = location.href.split(urlCliente + "/")[1];
   console.log(url);
   if (typeof url !== "undefined") {
-    let prueba = url.split("/")[0];
-    switch (prueba) {
+    let paginaCarga = url.split("/")[0];
+    let separador = paginaCarga.split("=")[0];
+    switch (separador) {
       case "":
         cargarPrincipal();
         cargarImagenesCarousel();
@@ -781,8 +782,12 @@ function leerUrl() {
       case "recetas":
         cargarRecetas();
         break;
+      case "busqueda":
+        let busqueda = paginaCarga.split("=")[1];
+        barraBusqueda(busqueda);
+        break;
       default:
-        cargarPaginaError(prueba);
+        cargarPaginaError(paginaCarga);
         break;
     }
   } else {
@@ -862,8 +867,12 @@ function cargarPrincipal() {
 }
 
 //BARRA DE BÚSQUEDA
-function barraBusqueda() {
-  let consulta = $(".barra-busqueda__input").val();
+function barraBusqueda(consulta = "undefined") {
+  console.log(consulta);
+  if (consulta !== "undefined") {
+    console.log("entrado");
+    consulta = $(".barra-busqueda__input").val();
+  }
   let html;
   if (consulta == "") {
     cargarProductos();
