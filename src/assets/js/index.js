@@ -1,4 +1,8 @@
-import { urlCliente, urlImagenes, urlServidor } from "../../config.js";
+import {
+  urlCliente,
+  urlImagenes,
+  urlServidor
+} from "../../config.js";
 
 // LOCALHOST
 // let urlServidor = "http://127.0.0.1:8000/api";
@@ -40,6 +44,7 @@ class Carrito {
       this.productos.push(producto);
     }
     this.actualizarContador();
+    enviarCarritoTemporal();
   }
 
   borrarProducto(producto) {
@@ -51,6 +56,7 @@ class Carrito {
 
     this.actualizarContador();
     cargarProductosCarrito();
+    enviarCarritoTemporal();
   }
 
   actualizarContador() {
@@ -61,7 +67,7 @@ class Carrito {
 let productosGlobal = [];
 let carrito = new Carrito();
 
-$(document).ready(function() {
+$(document).ready(function () {
   checkToken();
   cargarCategorias();
   cargarRedesSociales();
@@ -77,12 +83,12 @@ $(document).ready(function() {
   $("#botonLogin").on("click", logIn);
   $(document).on("click", ".producto", toggleModalProducto);
   $(document).on("click", "#botonLogout", logout);
+  $(document).on("click", "#botonPerfil", cargarPaginaPerfil);
   $("#formularioRegistro").on("submit", registrar);
   $("#volverAtrasRegistro").attr("href", urlCliente);
   $(".icono-carrito").on("click", cargarProductosCarrito);
-  $(document).on("click", "#logoHeader", function() {
-    window.history.pushState(
-      {
+  $(document).on("click", "#logoHeader", function () {
+    window.history.pushState({
         categoria: urlCliente
       },
       urlCliente,
@@ -90,12 +96,12 @@ $(document).ready(function() {
     );
     leerUrl();
   });
-  $(document).on("click", "#botonComprar", enviarCarritoServidor);
+  $(document).on("click", "#botonComprar", comprarCarrito);
   $(document).on("click", "#botonAnyadirCarrito", anyadirProducto);
   $(document).on("click", ".menu-lateral__enlace", cargarProductosCategoria);
   $(document).on("click", ".categorias", cargarProductosCategoria);
   $(document).on("click", ".usuario", cargarDropDownUsuario);
-  $(document).on("click", ".producto-carrito__borrar", function() {
+  $(document).on("click", ".producto-carrito__borrar", function () {
     carrito.borrarProducto(this);
   });
   $("#botonAbrirLogIn").on({
@@ -115,32 +121,60 @@ function yaTengoCuenta() {
   toggleLogin();
 }
 
-function enviarCarritoServidor() {
-  console.log(carrito);
-  carrito.fechaCompra = new Date()
-    .toISOString()
-    .slice(0, 19)
-    .replace("T", " ");
+function enviarCarritoTemporal() {
+  carrito.fechaCompra = new Date().toISOString().slice(0, 19).replace("T", " ");
 
   $.ajax({
-    type: "POST",
-    url: urlServidor + "/enviarCarrito",
-    data: carrito
-  }).done(function(response) {
-    console.log(response);
-    console.log(response.responseText);
-  });
+      type: "POST",
+      url: urlServidor + "/insertarCarritoTemporal",
+      data: carrito
+    })
+    .done(function (response) {
+      console.log(response);
+      console.log(response.responseText);
+    })
+    .fail(function (response) {
+      console.log(response);
+      console.log(response.responseText);
+    });
 }
 
-function checkCarrito() {
-  let carritoStorage = JSON.parse(window.localStorage.getItem("Carrito"));
+function comprarCarrito(params) {
+  carrito.fechaCompra = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-  if (carritoStorage !== null) {
-    carrito.productos = carritoStorage.productos;
-    carrito.actualizarContador();
-  } else {
-    console.log("no entra en el if");
-  }
+  $.ajax({
+      type: "POST",
+      url: urlServidor + "/comprarCarrito",
+      data: carrito
+    })
+    .done(function (response) {
+      console.log(response);
+      console.log(response.responseText);
+    })
+    .fail(function (response) {
+      console.log(response);
+      console.log(response.responseText);
+    });
+}
+
+function checkCarrito(idUsuario) {
+  $.ajax({
+      type: "GET",
+      url: urlServidor + "/carrito/" + idUsuario
+    })
+    .done(function (response) {
+      let carritoTemporalServidor = response.data[0];
+
+      carrito = new Carrito();
+      carrito.idUsuario = carritoTemporalServidor.idUsuario;
+      carrito.fechaCompra = carritoTemporalServidor.fechaCompra;
+      carrito.productos = carritoTemporalServidor.productos;
+      carrito.actualizarContador();
+    })
+    .fail(function (response) {
+      console.log(response);
+      console.log(response.responseText);
+    });
 }
 
 function cargarProductosCarrito() {
@@ -195,16 +229,17 @@ function anyadirProducto(e) {
   let nombreProducto = $(this)
     .parents()
     .find("#nombreProducto")[
-    $(this)
+      $(this)
       .parents()
       .find("#nombreProducto").length - 1
-  ].textContent;
+    ].textContent;
 
   let producto = productosGlobal.find(
     element => element.nombre == nombreProducto
   );
   // SE QUEDA MAL AQUÍ, AQUÍ LA IMAGEN SE PONE EL UNDEFINED DELANTE
   carrito.anyadirProducto(producto);
+
 }
 
 function toggleModalProducto() {
@@ -259,25 +294,64 @@ function toggleLogin() {
   // }
 }
 
-function logout() {
-  window.localStorage.removeItem("Usuario");
-  window.history.pushState(
-    {
-      categoria: urlCliente
+function cargarPaginaPerfil() {
+  let url = "/perfil";
+  window.history.pushState({
+      categoria: url
     },
     url,
-    urlCliente
+    urlCliente + url
+  );
+
+  let token = "Bearer " + window.localStorage.getItem("Usuario");
+  let html = "";
+
+  if (window.localStorage.getItem("Usuario") != null) {
+    $.ajax({
+      type: "POST",
+      url: urlServidor + "/auth/me",
+      headers: {
+        Authorization: token
+      }
+    }).done(function (response) {
+      console.log(response);
+
+      html += "<div class='l-perfil padding--xl padding@tablet--m padding@mobile--s'>";
+      html += "<div class='datos-usuario padding@tablet--m padding@mobile--s'>";
+      html += "<img class='datos-usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" + response.avatar + "'>";
+      html += "<div class='datos-usuario__datos'>"
+      html += "<div class='datos-usuario__nick'>" + response.nickName + "</div>"
+      html += "<div class='datos-usuario__email'>" + response.email + "</div>"
+      html += "<div class='datos-usuario__nombre'>" + response.apellidos + ", " + response.nombre + "</div>"
+      html += "</div>"
+      html += "</div>"
+      html += "</div>"
+
+      $('.l-page__content').html(html);
+    });
+
+  }
+}
+
+function logout() {
+  window.localStorage.removeItem("Usuario");
+  window.history.pushState({
+      categoria: urlCliente
+    },
+    urlCliente,
+    urlCliente + "/"
   );
   leerUrl();
 }
 
 function historialCarritos(idUsuario) {
   $.ajax({
-    url: urlServidor + "/historialCarritos/" + idUsuario,
-    success: function(response) {
-      console.log(response);
-    }
-  });
+      url: urlServidor + "/historialCarritos/" + idUsuario,
+      type: 'GET'
+    })
+    .done(function (response) {
+
+    });
 }
 
 function checkToken() {
@@ -290,11 +364,10 @@ function checkToken() {
       headers: {
         Authorization: token
       }
-    }).done(function(response) {
-      checkCarrito();
-
+    }).done(function (response) {
       carrito.idUsuario = response.id;
       abrirNotificacion("Bienvenido " + response.nickName + "!");
+      checkCarrito(response.id);
       let html = "";
       html += "<div class='carrito'>";
       html += "<i class='fas fa-shopping-cart'></i>";
@@ -305,9 +378,6 @@ function checkToken() {
         "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
         response.avatar +
         "'></img>";
-      html += "<div class='usuario__nick'>";
-      html += response.nickName;
-      html += "</div>";
 
       html += "<div class='dropdown-usuario'>";
       html += "<div id='botonPerfil' class='boton boton--terciario'>";
@@ -339,9 +409,10 @@ function logIn() {
 
 function enviarLoginServidor(objetoUsuario) {
   $.post(urlServidor + "/auth/login", objetoUsuario)
-    .done(function(response) {
+    .done(function (response) {
       window.localStorage.setItem("Usuario", response.access_token);
       $("#modalLogIn").modal("hide");
+      checkCarrito(response.user.id);
       abrirNotificacion("Bienvenido " + response.user.nickName + "!");
       carrito.idUsuario = response.user.id;
       let html = "";
@@ -350,9 +421,6 @@ function enviarLoginServidor(objetoUsuario) {
         "<img class='usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
         response.user.avatar +
         "'></img>";
-      html += "<div class='usuario__nick'>";
-      html += response.user.nickName;
-      html += "</div>";
 
       html += "<div class='dropdown-usuario'>";
       html += "<div id='botonPerfil' class='boton boton--terciario'>";
@@ -368,7 +436,7 @@ function enviarLoginServidor(objetoUsuario) {
       $("#divPerfilLogin").html(html);
       $(".log-in").hide();
     })
-    .fail(function() {
+    .fail(function () {
       abrirNotificacion("Login fallido");
     });
 }
@@ -419,7 +487,7 @@ function cargarCategorias() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/categorias"
-  }).done(function(response) {
+  }).done(function (response) {
     let html = "";
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
@@ -455,10 +523,9 @@ function cargarImagenesCarousel() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/carousel"
-  }).done(function(response) {
+  }).done(function (response) {
     let html = "";
     let contador = 0;
-    console.log("hecho carousel");
     response.imagenes.forEach(element => {
       html +=
         "<div class='carousel-item " + (contador != 0 ? "" : "active") + "'>";
@@ -485,7 +552,7 @@ function cargarRedesSociales() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/redessociales"
-  }).done(function(response) {
+  }).done(function (response) {
     let numRedes = response.data.length;
     let html = "";
     html +=
@@ -524,9 +591,8 @@ function cargarProductosCategoria() {
   $.ajax({
     type: "GET",
     url: urlServidor + url
-  }).done(function(response) {
-    window.history.pushState(
-      {
+  }).done(function (response) {
+    window.history.pushState({
         categoria: url
       },
       url,
@@ -544,7 +610,6 @@ function cargarProductosCategoria() {
         element.descripcion,
         response.rutaServerImagenes + element.imagen
       );
-      console.log("CARGAR PRODUCTOS: " + element.imagen);
 
       let existe = false;
       productosGlobal.forEach(element => {
@@ -588,9 +653,8 @@ function recargarProductosCategoria(categoria) {
   $.ajax({
     type: "GET",
     url: urlServidor + url
-  }).done(function(response) {
-    window.history.pushState(
-      {
+  }).done(function (response) {
+    window.history.pushState({
         categoria: url
       },
       url,
@@ -608,7 +672,6 @@ function recargarProductosCategoria(categoria) {
         element.descripcion,
         response.rutaServerImagenes + element.imagen
       );
-      console.log("CARGAR PRODUCTOS: " + element.imagen);
 
       let existe = false;
       productosGlobal.forEach(element => {
@@ -645,15 +708,15 @@ function recargarProductosCategoria(categoria) {
     //alert(location.href);
   });
 }
+
 function cargarProductos() {
   let url = "/productos";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -706,18 +769,17 @@ function cargarProductos() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {});
+    .fail(function () {});
 }
 
 function cargarRecetas() {
   let url = "/recetas";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -747,18 +809,17 @@ function cargarRecetas() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {});
+    .fail(function () {});
 }
 
 function cargarCategoriasBoton() {
   let url = "/categorias";
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -776,9 +837,6 @@ function cargarCategoriasBoton() {
           response.rutaImagenesServer +
           element.imagen +
           "'>";
-        console.log(urlImagenes);
-        console.log(response.rutaServerImagenes);
-        console.log(element.imagen);
 
         html += "<div class='categorias__nombre'>" + element.nombre + "</div>";
 
@@ -789,11 +847,10 @@ function cargarCategoriasBoton() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function() {});
+    .fail(function () {});
 }
 
 function cargarPaginaError(prueba) {
-  console.log("ENTRA EN ERROR");
   let html = "<div class='error'>";
 
   html += "<div class='error__imagen'>";
@@ -831,7 +888,7 @@ function abrirNotificacion(mensaje) {
   $("#notificacion").addClass("notificacion--show");
 
   // After 3 seconds, remove the show class from DIV
-  setTimeout(function() {
+  setTimeout(function () {
     $("#notificacion").removeClass("notificacion--show");
   }, 3000);
 }
@@ -841,14 +898,12 @@ function abrirNotificacion(mensaje) {
 // }
 
 function leerUrl() {
-  console.log("leer url");
-
   let url = location.href.split("Grupo2/")[1];
-  console.log("URL1: " + url);
+
   let categoria = url.split("/")[1];
   if (typeof url !== "undefined") {
     let prueba = url.split("/")[0];
-    console.log(categoria);
+
     switch (prueba) {
       case "":
         cargarPrincipal();
@@ -858,7 +913,6 @@ function leerUrl() {
         if (categoria) {
           recargarProductosCategoria(categoria);
         } else {
-          console.log("entrado categorias boton");
           cargarCategoriasBoton();
         }
         break;
@@ -867,6 +921,9 @@ function leerUrl() {
         break;
       case "recetas":
         cargarRecetas();
+        break;
+      case "perfil":
+        cargarPaginaPerfil();
         break;
       default:
         cargarPaginaError(prueba);
@@ -900,19 +957,19 @@ function registrar(e) {
   formData.append("avatar", $("#inputAvatar")[0].files[0]);
 
   $.ajax({
-    url: urlServidor + "/auth/register",
-    type: "post",
-    data: formData,
-    cache: false,
-    contentType: false,
-    processData: false
-  })
-    .done(function(res) {
+      url: urlServidor + "/auth/register",
+      type: "post",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function (res) {
       enviarLoginServidor(objetoUsuario);
       $("#modalRegistro").modal("hide");
       abrirNotificacion("Registro completado");
     })
-    .fail(function(res) {
+    .fail(function (res) {
       abrirNotificacion("Registro fallido");
     });
 }
@@ -949,21 +1006,19 @@ function cargarPrincipal() {
 
 //BARRA DE BÚSQUEDA
 
-$(".barra-busqueda__input").keyup(function(e) {
+$(".barra-busqueda__input").keyup(function (e) {
   let consulta = $(".barra-busqueda__input").val();
 
   if (consulta == "") {
     cargarProductos();
   }
   let url = "/barra/" + consulta;
-  console.log(url);
 
   $.ajax({
     type: "GET",
     url: urlServidor + url
-  }).done(function(response) {
-    window.history.pushState(
-      {
+  }).done(function (response) {
+    window.history.pushState({
         categoria: url
       },
       url,
@@ -1032,6 +1087,5 @@ $(".barra-busqueda__input").keyup(function(e) {
     }
 
     //alert(location.href);
-    console.log(url);
   });
 });
