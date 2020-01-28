@@ -760,7 +760,6 @@ function leerUrl() {
   $(".barra-busqueda__input").val("");
   let url = location.href.split(urlCliente + "/")[1];
   console.log(url);
-  let categoria = url.split("/")[1];
   if (typeof url !== "undefined") {
     let prueba = url.split("/")[0];
     switch (prueba) {
@@ -769,6 +768,7 @@ function leerUrl() {
         cargarImagenesCarousel();
         break;
       case "categorias":
+        let categoria = url.split("/")[1];
         if (categoria) {
           cargarProductosCategoria(event, categoria);
         } else {
@@ -883,7 +883,11 @@ function barraBusqueda() {
     );
 
     if (response.data.length != 0) {
+      html =
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
       response.data.forEach(element => {
+        console.log("element: ");
+        console.log(element);
         let producto = new Producto(
           element.id,
           element.nombre,
@@ -903,8 +907,6 @@ function barraBusqueda() {
         }
         $(".l-page__content").html("");
 
-        html =
-          "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
         html += "<div class='producto'>";
         html +=
           "<img class='producto__imagen' src='" +
@@ -925,8 +927,6 @@ function barraBusqueda() {
         html +=
           "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
         html += "</div>";
-
-        $(".l-page__content").html(html);
       });
     } else {
       $(".l-page__content").html("");
@@ -941,5 +941,7 @@ function barraBusqueda() {
 
       $(".l-page__content").html(html);
     }
+
+    $(".l-page__content").html(html);
   });
 }
