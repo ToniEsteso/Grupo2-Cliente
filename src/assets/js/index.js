@@ -104,6 +104,7 @@ $(document).ready(function() {
   $(".log-in").on({
     mouseleave: toggleLogin
   });
+  $(document).on("keyup", ".barra-busqueda__input", barraBusqueda);
 });
 
 function cargarDropDownUsuario() {
@@ -767,14 +768,11 @@ function abrirNotificacion(mensaje) {
 // }
 
 function leerUrl() {
-  console.log("leer url");
-
+  $(".barra-busqueda__input").val("");
   let url = location.href.split("Grupo2/")[1];
-  console.log("URL1: " + url);
   let categoria = url.split("/")[1];
   if (typeof url !== "undefined") {
     let prueba = url.split("/")[0];
-    console.log(categoria);
     switch (prueba) {
       case "":
         cargarPrincipal();
@@ -784,7 +782,6 @@ function leerUrl() {
         if (categoria) {
           cargarProductosCategoria(event, categoria);
         } else {
-          console.log("entrado categorias boton");
           cargarCategoriasBoton();
         }
         break;
@@ -875,15 +872,13 @@ function cargarPrincipal() {
 }
 
 //BARRA DE BÚSQUEDA
-
-$(".barra-busqueda__input").keyup(function(e) {
+function barraBusqueda() {
   let consulta = $(".barra-busqueda__input").val();
-
+  let html;
   if (consulta == "") {
     cargarProductos();
   }
-  let url = "/barra/" + consulta;
-  console.log(url);
+  let url = "/busqueda=" + consulta;
 
   $.ajax({
     type: "GET",
@@ -896,9 +891,6 @@ $(".barra-busqueda__input").keyup(function(e) {
       url,
       urlCliente + url
     );
-
-    let html =
-      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
 
     if (response.data.length != 0) {
       response.data.forEach(element => {
@@ -921,6 +913,8 @@ $(".barra-busqueda__input").keyup(function(e) {
         }
         $(".l-page__content").html("");
 
+        html =
+          "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l'>";
         html += "<div class='producto'>";
         html +=
           "<img class='producto__imagen' src='" +
@@ -948,7 +942,7 @@ $(".barra-busqueda__input").keyup(function(e) {
       $(".l-page__content").html("");
 
       let html =
-        "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l'>";
       html += "<div class='productoError'>";
       html +=
         "<div class='productoError__informacion'>Producto no encontrado</div>";
@@ -957,8 +951,5 @@ $(".barra-busqueda__input").keyup(function(e) {
 
       $(".l-page__content").html(html);
     }
-
-    //alert(location.href);
-    console.log(url);
   });
-});
+}
