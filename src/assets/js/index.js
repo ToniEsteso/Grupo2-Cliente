@@ -1,8 +1,16 @@
+<< << << < HEAD
 import {
   urlCliente,
   urlImagenes,
   urlServidor
-} from "../../config.js";
+} from "../../config.js"; ===
+=== =
+import {
+  urlCliente,
+  urlImagenes,
+  urlServidor
+} from "../../config.js"; >>>
+>>> > c1abd9f27f81604911ed91cd6ded2be55fc349ad
 
 class Producto {
   constructor(id, nombre, precio, descripcion, imagen) {
