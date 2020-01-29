@@ -12,34 +12,6 @@
     0 0px 34.1px rgba(0, 0, 0, 0.03), 0 0px 55.8px rgba(0, 0, 0, 0.034),
     0 0px 129px rgba(0, 0, 0, 0.04);
 
-    @media (max-width: 600px) {
-
-      display:grid;
-      grid-template-columns: 200px 200px;
-
-      height:140%;
-
-      .barra-busqueda{
-
-        grid-area: buscador;
-        height:50%;
-        
-      }
-      .icono-carrito{
-
-        grid-area: carrito;
-        height:50%;
-      }
-      .logo{
-        grid-area: logo;
-      }
-      .boton--secundario{
-        grid-area: registro;
-        width:100px;
-        text-align: center;
-        height:50%;
-      }
-    }
 
   &__item {
     display: flex;
@@ -47,7 +19,7 @@
     align-items: center;
     height: 100%;
 
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       &\@mobile-none {
         display: none !important;
       }

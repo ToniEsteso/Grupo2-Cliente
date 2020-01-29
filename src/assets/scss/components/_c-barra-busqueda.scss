@@ -44,10 +44,9 @@
     border-bottom-left-radius: 0;
     cursor: pointer;
 
-    @media (max-width: 600px) {
+    @media (min-width: 600px) {
       
-      border-left: 1px solid #f8991d;
-      border-radius: 30px;
+      button: disabled;
 
     }
 
