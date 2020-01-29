@@ -20,7 +20,7 @@
 
       @each $padding-size,
       $padding-number in $padding-sizes {
-        &\@#{$screen-size}-#{$padding-size} {
+        &\@#{$screen-size}--#{$padding-size} {
           padding: #{$padding-number}px;
         }
       }
@@ -31,7 +31,7 @@
   $screen-number in $screen-sizes {
     @media (max-width: #{$screen-number}px) {
       @for $i from 1 through 12 {
-        &\@#{$screen-size}-#{$i}-columnas {
+        &\@#{$screen-size}--#{$i}-columnas {
           grid-template-columns: repeat(#{$i}, 1fr);
         }
       }

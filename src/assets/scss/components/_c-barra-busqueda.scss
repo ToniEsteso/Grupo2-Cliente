@@ -17,8 +17,8 @@
     width: 30vw;
   }
 
-  &__input:focus{
-    outline:none !important;
+  &__input:focus {
+    outline: none !important;
     outline-width: 0 !important;
     box-shadow: none;
     -moz-box-shadow: none;
@@ -27,13 +27,12 @@
 
   &__boton {
     padding: 6px 10px;
-    background: $colorSecundario;
     font-size: 17px;
-    color: #343434;
+    color: #676767;
 
     border: 1px solid $colorSecundario;
     border-radius: 5px;
-    
+
     border-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -41,6 +40,6 @@
   }
 
   &__boton:hover {
-    background: darken($colorSecundario, 10);
+    color: #343434;
   }
 }
