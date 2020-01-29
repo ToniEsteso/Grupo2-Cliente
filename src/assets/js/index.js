@@ -401,6 +401,7 @@ function logout() {
     urlCliente,
     urlCliente + "/"
   );
+  location.reload();
   leerUrl();
 }
 

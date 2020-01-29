@@ -4,6 +4,7 @@ docker container rm veganfood_frontend
 rm -rf ./html/frontend/
 mkdir -p ./html/frontend/Grupo2-Cliente
 git clone -b develop https://github.com/ToniEsteso/Grupo2-Cliente.git ./html/frontend/Grupo2-Cliente
+echo "<---------------Frontend clonado--------------->"
 chmod -R 777 ./html/frontend/
 rm -rf ./html/frontend/Grupo2-Cliente/node_modules
 npm install --prefix ./html/frontend/Grupo2-Cliente/

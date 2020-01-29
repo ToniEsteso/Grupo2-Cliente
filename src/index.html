@@ -83,7 +83,12 @@
     <div class="l-page__footer">
       <div class="footer__enlaces"></div>
       <div class="footer__disclaimer">
-        <span>© 2019,VeganFood. Todos los derechos reservados.</span>
+        <script>
+          let date = new Date();
+          let anyo = date.getFullYear();
+          let html = "<span>© 2019-" + anyo + ",VeganFood. Todos los derechos reservados.</span>";
+          document.write(html);
+        </script>
       </div>
     </div>
   </div>
@@ -159,7 +164,7 @@
         <div class="log-in form">
           <div class="log-in__nombre">
             <div class="form__label"><i class="fas fa-user"></i></div>
-            <input id="inputUsuario" class="form__input" type="text" placeholder="Correo electrónico..." />
+            <input id="inputUsuario" class="form__input" type="text" placeholder="Correo electrónico o nickname..." />
           </div>
           <div class="log-in__contrasenya">
             <div class="form__label"><i class="fas fa-key"></i></div>
