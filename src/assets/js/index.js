@@ -34,7 +34,6 @@ class Carrito {
     cargarProductosCarrito();
   }
   anyadirProducto(producto) {
-    console.log(producto);
     if (this.productos.includes(producto)) {
       let repetido = this.productos.find(prod => prod == producto);
       repetido.unidades++;
@@ -64,13 +63,12 @@ class Carrito {
 
 let productosGlobal = [];
 let carrito = new Carrito();
+let mostradaBarraBusqueda = false;
 
-$(document).ready(function () {
-  //BARA DE BUSQEUDA RESPONSIVE
-  $(".barra-busqueda__boton").click(function () {
-    $(".barra-busqueda__input").show();
-  });
+$(document).ready(function() {
+  //BARRA DE BÚSQUEDA RESPONSIVE
 
+  checkearTamanyo();
   checkToken();
   cargarCategorias();
   cargarRedesSociales();
@@ -150,13 +148,8 @@ function abrirProductosCarrito() {
     $(".carrito-historial__total").hide();
     $(".carrito-historial__producto").hide();
     boton.html('<i class="fas fa-minus"></i>');
-    console.log(
-      $(this)
-      .parent()
-      .parent()
-      .css("border-radius: 12px 12px 0px 0px")
-    );
 
+    
     $(this)
       .parent()
       .parent()
@@ -307,18 +300,12 @@ function enviarCarritoTemporal() {
     .replace("T", " ");
 
   $.ajax({
-      type: "POST",
-      url: urlServidor + "/insertarCarritoTemporal",
-      data: carrito
-    })
-    .done(function (response) {
-      console.log(response);
-      console.log(response.responseText);
-    })
-    .fail(function (response) {
-      console.log(response);
-      console.log(response.responseText);
-    });
+    type: "POST",
+    url: urlServidor + "/insertarCarritoTemporal",
+    data: carrito
+  })
+    .done(function(response) {})
+    .fail(function(response) {});
 }
 
 function comprarCarrito(params) {
@@ -328,18 +315,12 @@ function comprarCarrito(params) {
     .replace("T", " ");
 
   $.ajax({
-      type: "POST",
-      url: urlServidor + "/comprarCarrito",
-      data: carrito
-    })
-    .done(function (response) {
-      console.log(response);
-      console.log(response.responseText);
-    })
-    .fail(function (response) {
-      console.log(response);
-      console.log(response.responseText);
-    });
+    type: "POST",
+    url: urlServidor + "/comprarCarrito",
+    data: carrito
+  })
+    .done(function(response) {})
+    .fail(function(response) {});
 }
 
 function checkCarrito(idUsuario) {
@@ -356,10 +337,7 @@ function checkCarrito(idUsuario) {
       carrito.productos = carritoTemporalServidor.productos;
       carrito.actualizarContador();
     })
-    .fail(function (response) {
-      console.log(response);
-      console.log(response.responseText);
-    });
+    .fail(function(response) {});
 }
 
 function cargarProductosCarrito() {
@@ -1112,9 +1090,6 @@ function cargarPrincipal() {
 
 //BARRA DE BÚSQUEDA
 function barraBusqueda(event, consulta = "undefined") {
-  console.log("consulta: ");
-  console.log(consulta);
-  console.log("terminado consulta");
   if (consulta == "undefined") {
     consulta = $(".barra-busqueda__input").val();
   }
@@ -1123,76 +1098,105 @@ function barraBusqueda(event, consulta = "undefined") {
     cargarProductos();
   }
   let url = "/busqueda=" + consulta;
-
   $.ajax({
     type: "GET",
     url: urlServidor + url
-  }).done(function (response) {
-    window.history.pushState({
-        categoria: url
-      },
-      url,
-      urlCliente + url
-    );
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
+          categoria: url
+        },
+        url,
+        urlCliente + url
+      );
 
-    if (response.data.length != 0) {
-      html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>";
-      response.data.forEach(element => {
-        let producto = new Producto(
-          element.id,
-          element.nombre,
-          element.precio,
-          element.descripcion,
-          response.rutaServerImagenes + element.imagen
-        );
+      if (response.data.length != 0) {
+        html =
+          "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>";
+        response.data.forEach(element => {
+          let producto = new Producto(
+            element.id,
+            element.nombre,
+            element.precio,
+            element.descripcion,
+            response.rutaServerImagenes + element.imagen
+          );
 
-        let existe = false;
-        productosGlobal.forEach(element => {
-          if (element.id == producto.id) {
-            existe = true;
+          let existe = false;
+          productosGlobal.forEach(element => {
+            if (element.id == producto.id) {
+              existe = true;
+            }
+          });
+          if (!existe) {
+            productosGlobal.push(producto);
           }
+          $(".l-page__content").html("");
+
+          html += "<div class='producto'>";
+          html +=
+            "<img class='producto__imagen' src='" +
+            urlImagenes +
+            response.rutaImagenesServer +
+            element.imagen +
+            "'>";
+          html +=
+            "<div id='nombreProducto' class='producto__nombre'>" +
+            element.nombre +
+            "</div>";
+          html +=
+            "<div class='producto__informacion'>" +
+            element.descripcion +
+            "</div>";
+          html +=
+            "<div class='producto__precio'>Precio: " +
+            element.precio +
+            "€</div>";
+          html +=
+            "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
+          html += "</div>";
         });
-        if (!existe) {
-          productosGlobal.push(producto);
-        }
+      } else {
         $(".l-page__content").html("");
 
-        html += "<div class='producto'>";
+        let html =
+          "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        html += "<div class='productoError'>";
         html +=
-          "<img class='producto__imagen' src='" +
-          urlImagenes +
-          response.rutaImagenesServer +
-          element.imagen +
-          "'>";
-        html +=
-          "<div id='nombreProducto' class='producto__nombre'>" +
-          element.nombre +
-          "</div>";
-        html +=
-          "<div class='producto__informacion'>" +
-          element.descripcion +
-          "</div>";
-        html +=
-          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
-        html +=
-          "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
+          "<div class='productoError__informacion'>Producto no encontrado</div>";
         html += "</div>";
-      });
-    } else {
-      $(".l-page__content").html("");
+        html += "</div>";
 
-      let html =
-        "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
-      html += "<div class='productoError'>";
-      html +=
-        "<div class='productoError__informacion'>Producto no encontrado</div>";
-      html += "</div>";
-      html += "</div>";
+        $(".l-page__content").html(html);
+      }
 
       $(".l-page__content").html(html);
-    }
+    })
+    .fail(function(response) {});
+}
 
-    $(".l-page__content").html(html);
-  });
+function mostrarOcultarBusqueda() {
+  if (!mostradaBarraBusqueda) {
+    $(".barra-busqueda__input").show("slow");
+    mostradaBarraBusqueda = true;
+    $(".barra-busqueda__boton").css({ "border-left": "", "border-radius": "" });
+  } else {
+    $(".barra-busqueda__input").hide("slow");
+    $(".barra-busqueda__boton").css({
+      "border-left": "1px solid #f8991d",
+      "border-radius": "5px"
+    });
+    mostradaBarraBusqueda = false;
+  }
+}
+
+function checkearTamanyo() {
+  if (window.matchMedia("(max-width: 600px)").matches) {
+    $(document).on("click", ".barra-busqueda__boton", mostrarOcultarBusqueda);
+    $(".barra-busqueda__boton").css({
+      "border-left": "1px solid #f8991d",
+      "border-radius": "5px"
+    });
+  }
 }
