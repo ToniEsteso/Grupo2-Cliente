@@ -5,6 +5,10 @@
    // background-color: #efefef;
     background: linear-gradient(to bottom , rgb(255, 227, 185) , white); 
     
+    @media (max-width: 600px) {
+         
+        display: none;
+    }
 
 
     &__contenedor-enlaces {

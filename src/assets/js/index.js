@@ -49,6 +49,13 @@ let productosGlobal = [];
 let carrito = new Carrito();
 
 $(document).ready(function() {
+
+  //BARA DE BUSQEUDA RESPONSIVE
+    $('.barra-busqueda__boton').click(function() {
+        $('.barra-busqueda__input').show();
+      });
+
+
   checkToken();
   cargarCategorias();
   cargarRedesSociales();
@@ -563,7 +570,7 @@ function cargarRedesSociales() {
       html +=
         "<a href='" +
         element.enlace +
-        "' class='red'><i class='red__icono " +
+        "' target = '_blank' class='red'><i class='red__icono " +
         element.icono +
         "'></i>" +
         element.nombre +
@@ -735,7 +742,7 @@ function cargarRecetas() {
         html +=
           "<a href='" +
           element.enlace +
-          "' class='recetas__enlace'><div class='boton boton--primario'> Enlace Web </div></a>";
+          "' target = '_blank' class='recetas__enlace'><div class='boton boton--primario'> Enlace Web </div></a>";
         html += "</div>";
       });
       html += "</div>";
@@ -1019,7 +1026,7 @@ function barraBusqueda(event, consulta = "undefined") {
       $(".l-page__content").html("");
 
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--1-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       html += "<div class='productoError'>";
       html +=
         "<div class='productoError__informacion'>Producto no encontrado</div>";
@@ -1033,6 +1040,4 @@ function barraBusqueda(event, consulta = "undefined") {
   });
 }
 
-function menuResponsive() {
-  document.getElementById("idMobile").classList.toggle("mobile");
-}
+

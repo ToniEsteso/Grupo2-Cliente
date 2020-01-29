@@ -12,6 +12,7 @@
     0 0px 34.1px rgba(0, 0, 0, 0.03), 0 0px 55.8px rgba(0, 0, 0, 0.034),
     0 0px 129px rgba(0, 0, 0, 0.04);
 
+
   &__item {
     display: flex;
     justify-content: center;
@@ -22,15 +23,12 @@
       &\@mobile-none {
         display: none !important;
       }
+      height:auto;
     }
 
     &--logo {
       padding: 10px;
       height: 80%;
-
-      @media (max-width: 600px) {
-        display: none;
-      }
     }
   }
 }
