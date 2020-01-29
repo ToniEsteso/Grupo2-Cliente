@@ -109,7 +109,6 @@ function abrirProductosCarrito() {
     $('.botonAbrirProductosCarrito').html('<i class="fas fa-plus"></i>');
     $('.carrito-historial__total').hide();
     $('.carrito-historial__producto').hide();
-
     boton.html('<i class="fas fa-minus"></i>');
     console.log($(this).parent().parent().css('border-radius: 12px 12px 0px 0px'));
 
