@@ -17,9 +17,8 @@
     width: 30vw;
 
     @media (max-width: 600px) {
-         
-          display: none;
-      }
+      display: none;
+    }
   }
 
   &__input:focus {
@@ -28,7 +27,6 @@
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
-
   }
 
   &__boton {
@@ -44,12 +42,9 @@
     border-bottom-left-radius: 0;
     cursor: pointer;
 
-    @media (min-width: 600px) {
-      
-      button: disabled;
-
+    @media (max-width: 600px) {
+      border-left: 1px solid #f8991d;
     }
-
   }
 
   &__boton:hover {
