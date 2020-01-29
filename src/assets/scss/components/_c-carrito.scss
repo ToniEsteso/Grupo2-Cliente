@@ -1,38 +1,25 @@
 .carrito {
-    display: flex;
-    flex-direction: column;
-    padding: 2% 4%;
-    background-color: $colorPrincipal;
+    padding: 4%;
+    background-color: white;
     border-radius: 20px;
     
     &__total {
+      background-color: $colorPrincipal;
         font-size: x-large;
         text-align: right;
         font-weight: 600;
-        background-color: $colorSecundario;
-        border-radius: 10px;
         margin-left: auto;
-        width: auto;
-        padding: 0.75%;
-
-        animation: nudge 2s linear infinite;
+        width: 20%;
+        padding: 1% 4%;
+        margin-bottom: 5%;
+        border-radius: 20px;
     }
 
+    &__total::before {
+        content: 'Total:';
+        margin-right: 10%;
+    }
     &__total::after {
         content: '€';
-    }
-
-    @keyframes nudge {
-        0%, 100% {
-          transform: translate(0, 0);
-        }
-        
-        50% {
-          transform: translate(15px, 0);
-        }
-        
-        80% {
-          transform: translate(-15px, 0);
-        }
     }
 }
