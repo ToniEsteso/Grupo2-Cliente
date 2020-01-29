@@ -13,11 +13,6 @@
     0 0px 129px rgba(0, 0, 0, 0.04);
 
   @media (max-width: 600px) {
-    display: grid;
-    grid-template-columns: 200px 200px;
-
-    height: 140%;
-
     .barra-busqueda {
       grid-area: buscador;
       height: 50%;
@@ -34,6 +29,7 @@
       width: 100px;
       text-align: center;
       height: 50%;
+      border: none;
     }
   }
 

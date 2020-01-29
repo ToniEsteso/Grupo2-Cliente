@@ -47,13 +47,12 @@ class Carrito {
 
 let productosGlobal = [];
 let carrito = new Carrito();
+let mostradaBarraBusqueda = false;
 
 $(document).ready(function() {
-  //BARA DE BUSQEUDA RESPONSIVE
-  $(".barra-busqueda__boton").click(function() {
-    $(".barra-busqueda__input").show();
-  });
+  //BARRA DE BÚSQUEDA RESPONSIVE
 
+  checkearTamanyo();
   checkToken();
   cargarCategorias();
   cargarRedesSociales();
@@ -1165,4 +1164,29 @@ function barraBusqueda(event, consulta = "undefined") {
 
     $(".l-page__content").html(html);
   });
+}
+
+function mostrarOcultarBusqueda() {
+  if (!mostradaBarraBusqueda) {
+    $(".barra-busqueda__input").show("slow");
+    mostradaBarraBusqueda = true;
+    $(".barra-busqueda__boton").css({ "border-left": "", "border-radius": "" });
+  } else {
+    $(".barra-busqueda__input").hide("slow");
+    $(".barra-busqueda__boton").css({
+      "border-left": "1px solid #f8991d",
+      "border-radius": "5px"
+    });
+    mostradaBarraBusqueda = false;
+  }
+}
+
+function checkearTamanyo() {
+  if (window.matchMedia("(max-width: 600px)").matches) {
+    $(document).on("click", ".barra-busqueda__boton", mostrarOcultarBusqueda);
+    $(".barra-busqueda__boton").css({
+      "border-left": "1px solid #f8991d",
+      "border-radius": "5px"
+    });
+  }
 }
