@@ -9,16 +9,16 @@
     "l-page__menu-lateral l-page__content"
     "l-page__footer l-page__footer";
   grid-auto-columns: 10% 90%;
-  grid-auto-rows: 10% 90% 0%;
+  grid-auto-rows: 10vh auto auto;
   background-color: #343434;
-  height: 100vh;
+  height: 100%;
 
   &__header {
     grid-area: l-page__header;
   }
 
   &__content {
-    min-height: 90%;
+    min-height: 80vh;
     grid-area: l-page__content;
     position: relative;
 
@@ -74,6 +74,7 @@
     @media (max-width: 750px) {
       left: -90vw;
       width: 90vw;
+      display: none;
     }
 
     //animacion cerrar hamburguesa lateral
