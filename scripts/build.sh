@@ -3,8 +3,7 @@ echo building.....
 rm -rf ./dist
 mkdir ./dist
 
-shopt -s dotglob
-cp -r ./src/* ./dist/
+cp -R ./src/* ./dist/
 
 node-sass ./dist/assets/scss/main.scss > ./dist/assets/css/main.css
 
