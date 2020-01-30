@@ -65,7 +65,7 @@ let productosGlobal = [];
 let carrito = new Carrito();
 let mostradaBarraBusqueda = false;
 
-$(document).ready(function() {
+$(document).ready(function () {
   //BARRA DE BÚSQUEDA RESPONSIVE
 
   checkearTamanyo();
@@ -149,7 +149,7 @@ function abrirProductosCarrito() {
     $(".carrito-historial__producto").hide();
     boton.html('<i class="fas fa-minus"></i>');
 
-    
+
     $(this)
       .parent()
       .parent()
@@ -300,12 +300,12 @@ function enviarCarritoTemporal() {
     .replace("T", " ");
 
   $.ajax({
-    type: "POST",
-    url: urlServidor + "/insertarCarritoTemporal",
-    data: carrito
-  })
-    .done(function(response) {})
-    .fail(function(response) {});
+      type: "POST",
+      url: urlServidor + "/insertarCarritoTemporal",
+      data: carrito
+    })
+    .done(function (response) {})
+    .fail(function (response) {});
 }
 
 function comprarCarrito(params) {
@@ -315,12 +315,12 @@ function comprarCarrito(params) {
     .replace("T", " ");
 
   $.ajax({
-    type: "POST",
-    url: urlServidor + "/comprarCarrito",
-    data: carrito
-  })
-    .done(function(response) {})
-    .fail(function(response) {});
+      type: "POST",
+      url: urlServidor + "/comprarCarrito",
+      data: carrito
+    })
+    .done(function (response) {})
+    .fail(function (response) {});
 }
 
 function checkCarrito(idUsuario) {
@@ -337,7 +337,7 @@ function checkCarrito(idUsuario) {
       carrito.productos = carritoTemporalServidor.productos;
       carrito.actualizarContador();
     })
-    .fail(function(response) {});
+    .fail(function (response) {});
 }
 
 function cargarProductosCarrito() {
@@ -1099,12 +1099,11 @@ function barraBusqueda(event, consulta = "undefined") {
   }
   let url = "/busqueda=" + consulta;
   $.ajax({
-    type: "GET",
-    url: urlServidor + url
-  })
-    .done(function(response) {
-      window.history.pushState(
-        {
+      type: "GET",
+      url: urlServidor + url
+    })
+    .done(function (response) {
+      window.history.pushState({
           categoria: url
         },
         url,
@@ -1173,14 +1172,17 @@ function barraBusqueda(event, consulta = "undefined") {
 
       $(".l-page__content").html(html);
     })
-    .fail(function(response) {});
+    .fail(function (response) {});
 }
 
 function mostrarOcultarBusqueda() {
   if (!mostradaBarraBusqueda) {
     $(".barra-busqueda__input").show("slow");
     mostradaBarraBusqueda = true;
-    $(".barra-busqueda__boton").css({ "border-left": "", "border-radius": "" });
+    $(".barra-busqueda__boton").css({
+      "border-left": "",
+      "border-radius": ""
+    });
   } else {
     $(".barra-busqueda__input").hide("slow");
     $(".barra-busqueda__boton").css({
