@@ -196,7 +196,7 @@ function cargarDatosUsuarioPerfil() {
       html +=
         "<div class='datos-usuario padding@tablet--m padding@mobile--xs'>";
       html +=
-        "<img class='datos-usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
+        "<img class='datos-usuario__imagen' src='" + urlImagenes + "/imagenes/usuarios/" +
         response.avatar +
         "'>";
       html += "<div class='datos-usuario__datos'>";
