@@ -1,8 +1,4 @@
-import {
-  urlCliente,
-  urlImagenes,
-  urlServidor
-} from "../../config.js";
+import { urlCliente, urlImagenes, urlServidor } from "../../config.js";
 
 class Producto {
   constructor(id, nombre, precio, descripcion, imagen) {
@@ -29,7 +25,7 @@ class Carrito {
     let producto = this.productos.find(prod => prod.id == idProducto);
     producto.unidades--;
     if (producto.unidades == 0) {
-      this.borrarProducto(new Producto(idProducto, '', '', '', '', ''));
+      this.borrarProducto(new Producto(idProducto, "", "", "", "", ""));
     }
     cargarProductosCarrito();
   }
@@ -62,10 +58,11 @@ class Carrito {
 }
 
 let productosGlobal = [];
+let nombreProductoDrag;
 let carrito = new Carrito();
 let mostradaBarraBusqueda = false;
 
-$(document).ready(function () {
+$(document).ready(function() {
   //BARRA DE BÚSQUEDA RESPONSIVE
 
   checkearTamanyo();
@@ -95,8 +92,9 @@ $(document).ready(function () {
   $("#formularioRegistro").on("submit", registrar);
   $("#volverAtrasRegistro").attr("href", urlCliente);
   $(".icono-carrito").on("click", cargarProductosCarrito);
-  $(document).on("click", "#logoHeader", function () {
-    window.history.pushState({
+  $(document).on("click", "#logoHeader", function() {
+    window.history.pushState(
+      {
         categoria: urlCliente
       },
       urlCliente,
@@ -111,7 +109,7 @@ $(document).ready(function () {
   $(document).on("click", ".usuario", cargarDropDownUsuario);
   $(document).on("click", "#disminuirUnidad", disminuirUnidad);
   $(document).on("click", "#aumentarUnidad", aumentarUnidad);
-  $(document).on("click", ".producto-carrito__borrar", function (e) {
+  $(document).on("click", ".producto-carrito__borrar", function(e) {
     carrito.borrarProducto(this);
   });
   $("#botonAbrirLogIn").on({
@@ -121,18 +119,41 @@ $(document).ready(function () {
     mouseleave: toggleLogin
   });
   $(document).on("keyup", ".barra-busqueda__input", barraBusqueda);
+  $(document).on("drop", ".icono-carrito", drop);
+  // $(".icono-carrito").on("drop", anyadirProducto);
+  // $(".icono-carrito").on("dragover", allowDrop);
+  $(document).on("dragover", ".icono-carrito", allowDrop);
+  $(document).on("dragstart", ".producto", drag);
 });
 
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drop(ev) {
+  let comprobacion = ev.originalEvent.dataTransfer.getData("text");
+  if (comprobacion == "producto") {
+    let producto = productosGlobal.find(
+      element => element.nombre.toUpperCase() == nombreProductoDrag
+    );
+    carrito.anyadirProducto(producto);
+  }
+}
+
 function disminuirUnidad() {
-  console.log('disminuir');
-  let idProducto = $(this).parent().parent()[0].id;
+  console.log("disminuir");
+  let idProducto = $(this)
+    .parent()
+    .parent()[0].id;
   console.log(idProducto);
   carrito.disminuirUnidades(idProducto);
 }
 
 function aumentarUnidad() {
-  console.log('aumentar');
-  let idProducto = $(this).parent().parent()[0].id;
+  console.log("aumentar");
+  let idProducto = $(this)
+    .parent()
+    .parent()[0].id;
   console.log(idProducto);
   carrito.aumentarUnidades(idProducto);
 }
@@ -148,7 +169,6 @@ function abrirProductosCarrito() {
     $(".carrito-historial__total").hide();
     $(".carrito-historial__producto").hide();
     boton.html('<i class="fas fa-minus"></i>');
-
 
     $(this)
       .parent()
@@ -185,24 +205,28 @@ function cargarDatosUsuarioPerfil() {
 
   if (window.localStorage.getItem("Usuario") != "") {
     $.ajax({
-        type: "POST",
-        url: urlServidor + "/auth/me",
-        headers: {
-          Authorization: token
-        }
-      }).done(function (response) {
+      type: "POST",
+      url: urlServidor + "/auth/me",
+      headers: {
+        Authorization: token
+      }
+    })
+      .done(function(response) {
         html +=
           "<div class='l-perfil padding--xl padding@tablet--m padding@mobile--xs'>";
         html +=
           "<div class='datos-usuario padding@tablet--m padding@mobile--xs'>";
         html +=
-          "<img class='datos-usuario__imagen' src='" + urlImagenes + "/imagenes/usuarios/" +
+          "<img class='datos-usuario__imagen' src='" +
+          urlImagenes +
+          "/imagenes/usuarios/" +
           response.avatar +
           "'>";
         html += "<div class='datos-usuario__datos'>";
         html +=
           "<div class='datos-usuario__nick'>" + response.nickName + "</div>";
-        html += "<div class='datos-usuario__email'>" + response.email + "</div>";
+        html +=
+          "<div class='datos-usuario__email'>" + response.email + "</div>";
         html +=
           "<div class='datos-usuario__nombre'>" +
           response.apellidos +
@@ -222,8 +246,8 @@ function cargarDatosUsuarioPerfil() {
 
         $(".l-page__content").html(html);
       })
-      .fail(function (response) {
-        console.log('fail del me');
+      .fail(function(response) {
+        console.log("fail del me");
         console.log(response);
       });
   }
@@ -233,7 +257,7 @@ function cargarDatosUsuarioHistorial() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/historialCarritos/" + carrito.idUsuario
-  }).done(function (response) {
+  }).done(function(response) {
     let arrayCarritosHistorial = response.data;
     let html = "";
     let contador = 1;
@@ -242,7 +266,12 @@ function cargarDatosUsuarioHistorial() {
       html += "<div class='carrito-historial__header'>";
       let fecha = new Date(carrito.fechaCompra);
 
-      let meses = ["enero", "febrero", "marzo", "abril", "mayo",
+      let meses = [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
         "junio",
         "julio",
         "agosto",
@@ -304,12 +333,12 @@ function enviarCarritoTemporal() {
     .replace("T", " ");
 
   $.ajax({
-      type: "POST",
-      url: urlServidor + "/insertarCarritoTemporal",
-      data: carrito
-    })
-    .done(function (response) {})
-    .fail(function (response) {});
+    type: "POST",
+    url: urlServidor + "/insertarCarritoTemporal",
+    data: carrito
+  })
+    .done(function(response) {})
+    .fail(function(response) {});
 }
 
 function comprarCarrito(params) {
@@ -319,20 +348,20 @@ function comprarCarrito(params) {
     .replace("T", " ");
 
   $.ajax({
-      type: "POST",
-      url: urlServidor + "/comprarCarrito",
-      data: carrito
-    })
-    .done(function (response) {})
-    .fail(function (response) {});
+    type: "POST",
+    url: urlServidor + "/comprarCarrito",
+    data: carrito
+  })
+    .done(function(response) {})
+    .fail(function(response) {});
 }
 
 function checkCarrito(idUsuario) {
   $.ajax({
-      type: "GET",
-      url: urlServidor + "/carrito/" + idUsuario
-    })
-    .done(function (response) {
+    type: "GET",
+    url: urlServidor + "/carrito/" + idUsuario
+  })
+    .done(function(response) {
       let carritoTemporalServidor = response.data[0];
 
       carrito = new Carrito();
@@ -341,7 +370,7 @@ function checkCarrito(idUsuario) {
       carrito.productos = carritoTemporalServidor.productos;
       carrito.actualizarContador();
     })
-    .fail(function (response) {});
+    .fail(function(response) {});
 }
 
 function cargarProductosCarrito() {
@@ -359,16 +388,22 @@ function cargarProductosCarrito() {
       html += "<div class='l-columnas__item'>";
       html += "<div class='producto-carrito' id='" + prod.id + "'>";
 
-      html += "<img src='" + urlImagenes + prod.imagen + "' class='producto-carrito__imagen'>";
+      html +=
+        "<img src='" +
+        urlImagenes +
+        prod.imagen +
+        "' class='producto-carrito__imagen'>";
 
       html += "<div class='producto-carrito__nombre'>";
       html += prod.nombre;
       html += "</div>";
 
       html += "<div class='producto-carrito__unidades'>";
-      html += "<i id='disminuirUnidad' class='fas fa-minus producto-carrito__icono-unidad'></i>"
+      html +=
+        "<i id='disminuirUnidad' class='fas fa-minus producto-carrito__icono-unidad'></i>";
       html += prod.unidades;
-      html += "<i id='aumentarUnidad' class='fas fa-plus producto-carrito__icono-unidad'></i>"
+      html +=
+        "<i id='aumentarUnidad' class='fas fa-plus producto-carrito__icono-unidad'></i>";
       html += "</div>";
 
       html += "<div class='producto-carrito__precio'>";
@@ -394,7 +429,8 @@ function cargarProductosCarrito() {
     html += "</div>";
 
     html += "<div class='carrito__boton-comprar'>";
-    html += "<div id='botonComprar' class='boton boton--primario'>Comprar</div>";
+    html +=
+      "<div id='botonComprar' class='boton boton--primario'>Comprar</div>";
     html += "</div>";
   }
   $(".carrito").html(html);
@@ -406,10 +442,10 @@ function anyadirProducto(e) {
   let nombreProducto = $(this)
     .parents()
     .find("#nombreProducto")[
-      $(this)
+    $(this)
       .parents()
       .find("#nombreProducto").length - 1
-    ].textContent;
+  ].textContent;
 
   let producto = productosGlobal.find(
     element => element.nombre == nombreProducto
@@ -472,7 +508,8 @@ function toggleLogin() {
 
 function cargarPaginaPerfil() {
   let url = "/perfil";
-  window.history.pushState({
+  window.history.pushState(
+    {
       categoria: url
     },
     url,
@@ -484,7 +521,8 @@ function cargarPaginaPerfil() {
 
 function logout() {
   window.localStorage.removeItem("Usuario");
-  window.history.pushState({
+  window.history.pushState(
+    {
       categoria: urlCliente
     },
     urlCliente,
@@ -498,7 +536,7 @@ function historialCarritos(idUsuario) {
   $.ajax({
     url: urlServidor + "/historialCarritos/" + idUsuario,
     type: "GET"
-  }).done(function (response) {});
+  }).done(function(response) {});
 }
 
 function checkToken() {
@@ -506,12 +544,13 @@ function checkToken() {
 
   if (window.localStorage.getItem("Usuario") != "") {
     $.ajax({
-        type: "POST",
-        url: urlServidor + "/auth/me",
-        headers: {
-          Authorization: token
-        }
-      }).done(function (response) {
+      type: "POST",
+      url: urlServidor + "/auth/me",
+      headers: {
+        Authorization: token
+      }
+    })
+      .done(function(response) {
         carrito.idUsuario = response.id;
         abrirNotificacion("Bienvenido " + response.nickName + "!");
         checkCarrito(response.id);
@@ -542,8 +581,8 @@ function checkToken() {
         $("#divPerfilLogin").html(html);
         $(".log-in").hide();
       })
-      .fail(function (response) {
-        console.log('fail del me');
+      .fail(function(response) {
+        console.log("fail del me");
         console.log(response);
       });
   }
@@ -562,7 +601,7 @@ function logIn() {
 
 function enviarLoginServidor(objetoUsuario) {
   $.post(urlServidor + "/auth/login", objetoUsuario)
-    .done(function (response) {
+    .done(function(response) {
       window.localStorage.setItem("Usuario", response.access_token);
       $("#modalLogIn").modal("hide");
       checkCarrito(response.user.id);
@@ -591,7 +630,7 @@ function enviarLoginServidor(objetoUsuario) {
       $("#divPerfilLogin").html(html);
       $(".log-in").hide();
     })
-    .fail(function () {
+    .fail(function() {
       abrirNotificacion("Login fallido");
     });
 }
@@ -642,7 +681,7 @@ function cargarCategorias() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/categorias"
-  }).done(function (response) {
+  }).done(function(response) {
     let html = "";
     html += "<div class='menu-lateral__contenedor-enlaces'>";
     response.data.forEach(element => {
@@ -678,7 +717,7 @@ function cargarImagenesCarousel() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/carousel"
-  }).done(function (response) {
+  }).done(function(response) {
     let html = "";
     let contador = 0;
     response.imagenes.forEach(element => {
@@ -707,7 +746,7 @@ function cargarRedesSociales() {
   $.ajax({
     type: "GET",
     url: urlServidor + "/redessociales"
-  }).done(function (response) {
+  }).done(function(response) {
     let numRedes = response.data.length;
     let html = "";
     html +=
@@ -739,8 +778,9 @@ function cargarProductosCategoria(event, categoria = "undefined") {
   $.ajax({
     type: "GET",
     url: urlServidor + url
-  }).done(function (response) {
-    window.history.pushState({
+  }).done(function(response) {
+    window.history.pushState(
+      {
         categoria: url
       },
       url,
@@ -782,8 +822,7 @@ function cargarProductosCategoria(event, categoria = "undefined") {
         "</div>";
       html +=
         "<div class='producto__informacion'>" + element.descripcion + "</div>";
-      html +=
-        "<div class='producto__precio'>" + element.precio + "€</div>";
+      html += "<div class='producto__precio'>" + element.precio + "€</div>";
       html +=
         "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
       html += "</div>";
@@ -798,11 +837,12 @@ function cargarProductosCategoria(event, categoria = "undefined") {
 function cargarProductos() {
   let url = "/productos";
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
           categoria: url
         },
         url,
@@ -830,7 +870,7 @@ function cargarProductos() {
           productosGlobal.push(producto);
         }
 
-        html += "<div class='producto'>";
+        html += "<div class='producto' draggable='true'>";
         html +=
           "<img class='producto__imagen' src='" +
           urlImagenes +
@@ -844,8 +884,7 @@ function cargarProductos() {
           "<div class='producto__informacion'>" +
           element.descripcion +
           "</div>";
-        html +=
-          "<div class='producto__precio'>" + element.precio + "€</div>";
+        html += "<div class='producto__precio'>" + element.precio + "€</div>";
         html +=
           "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
         html += "</div>";
@@ -855,17 +894,23 @@ function cargarProductos() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function () {});
+    .fail(function() {});
+}
+
+function drag(ev) {
+  ev.originalEvent.dataTransfer.setData("text", "producto");
+  nombreProductoDrag = $(ev.currentTarget).find("#nombreProducto")[0].innerText;
 }
 
 function cargarRecetas() {
   let url = "/recetas";
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
           categoria: url
         },
         url,
@@ -895,17 +940,18 @@ function cargarRecetas() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function () {});
+    .fail(function() {});
 }
 
 function cargarCategoriasBoton() {
   let url = "/categorias";
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
           categoria: url
         },
         url,
@@ -933,7 +979,7 @@ function cargarCategoriasBoton() {
       $(".l-page__content").html(html);
       //alert(location.href);
     })
-    .fail(function () {});
+    .fail(function() {});
 }
 
 function cargarPaginaError(prueba) {
@@ -974,7 +1020,7 @@ function abrirNotificacion(mensaje) {
   $("#notificacion").addClass("notificacion--show");
 
   // After 3 seconds, remove the show class from DIV
-  setTimeout(function () {
+  setTimeout(function() {
     $("#notificacion").removeClass("notificacion--show");
   }, 3000);
 }
@@ -1048,19 +1094,19 @@ function registrar(e) {
   formData.append("avatar", $("#inputAvatar")[0].files[0]);
 
   $.ajax({
-      url: urlServidor + "/auth/register",
-      type: "post",
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false
-    })
-    .done(function (res) {
+    url: urlServidor + "/auth/register",
+    type: "post",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false
+  })
+    .done(function(res) {
       enviarLoginServidor(objetoUsuario);
       $("#modalRegistro").modal("hide");
       abrirNotificacion("Registro completado");
     })
-    .fail(function (res) {
+    .fail(function(res) {
       abrirNotificacion("Registro fallido");
     });
 }
@@ -1107,11 +1153,12 @@ function barraBusqueda(event, consulta = "undefined") {
   }
   let url = "/busqueda=" + consulta;
   $.ajax({
-      type: "GET",
-      url: urlServidor + url
-    })
-    .done(function (response) {
-      window.history.pushState({
+    type: "GET",
+    url: urlServidor + url
+  })
+    .done(function(response) {
+      window.history.pushState(
+        {
           categoria: url
         },
         url,
@@ -1156,10 +1203,7 @@ function barraBusqueda(event, consulta = "undefined") {
             "<div class='producto__informacion'>" +
             element.descripcion +
             "</div>";
-          html +=
-            "<div class='producto__precio'>" +
-            element.precio +
-            "€</div>";
+          html += "<div class='producto__precio'>" + element.precio + "€</div>";
           html +=
             "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
           html += "</div>";
@@ -1180,7 +1224,7 @@ function barraBusqueda(event, consulta = "undefined") {
 
       $(".l-page__content").html(html);
     })
-    .fail(function (response) {});
+    .fail(function(response) {});
 }
 
 function mostrarOcultarBusqueda() {
