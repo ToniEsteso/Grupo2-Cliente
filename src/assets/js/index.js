@@ -357,8 +357,7 @@ function comprarCarrito(params) {
     data: carrito
   })
     .done(function(response) {
-      console.log(response.error);
-      if (!typeof response.error == undefined) {
+      if (response.error !== "null") {
         $("#modalCarrito").modal("hide");
         abrirNotificacion("Necesitas iniciar sesión para comprar");
         toggleModalRegistro();
