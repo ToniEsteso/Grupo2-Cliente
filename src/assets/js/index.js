@@ -30,11 +30,12 @@ class Carrito {
     cargarProductosCarrito();
   }
   anyadirProducto(producto) {
-    console.log(this.productos); //ARREGLAR ESTO, QUE LO MIRE POR ID MEJOR PORQUE AL CAMBIAR LAS UDS LO DETECTA COMO UN PRODUCTO NUEVO
-    console.log(this.productos.includes(producto));
-    if (this.productos.includes(producto)) {
-      console.log("entrado");
-      let repetido = this.productos.find(prod => prod == producto);
+    if (
+      this.productos.includes(
+        this.productos.find(prod => prod.id == producto.id)
+      )
+    ) {
+      let repetido = this.productos.find(prod => prod.id == producto.id);
       repetido.unidades++;
     } else {
       this.productos.push(producto);
@@ -469,7 +470,6 @@ function anyadirProducto(e) {
   let producto = productosGlobal.find(
     element => element.nombre == nombreProducto
   );
-  // SE QUEDA MAL AQUÍ, AQUÍ LA IMAGEN SE PONE EL UNDEFINED DELANTE
   carrito.anyadirProducto(producto);
 }
 
