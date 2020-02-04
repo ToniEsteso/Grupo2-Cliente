@@ -183,45 +183,49 @@ function cargarDatosUsuarioPerfil() {
   let token = "Bearer " + window.localStorage.getItem("Usuario");
   let html = "";
 
-  if (window.localStorage.getItem("Usuario") != null) {
+  if (window.localStorage.getItem("Usuario") != "") {
     $.ajax({
-      type: "POST",
-      url: urlServidor + "/auth/me",
-      headers: {
-        Authorization: token
-      }
-    }).done(function (response) {
-      html +=
-        "<div class='l-perfil padding--xl padding@tablet--m padding@mobile--xs'>";
-      html +=
-        "<div class='datos-usuario padding@tablet--m padding@mobile--xs'>";
-      html +=
-        "<img class='datos-usuario__imagen' src='http://127.0.0.1:8000/imagenes/usuarios/" +
-        response.avatar +
-        "'>";
-      html += "<div class='datos-usuario__datos'>";
-      html +=
-        "<div class='datos-usuario__nick'>" + response.nickName + "</div>";
-      html += "<div class='datos-usuario__email'>" + response.email + "</div>";
-      html +=
-        "<div class='datos-usuario__nombre'>" +
-        response.apellidos +
-        ", " +
-        response.nombre +
-        "</div>";
-      html += "</div>";
-      html += "<div class='datos-usuario__contenedor-enlaces'>";
-      html +=
-        "<a id='botonDatosUsuarioPerfil' href='javascript:void(0)' class='datos-usuario__enlace'>Perfil</a>";
-      html +=
-        "<a id='botonDatosUsuarioHistorial' href='javascript:void(0)' class='datos-usuario__enlace'>Historial de compras</a>";
-      html += "</div>";
+        type: "POST",
+        url: urlServidor + "/auth/me",
+        headers: {
+          Authorization: token
+        }
+      }).done(function (response) {
+        html +=
+          "<div class='l-perfil padding--xl padding@tablet--m padding@mobile--xs'>";
+        html +=
+          "<div class='datos-usuario padding@tablet--m padding@mobile--xs'>";
+        html +=
+          "<img class='datos-usuario__imagen' src='" + urlImagenes + "/imagenes/usuarios/" +
+          response.avatar +
+          "'>";
+        html += "<div class='datos-usuario__datos'>";
+        html +=
+          "<div class='datos-usuario__nick'>" + response.nickName + "</div>";
+        html += "<div class='datos-usuario__email'>" + response.email + "</div>";
+        html +=
+          "<div class='datos-usuario__nombre'>" +
+          response.apellidos +
+          ", " +
+          response.nombre +
+          "</div>";
+        html += "</div>";
+        html += "<div class='datos-usuario__contenedor-enlaces'>";
+        html +=
+          "<a id='botonDatosUsuarioPerfil' href='javascript:void(0)' class='datos-usuario__enlace'>Perfil</a>";
+        html +=
+          "<a id='botonDatosUsuarioHistorial' href='javascript:void(0)' class='datos-usuario__enlace'>Historial de compras</a>";
+        html += "</div>";
 
-      html += "</div>";
-      html += "</div>";
+        html += "</div>";
+        html += "</div>";
 
-      $(".l-page__content").html(html);
-    });
+        $(".l-page__content").html(html);
+      })
+      .fail(function (response) {
+        console.log('fail del me');
+        console.log(response);
+      });
   }
 }
 
@@ -500,44 +504,48 @@ function historialCarritos(idUsuario) {
 function checkToken() {
   let token = "Bearer " + window.localStorage.getItem("Usuario");
 
-  if (window.localStorage.getItem("Usuario") != null) {
+  if (window.localStorage.getItem("Usuario") != "") {
     $.ajax({
-      type: "POST",
-      url: urlServidor + "/auth/me",
-      headers: {
-        Authorization: token
-      }
-    }).done(function (response) {
-      carrito.idUsuario = response.id;
-      abrirNotificacion("Bienvenido " + response.nickName + "!");
-      checkCarrito(response.id);
-      let html = "";
-      html += "<div class='carrito'>";
-      html += "<i class='fas fa-shopping-cart'></i>";
-      html += "</div>";
-      html = "<div class='usuario'>";
+        type: "POST",
+        url: urlServidor + "/auth/me",
+        headers: {
+          Authorization: token
+        }
+      }).done(function (response) {
+        carrito.idUsuario = response.id;
+        abrirNotificacion("Bienvenido " + response.nickName + "!");
+        checkCarrito(response.id);
+        let html = "";
+        html += "<div class='carrito'>";
+        html += "<i class='fas fa-shopping-cart'></i>";
+        html += "</div>";
+        html = "<div class='usuario'>";
 
-      html +=
-        "<img class='usuario__imagen' src='" +
-        urlImagenes +
-        "/imagenes/usuarios/" +
-        response.avatar +
-        "'></img>";
+        html +=
+          "<img class='usuario__imagen' src='" +
+          urlImagenes +
+          "/imagenes/usuarios/" +
+          response.avatar +
+          "'></img>";
 
-      html += "<div class='dropdown-usuario'>";
-      html += "<div id='botonPerfil' class='boton boton--terciario'>";
-      html += "Perfil";
-      html += "</div>";
-      html += "<div id='botonLogout' class='boton boton--terciario'>";
-      html += "Logout";
-      html += "</div>";
-      html += "</div>";
+        html += "<div class='dropdown-usuario'>";
+        html += "<div id='botonPerfil' class='boton boton--terciario'>";
+        html += "Perfil";
+        html += "</div>";
+        html += "<div id='botonLogout' class='boton boton--terciario'>";
+        html += "Logout";
+        html += "</div>";
+        html += "</div>";
 
-      html += "</div>";
+        html += "</div>";
 
-      $("#divPerfilLogin").html(html);
-      $(".log-in").hide();
-    });
+        $("#divPerfilLogin").html(html);
+        $(".log-in").hide();
+      })
+      .fail(function (response) {
+        console.log('fail del me');
+        console.log(response);
+      });
   }
 }
 
@@ -775,7 +783,7 @@ function cargarProductosCategoria(event, categoria = "undefined") {
       html +=
         "<div class='producto__informacion'>" + element.descripcion + "</div>";
       html +=
-        "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+        "<div class='producto__precio'>" + element.precio + "€</div>";
       html +=
         "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
       html += "</div>";
@@ -837,7 +845,7 @@ function cargarProductos() {
           element.descripcion +
           "</div>";
         html +=
-          "<div class='producto__precio'>Precio: " + element.precio + "€</div>";
+          "<div class='producto__precio'>" + element.precio + "€</div>";
         html +=
           "<div class='producto__boton'><div id='botonAnyadirCarrito' class='boton boton--primario'>Añadir al carrito</div></div>";
         html += "</div>";
@@ -1149,7 +1157,7 @@ function barraBusqueda(event, consulta = "undefined") {
             element.descripcion +
             "</div>";
           html +=
-            "<div class='producto__precio'>Precio: " +
+            "<div class='producto__precio'>" +
             element.precio +
             "€</div>";
           html +=

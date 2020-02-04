@@ -15,6 +15,9 @@
 
   &__header {
     grid-area: l-page__header;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
   }
 
   &__content {
@@ -66,7 +69,7 @@
 
   &__menu-lateral {
     grid-area: l-page__menu-lateral;
-    z-index: 999;
+    z-index: 998;
     position: relative;
     left: -10vw;
     width: 10vw;
