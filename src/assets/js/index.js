@@ -42,10 +42,9 @@ class Carrito {
 
   borrarProducto(producto) {
     let idProducto = producto.id;
-    this.productos.splice(
-      this.productos.findIndex(prod => prod.id == idProducto),
-      1
-    );
+    let prod = this.productos.find(prod => prod.id == idProducto);
+    prod.unidades = 1;
+    this.productos.splice(prod, 1);
 
     this.actualizarContador();
     cargarProductosCarrito();
