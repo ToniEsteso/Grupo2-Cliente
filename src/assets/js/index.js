@@ -30,7 +30,10 @@ class Carrito {
     cargarProductosCarrito();
   }
   anyadirProducto(producto) {
+    console.log(this.productos); //ARREGLAR ESTO, QUE LO MIRE POR ID MEJOR PORQUE AL CAMBIAR LAS UDS LO DETECTA COMO UN PRODUCTO NUEVO
+    console.log(this.productos.includes(producto));
     if (this.productos.includes(producto)) {
+      console.log("entrado");
       let repetido = this.productos.find(prod => prod == producto);
       repetido.unidades++;
     } else {
@@ -330,14 +333,15 @@ function enviarCarritoTemporal() {
     .toISOString()
     .slice(0, 19)
     .replace("T", " ");
-
   $.ajax({
     type: "POST",
     url: urlServidor + "/insertarCarritoTemporal",
     data: carrito
   })
     .done(function(response) {})
-    .fail(function(response) {});
+    .fail(function(response) {
+      console.log("fail");
+    });
 }
 
 function comprarCarrito(params) {
@@ -351,7 +355,19 @@ function comprarCarrito(params) {
     url: urlServidor + "/comprarCarrito",
     data: carrito
   })
-    .done(function(response) {})
+    .done(function(response) {
+      console.log(response.error);
+      if (!typeof response.error == undefined) {
+        $("#modalCarrito").modal("hide");
+        abrirNotificacion("Necesitas iniciar sesión para comprar");
+        toggleModalRegistro();
+      } else {
+        carrito.productos = [];
+        carrito.actualizarContador();
+        $("#modalCarrito").modal("hide");
+        abrirNotificacion("Carrito comprado");
+      }
+    })
     .fail(function(response) {});
 }
 
@@ -361,13 +377,17 @@ function checkCarrito(idUsuario) {
     url: urlServidor + "/carrito/" + idUsuario
   })
     .done(function(response) {
-      let carritoTemporalServidor = response.data[0];
-
-      carrito = new Carrito();
-      carrito.idUsuario = carritoTemporalServidor.idUsuario;
-      carrito.fechaCompra = carritoTemporalServidor.fechaCompra;
-      carrito.productos = carritoTemporalServidor.productos;
-      carrito.actualizarContador();
+      console.log(response);
+      if (!typeof response.error == undefined) {
+      } else {
+        let carritoTemporalServidor = response.data[0];
+        carrito = new Carrito();
+        carrito.idUsuario = carritoTemporalServidor.idUsuario;
+        carrito.fechaCompra = carritoTemporalServidor.fechaCompra;
+        carrito.productos = carritoTemporalServidor.productos;
+        carrito.actualizarContador();
+        console.log(carrito);
+      }
     })
     .fail(function(response) {});
 }
