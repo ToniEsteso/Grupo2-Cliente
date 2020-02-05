@@ -787,8 +787,11 @@ function cargarRedesSociales() {
 }
 
 function cargarProductosCategoria(event, categoria = "undefined") {
-  if (categoria === "undefined") {
+  let desde = $(this)[0].className;
+  if (categoria === "undefined" && desde == "menu-lateral__enlace") {
     toggleHamburguesa();
+    categoria = this.id;
+  } else if (categoria === "undefined" && desde == "categorias") {
     categoria = this.id;
   }
 
@@ -807,7 +810,7 @@ function cargarProductosCategoria(event, categoria = "undefined") {
 
     let numRedes = response.data.length;
     let html =
-      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+      "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas@tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
     response.data.forEach(element => {
       let producto = new Producto(
         element.id,
@@ -868,7 +871,7 @@ function cargarProductos() {
       );
 
       let html =
-        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas--tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
+        "<div class='l-columnas l-columnas--4-columnas l-columnas--gap-l l-columnas--tablet-gap-xs l-columnas@tablet-2-columnas l-columnas@mobile-gap-m l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
         let producto = new Producto(
           element.id,
