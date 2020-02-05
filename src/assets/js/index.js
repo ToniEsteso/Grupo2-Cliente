@@ -938,6 +938,10 @@ function cargarRecetas() {
       let html =
         "<div class='l-columnas l-columnas--4-columnas  l-columnas--gap-l l-columnas--tablet-2-columnas l-columnas@mobile-1-columnas'>"; /*div general que contenga todos los div de productos*/
       response.data.forEach(element => {
+        html +=
+          "<a href='" +
+          element.enlace +
+          "' target = '_blank' style='text-decoration: none'>";
         html += "<div class='recetas'>";
         html +=
           "<img class='recetas__imagen' src='" +
@@ -946,12 +950,9 @@ function cargarRecetas() {
           element.imagen +
           "'>";
         html += "<div class='recetas__nombre'>" + element.nombre + "</div>";
-
-        html +=
-          "<a href='" +
-          element.enlace +
-          "' target = '_blank' class='recetas__enlace'><div class='boton boton--primario'> Enlace Web </div></a>";
+        html += "<div class='recetas__enlace'> Ver receta </div>";
         html += "</div>";
+        html += "</a>";
       });
       html += "</div>";
       $(".l-page__content").html("");
