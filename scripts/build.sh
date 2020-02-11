@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 echo building.....
 rm -rf ./dist
 mkdir ./dist
